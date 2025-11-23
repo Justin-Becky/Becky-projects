@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Décorateur de sapin</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <aside>
+    <h1>Décorateur de sapin</h1>
+
+    <div class="row">
+      <button class="btn" data-add="boule">+ Boule</button>
+      <button class="btn" data-add="garland">+ Guirlande</button>
+      <button class="btn" data-add="star">+ Étoile</button>
+    </div>
+
+    <div class="row">
+      <span class="label">Couleur:</span>
+      <div class="tools">
+        <div class="color red"   data-color="var(--red)"></div>
+        <div class="color green" data-color="var(--green)"></div>
+        <div class="color blue"  data-color="var(--blue)"></div>
+        <div class="color gold"  data-color="var(--gold)"></div>
+        <div class="color white" data-color="var(--white)"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <button class="btn full" id="clear">Tout supprimer</button>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <div class="canvas" id="canvas">
+      <div class="tree" aria-hidden="true">
+        <div class="tri t1"></div>
+        <div class="tri t2"></div>
+        <div class="tri t3"></div>
+        <div class="trunk"></div>
+      </div>
+
+      <div class="workarea" id="workarea"></div>
+      <div class="snow"></div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

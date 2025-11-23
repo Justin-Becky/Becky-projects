@@ -1,0 +1,96 @@
+:root{
+  --bg:#0e1320;
+  --red:#d44b5e; --green:#36a36a; --blue:#4b7bd4; --gold:#e4c66a; --white:#f5f7fa;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; display:grid; grid-template-columns:320px 1fr;
+  background:radial-gradient(1200px circle at 20% -20%, #11192e 0%, #0b1122 60%, var(--bg) 100%);
+  color:#eef1f7; font-family:system-ui,Segoe UI,Roboto,Arial;
+}
+aside{
+  padding:16px; background:linear-gradient(180deg,#17233c,#121c31);
+  border-right:1px solid rgba(255,255,255,.06); display:flex; flex-direction:column; gap:14px;
+}
+h1{margin:0 0 6px;font-size:18px}
+.row{display:flex;gap:10px;align-items:center}
+.label{font-size:12px;opacity:.85}
+.btn{
+  background:#1f2a45;border:0;color:#eef1f7;padding:10px;border-radius:10px;cursor:pointer;font-weight:600;
+  box-shadow:0 6px 16px rgba(0,0,0,.28);
+}
+.btn:hover{background:#263356; transform:translateY(-1px)}
+.btn.full{width:100%}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.color{width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,.15);cursor:pointer}
+.color.red{background:var(--red)} .color.green{background:var(--green)}
+.color.blue{background:var(--blue)} .color.gold{background:var(--gold)} .color.white{background:var(--white)}
+
+.stage{position:relative;display:grid;place-items:center;overflow:hidden}
+.canvas{
+  position:relative;width:min(900px,90vw);height:min(720px,86vh);
+  background:linear-gradient(180deg,#0b1425 0%,#07101e 60%,#060d19 100%);
+  border-radius:18px;margin:22px;isolation:isolate;box-shadow:0 30px 70px rgba(0,0,0,.45);
+}
+.snow{position:absolute;bottom:0;left:0;right:0;height:90px;background:
+  radial-gradient(200px circle at 20% -60px, rgba(255,255,255,.1) 0, transparent 60%),
+  linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.16));}
+
+/* sapin */
+.tree{position:absolute;left:50%;transform:translateX(-50%);bottom:90px;width:420px;height:520px;pointer-events:none}
+.tree .tri{position:absolute;left:50%;transform:translateX(-50%);background:linear-gradient(180deg,#0f5a3a,#0b4a30);
+  clip-path:polygon(50% 0, 100% 100%, 0 100%);border-radius:10px;z-index:2}
+.tree .tri.t1{width:240px;height:140px;top:30px}
+.tree .tri.t2{width:320px;height:170px;top:110px}
+.tree .tri.t3{width:420px;height:210px;top:210px}
+.tree .trunk{position:absolute;left:50%;transform:translateX(-50%);width:80px;height:160px;bottom:0;background:linear-gradient(180deg,#6b3d22,#5b331c);border-radius:12px;z-index:1}
+
+/* zone de placement */
+.workarea{position:absolute;inset:0;pointer-events:auto}
+
+/* éléments */
+.item{position:absolute;left:0;top:0;display:block;transform-origin:50% 50%;user-select:none; --thick:1}
+.item.dragging{opacity:.85}
+
+/* BOULE sans reflet : couleur unie / mat ; épaisseur controlée par --thick */
+.item.boule{
+  width:64px;height:64px;border-radius:50%;
+  background: var(--c);
+  box-shadow: inset 0 0 0 calc(var(--thick) * 1px) rgba(0,0,0,.12), 0 8px 18px rgba(0,0,0,.28);
+  border: calc(var(--thick) * 0.5px) solid rgba(0,0,0,0.12);
+}
+.boule .cap{position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:18px;height:12px;border-radius:6px 6px 2px 2px;background:linear-gradient(180deg,#c9b670,#9f8c4f)}
+.boule .hook{position:absolute;top:-16px;left:50%;transform:translateX(-50%);width:12px;height:12px;border:2px solid #9f8c4f;border-radius:50%}
+
+/* guirlande: stroke width variable via --thick (base factor) */
+.item.garland{width:300px;height:100px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.35))}
+.garland svg path{stroke:var(--c);stroke-width:calc(var(--thick) * 6px);fill:none;stroke-linecap:round}
+
+/* étoile: stroke width variable via --thick */
+.item.star{width:84px;height:84px}
+.star svg{width:100%;height:100%}
+.star svg polygon{fill:var(--gold); stroke:#d0b45e; stroke-width:calc(var(--thick) * 2px)}
+
+/* sélection */
+.selection{position:absolute;inset:0;pointer-events:none;display:none}
+.item.selected .selection{display:block}
+.selection .box{position:absolute;inset:0;border:1.5px dashed rgba(255,255,255,.6);border-radius:8px}
+
+/* poignées normales */
+.handle{position:absolute;width:12px;height:12px;background:#e7e9ee;border:1px solid #121521;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.25);pointer-events:auto}
+.handle.nw{left:-7px;top:-7px} .handle.ne{right:-7px;top:-7px}
+.handle.sw{left:-7px;bottom:-7px} .handle.se{right:-7px;bottom:-7px}
+.handle.n{left:50%;transform:translateX(-50%);top:-8px}
+.handle.s{left:50%;transform:translateX(-50%);bottom:-8px}
+.handle.w{top:50%;transform:translateY(-50%);left:-8px}
+.handle.e{top:50%;transform:translateY(-50%);right:-8px}
+
+/* poignée rotation (au-dessus) */
+.handle.rotate{
+  position:absolute; width:14px; height:14px; background:#263356; border-radius:3px; border:1px solid rgba(255,255,255,.12);
+  left:50%; transform:translateX(-50%); top:-26px; pointer-events:auto; box-shadow: 0 3px 8px rgba(0,0,0,.3);
+}
+
+/* barre d'actions */
+.controls{position:absolute;top:-38px;left:50%;transform:translateX(-50%);display:flex;gap:6px;pointer-events:auto}
+.ctrl{background:#1f2a45;border:0;color:#eef1f7;padding:6px 8px;border-radius:8px;font-size:12px;cursor:pointer}

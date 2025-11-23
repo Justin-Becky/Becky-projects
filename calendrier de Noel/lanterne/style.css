@@ -1,0 +1,6 @@
+html,body{height:100%;margin:0;overflow:hidden;font-family:system-ui,Segoe UI;}
+.scene{position:relative;height:100vh;background:linear-gradient(#ffdbe6,#fff6f9);}
+canvas{display:block;width:100%;height:100%}
+.ui{position:absolute;left:12px;top:12px;display:flex;flex-direction:column;gap:8px;max-width:300px}
+textarea{width:300px;height:80px;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);resize:none}
+button{padding:10px;border-radius:8px;border:0;background:#b33a55;color:#fff;cursor:pointer}

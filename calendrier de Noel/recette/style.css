@@ -1,0 +1,13 @@
+:root{--bg:#fff9f5;--accent:#c64b3f}
+*{box-sizing:border-box}
+html,body{height:100%; margin:0; background:linear-gradient(180deg,#fff0f0,#fff9f5); font-family:system-ui,Segoe UI,Roboto;}
+.recipe-wrap{max-width:760px;margin:28px auto;padding:18px;}
+h1{text-align:center;color:var(--accent)}
+.steps{display:flex;flex-direction:column;gap:12px;margin-top:12px;}
+.step{background:white;padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(198,75,63,0.08);display:flex;justify-content:space-between;align-items:center;}
+.step .meta{font-weight:700}
+.step button{background:var(--accent);color:white;border:0;padding:8px 10px;border-radius:8px;cursor:pointer}
+.controls{margin-top:18px;display:flex;justify-content:center;gap:18px;align-items:center}
+.timer input{width:64px;padding:6px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)}
+#countdown{font-weight:800;margin-left:12px}
+.completed{opacity:0.6;text-decoration:line-through}
