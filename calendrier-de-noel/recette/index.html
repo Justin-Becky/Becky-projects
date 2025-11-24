@@ -1,27 +1,51 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Atelier recette</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Recette de Cookies de Noël</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="recipe-wrap">
-    <h1>Biscuits rapides</h1>
-    <div id="steps" class="steps">
-      <!-- steps inserted by JS -->
-    </div>
+  <header>
+    <h1>🍪 Cookies de Noël 🎄</h1>
+    <p>Une bonne recette de biscuits pour réchauffer ton hiver</p>
+  </header>
 
-    <div class="controls">
-      <div class="timer">
-        <input id="mins" type="number" min="0" value="5"> minutes
-        <button id="start">Démarrer</button>
-        <button id="stop">Arrêter</button>
-        <div id="countdown">00:00</div>
-      </div>
-    </div>
+  <main>
+    <section class="recette">
+      <h2>Ingrédients</h2>
+      <ul>
+        <li>250g de farine</li>
+        <li>125g de beurre</li>
+        <li>100g de sucre</li>
+        <li>1 œuf</li>
+        <li>100g de pépites de chocolat</li>
+        <li>1 pincée de sel</li>
+      </ul>
+
+      <h2>Étapes</h2>
+      <ol>
+        <li>Préchauffer le four à 180°C.</li>
+        <li>Mélanger le beurre et le sucre.</li>
+        <li>Ajouter l’œuf puis la farine et le sel.</li>
+        <li>Incorporer les pépites de chocolat.</li>
+        <li>Former des petites boules et les déposer sur une plaque.</li>
+        <li>Cuire environ 12 minutes.</li>
+      </ol>
+    </section>
+
+    <section class="timer">
+      <h2>⏱ Timer de cuisson</h2>
+      <input type="number" id="minutes" placeholder="Minutes" min="1" value="12">
+      <button onclick="startTimer()">Démarrer</button>
+      <div id="countdown">12:00</div>
+    </section>
   </main>
+
+  <footer>
+    <p>✨ Joyeux Noël et bonne dégustation mon minou ! ✨</p>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
