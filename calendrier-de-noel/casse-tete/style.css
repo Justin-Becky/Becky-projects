@@ -1,19 +1,31 @@
-#puzzle {
-  display: grid;
-  grid-template-columns: repeat(3, 100px);
-  grid-template-rows: repeat(3, 100px);
-  gap: 4px;
-  margin: 20px auto;
-  width: 312px; /* 3x100 + gaps */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #ffcccc;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  overflow: hidden; /* enlève le scroll */
 }
 
-body {
-  background: #ffcccc;
+h1 {
+  text-align: center;
+  margin: 12px auto;
+  font-size: clamp(1.2rem, 5vw, 2.5rem); /* texte adaptatif */
+}
+
+#puzzle {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(80px, 1fr));
+  grid-template-rows: repeat(3, minmax(80px, 1fr));
+  gap: 4px;
+  margin: 20px auto;
+  width: min(90vw, 312px); /* adaptatif : max 312px */
+  height: auto;
 }
 
 .piece {
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  aspect-ratio: 1 / 1; /* carré adaptatif */
   background-image: url('slush.jpg'); /* mets ta photo ici */
   background-size: 300px 300px; /* taille totale de l’image */
   cursor: grab;
@@ -21,70 +33,41 @@ body {
   border-radius: 6px;
 }
 
-/* Centrage du titre et du bouton */
-h1 {
-  text-align: center;
-  margin: 12px auto;
-}
-
 button {
-  background: transparent;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-}
-
-#shuffle {
-  display: block;               /* block + margin:auto centre l'élément */
-  margin: 18px auto;            /* centre horizontalement */
+  display: block;
+  margin: 18px auto;
   padding: 12px 28px;
-  font-size: 18px;
+  font-size: clamp(1rem, 3vw, 1.2rem);
   font-weight: 700;
   color: #fff;
   background: linear-gradient(135deg, #ff6fb5 0%, #7a00ff 100%);
   border: 0;
   border-radius: 999px;
-  box-shadow:
-    0 10px 30px rgba(122, 0, 255, 0.18),
-    0 2px 6px rgba(0, 0, 0, 0.12) inset;
+  box-shadow: 0 10px 30px rgba(122, 0, 255, 0.18), 0 2px 6px rgba(0, 0, 0, 0.12) inset;
   text-transform: uppercase;
   letter-spacing: 0.6px;
   cursor: pointer;
   transition: transform 180ms cubic-bezier(.2,.8,.2,1), box-shadow 180ms, opacity 180ms;
   -webkit-tap-highlight-color: transparent;
-  width: fit-content;           /* s'adapte au contenu tout en restant centré */
-  text-align: center;
 }
 
-#shuffle:hover {
+button:hover {
   transform: translateY(-4px) scale(1.02);
   box-shadow: 0 18px 44px rgba(122, 0, 255, 0.22);
 }
 
-#shuffle:active {
+button:active {
   transform: translateY(-1px) scale(0.995);
 }
 
-#shuffle:focus {
+button:focus {
   outline: none;
   box-shadow: 0 18px 44px rgba(122, 0, 255, 0.22), 0 0 0 6px rgba(122,0,255,0.10);
 }
 
-#shuffle:disabled {
+button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
-
-@keyframes pop {
-  0% { transform: scale(0.5); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes float {
-  0% { transform: translateY(0) scale(1); opacity: 1; }
-  100% { transform: translateY(-120px) scale(1.4); opacity: 0; }
-}
-

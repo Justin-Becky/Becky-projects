@@ -1,36 +1,31 @@
-/* remove default scrollbars and ensure viewport sizing */
 html, body {
-  height: 100%;
   margin: 0;
-  overflow: hidden; /* empêche le défilement de la fenêtre */
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;        /* enlève le scroll */
+  background: #ffd6e6;     /* couleur de fond */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* conteneur qui occupe exactement la fenêtre */
 .img-wrap {
   width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ffd6e6; /* couleur de fond visible si l'image a des "bandes" */
 }
 
-/* l'image remplit le conteneur sans dépasser */
 .responsive-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* remplit la fenêtre; peut recadrer l'image */
+  max-width: 100vw;        /* limite la largeur à la fenêtre */
+  max-height: 100vh;       /* limite la hauteur à la fenêtre */
+  width: auto;             /* conserve les proportions */
+  height: auto;            /* conserve les proportions */
+  object-fit: contain;     /* jamais coupée */
   object-position: center center;
   display: block;
   user-select: none;
   -webkit-user-drag: none;
 }
-
-/* Si vous voulez absolument voir 100% de l'image sans recadrage,
-   remplacez object-fit: cover par object-fit: contain ci-dessous et
-   gardez background-color pour les bandes visibles. */
-/*
-.responsive-img {
-  object-fit: contain;
-}
-*/

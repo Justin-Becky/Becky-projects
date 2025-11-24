@@ -1,8 +1,8 @@
 const puzzle = document.getElementById('puzzle');
 const shuffleBtn = document.getElementById('shuffle');
-
 const ROWS = 3, COLS = 3;
 const positions = [];
+
 for (let r = 0; r < ROWS; r++) {
   for (let c = 0; c < COLS; c++) {
     positions.push(`-${c*100}px -${r*100}px`);
@@ -12,7 +12,7 @@ for (let r = 0; r < ROWS; r++) {
 let pieces = [];
 let dragged = null;
 
-// Créer les pièces (une seule fois) avec position correcte
+// Créer les pièces
 for (let row = 0; row < ROWS; row++) {
   for (let col = 0; col < COLS; col++) {
     const piece = document.createElement('div');
@@ -22,7 +22,7 @@ for (let row = 0; row < ROWS; row++) {
     piece.setAttribute('data-correct', pos);
     piece.draggable = true;
 
-    // Drag & drop handlers
+    // Drag & drop
     piece.addEventListener('dragstart', () => { dragged = piece; });
     piece.addEventListener('dragover', (e) => { e.preventDefault(); });
     piece.addEventListener('drop', () => {
@@ -39,7 +39,7 @@ for (let row = 0; row < ROWS; row++) {
   }
 }
 
-// Fisher-Yates shuffle util
+// Shuffle util
 function shuffleArray(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -49,8 +49,7 @@ function shuffleArray(arr) {
   return a;
 }
 
-// Mélanger les pièces (associe positions mélangées aux pièces)
-// Assure que le puzzle n'est pas accidentellement résolu après le shuffle initial
+// Mélanger les pièces
 function shufflePieces() {
   let attempts = 0;
   do {
@@ -62,18 +61,19 @@ function shufflePieces() {
   } while (pieces.every(p => p.style.backgroundPosition === p.getAttribute('data-correct')) && attempts < 10);
 }
 
-// Événements UI
+// Vérifier victoire
+function checkVictory() {
+  if (pieces.every(p => p.style.backgroundPosition === p.getAttribute('data-correct'))) {
+    alert("🎉 Bravo, puzzle complété !");
+  }
+}
+
+// Bouton shuffle
 if (shuffleBtn) {
   shuffleBtn.addEventListener('click', shufflePieces);
 }
 
-// Mélange automatique au chargement (et garantit que la modale est masquée au départ)
+// Mélange au chargement
 document.addEventListener('DOMContentLoaded', () => {
-  const v = document.getElementById('victory');
-  if (v) v.classList.add('hidden');
-  // si tu veux compter uniquement le shuffle manuel, commente la ligne suivante
   shufflePieces();
 });
-
-
-
