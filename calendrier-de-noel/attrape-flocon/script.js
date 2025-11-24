@@ -2,13 +2,20 @@ const game = document.getElementById('game');
 const scoreDisplay = document.getElementById('score');
 let score = 0;
 
-// Position de la souris
-let mouseX = 0;
-let mouseY = 0;
+// Position du curseur ou du doigt
+let posX = 0;
+let posY = 0;
 
+// Souris (ordinateur)
 document.addEventListener('mousemove', e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
+  posX = e.clientX;
+  posY = e.clientY;
+});
+
+// Tactile (mobile)
+document.addEventListener('touchmove', e => {
+  posX = e.touches[0].clientX;
+  posY = e.touches[0].clientY;
 });
 
 // Générer un flocon
@@ -29,13 +36,13 @@ function createFlake() {
       flake.remove();
     }
 
-    // Collision avec la souris
+    // Collision avec souris ou doigt
     const flakeRect = flake.getBoundingClientRect();
     if (
-      mouseX >= flakeRect.left &&
-      mouseX <= flakeRect.right &&
-      mouseY >= flakeRect.top &&
-      mouseY <= flakeRect.bottom
+      posX >= flakeRect.left &&
+      posX <= flakeRect.right &&
+      posY >= flakeRect.top &&
+      posY <= flakeRect.bottom
     ) {
       score++;
       scoreDisplay.textContent = "Score : " + score;
@@ -45,5 +52,5 @@ function createFlake() {
   }, 30);
 }
 
-// Flocons toutes les 250ms
-setInterval(createFlake, 250);
+// Flocons toutes les 300ms
+setInterval(createFlake, 300);
