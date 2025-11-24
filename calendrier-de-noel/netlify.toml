@@ -1,7 +1,3 @@
-[build]
-  publish = "calendrier-de-noel"
-  command = ""
-
 [[redirects]]
   from = "/*"
   to = "/index.html"
