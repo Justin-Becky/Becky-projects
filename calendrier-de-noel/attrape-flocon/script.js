@@ -29,7 +29,7 @@ function createFlake() {
       flake.remove();
     }
 
-    // Collision avec la souris (zone autour du curseur)
+    // Collision avec la souris
     const flakeRect = flake.getBoundingClientRect();
     if (
       mouseX >= flakeRect.left &&
@@ -45,5 +45,5 @@ function createFlake() {
   }, 30);
 }
 
-// Flocons toutes les secondes
+// Flocons toutes les 250ms
 setInterval(createFlake, 250);
