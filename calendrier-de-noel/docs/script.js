@@ -3,7 +3,7 @@ const surpriseBox = document.getElementById('surprise');
 
 // Tableau des surprises
 const surprises = {
-  1: "compteur/index.html",
+  1: "docs/compteur/index.html",
   2: "🎁 t’emballer dans mes bras, c'est le meilleur de tous les cadeauz 👩‍❤️‍👨",
   3: "🎬 C'est enfin le temps d'écouter le Grinch🍿",
   4: "💜 Je t’aime plus chaque jour💜",
