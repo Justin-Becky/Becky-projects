@@ -1,4 +1,4 @@
-// script.js — version stable : la grosse sphère se transforme directement en texte
+// script.js — sphère de particules qui se transforme directement en texte (sans petite sphère intermédiaire)
 
 let scene, renderer, particles;
 let cameraPersp, cameraOrtho, activeCamera;
@@ -11,11 +11,15 @@ init();
 function init() {
   scene = new THREE.Scene();
 
-  // Caméra perspective (sphère)
+  // Caméra perspective (vue sphère)
   cameraPersp = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
-  fitPerspectiveCameraToRadius(cameraPersp, Math.min(window.innerWidth, window.innerHeight) * 0.28, 1.15);
+  fitPerspectiveCameraToRadius(
+    cameraPersp,
+    Math.min(window.innerWidth, window.innerHeight) * 0.28,
+    1.15
+  );
 
-  // Caméra orthographique (texte)
+  // Caméra orthographique (vue texte)
   cameraOrtho = createOrthoCamera();
   activeCamera = cameraPersp;
 
@@ -27,7 +31,7 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   // Particules
-  const particleCount = 6000; // augmente si perf OK
+  const particleCount = 6000;
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(particleCount * 3);
 
@@ -44,16 +48,14 @@ function init() {
 
   const material = new THREE.PointsMaterial({
     color: "red",
-    size: 1.2,
-    sizeAttenuation: false,
+    size: 1.2,             // taille constante pour éviter les "gros points"
+    sizeAttenuation: true, // perspective: atténuation par distance
     transparent: true,
     opacity: 0.95
   });
 
   particles = new THREE.Points(geometry, material);
   scene.add(particles);
-
-  setMaterialForCamera(false);
 
   animate();
 
@@ -77,13 +79,12 @@ function onResize() {
   cameraPersp.aspect = window.innerWidth / window.innerHeight;
   cameraPersp.updateProjectionMatrix();
 
+  // recrée l’ortho pour s’adapter au viewport
   cameraOrtho = createOrthoCamera();
   if (modeTexte) activeCamera = cameraOrtho;
 
   const newRadius = Math.min(window.innerWidth, window.innerHeight) * 0.28;
   fitPerspectiveCameraToRadius(cameraPersp, newRadius, 1.15);
-
-  setMaterialForCamera(modeTexte);
 }
 
 function createOrthoCamera() {
@@ -92,7 +93,6 @@ function createOrthoCamera() {
   const cam = new THREE.OrthographicCamera(-w / 2, w / 2, h / 2, -h / 2, -1000, 1000);
   cam.position.set(0, 0, 10);
   cam.lookAt(0, 0, 0);
-  cam.zoom = 1;
   cam.updateProjectionMatrix();
   return cam;
 }
@@ -179,7 +179,7 @@ function normalizeToViewportXY(pts, margin = 0.92) {
   for (let i = 0; i < pts.length; i++) {
     out[i] = [(pts[i][0] - cx) * scale, (pts[i][1] - cy) * scale];
   }
-  return { pts: out, scale };
+  return out;
 }
 
 // Mélange Fisher-Yates
@@ -190,13 +190,11 @@ function shuffleInPlace(arr) {
   }
 }
 
-// Construit la cible 1:1 pour toutes les particules (sans petits amas)
+// Construit la cible 1:1 pour toutes les particules (évite les amas visibles)
 function buildFullTargetFromXY(normPts, positionsLength) {
   const particleCount = positionsLength / 3;
   const pts = normPts.slice(); // copie
-  // S’assurer d’avoir au moins autant de points que de particules
   if (pts.length < particleCount) {
-    // dupliquer avec légère dispersion progressive
     const baseLen = pts.length;
     const jitterMax = Math.max(1.5, Math.min(window.innerWidth, window.innerHeight) * 0.01);
     for (let i = 0; pts.length < particleCount; i++) {
@@ -208,10 +206,8 @@ function buildFullTargetFromXY(normPts, positionsLength) {
       pts.push([b[0] + Math.cos(a) * rad, b[1] + Math.sin(a) * rad]);
     }
   }
-  // Mélanger pour éviter clustering
   shuffleInPlace(pts);
 
-  // Remplir Float32Array 1:1
   const full = new Float32Array(positionsLength);
   for (let i = 0; i < particleCount; i++) {
     const p = pts[i];
@@ -248,23 +244,38 @@ function morphToText() {
   // 1) points texte (XY)
   const baseXY = createTextPoints(texte);
   // 2) normaliser au viewport
-  const { pts: normXY, scale } = normalizeToViewportXY(baseXY, 0.92);
-
-  // 3) ajuster caméra ortho si le texte est agrandi
-  cameraOrtho = createOrthoCamera();
-  cameraOrtho.zoom = (scale > 1) ? (1 / scale) : 1;
-  cameraOrtho.updateProjectionMatrix();
-  activeCamera = cameraOrtho;
+  const normXY = normalizeToViewportXY(baseXY, 0.92);
 
   // 4) construire cible 1:1
-  const targetFull = buildFullTargetFromXY(normXY, particles.geometry.attributes.position.array.length);
+  const targetFull = buildFullTargetFromXY(
+    normXY, particles.geometry.attributes.position.array.length
+  );
 
-  // 5) material pour ortho
-  setMaterialForCamera(true);
-
-  // 6) morpher
+  // 5) morpher
   particles.rotation.set(0, 0, 0);
   applyMorphInterpolated(targetFull, 1.4);
+
+    // 2) Transition caméra en parallèle
+  const camObj = { t: 0 };
+  gsap.to(camObj, {
+    t: 1,
+    duration: 0.9,
+    ease: "power3.Out",
+    onUpdate: () => {
+      // interpolation entre perspective et ortho
+      // ici on fait simple: on mélange les matrices
+      const persp = cameraPersp.projectionMatrix.elements;
+      const ortho = cameraOrtho.projectionMatrix.elements;
+      const mix = new THREE.Matrix4();
+      const arr = [];
+      for (let i = 0; i < 16; i++) {
+        arr[i] = persp[i] + (ortho[i] - persp[i]) * camObj.t;
+      }
+      mix.fromArray(arr);
+      activeCamera = cameraPersp.clone();
+      activeCamera.projectionMatrix.copy(mix);
+    },
+  });
 }
 
 function morphToSphere() {
@@ -281,21 +292,10 @@ function morphToSphere() {
     target[i * 3 + 2] = radius * Math.cos(phi);
   }
 
+  // Retour à la caméra perspective (matériau identique)
   activeCamera = cameraPersp;
-  setMaterialForCamera(false);
-  applyMorphInterpolated(target, 1.4);
-}
 
-function setMaterialForCamera(isOrtho) {
-  const mat = particles.material;
-  if (isOrtho) {
-    mat.sizeAttenuation = false;
-    mat.size = Math.max(1.0, window.innerWidth * 0.0025);
-  } else {
-    mat.sizeAttenuation = true;
-    mat.size = Math.max(0.6, Math.min(2.2, window.innerWidth * 0.0012));
-  }
-  mat.needsUpdate = true;
+  applyMorphInterpolated(target, 1.4);
 }
 
 function fitPerspectiveCameraToRadius(camera, radius, margin = 1.15) {
