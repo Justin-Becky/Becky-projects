@@ -34,18 +34,18 @@
 
   <main class="stage">
     <div class="canvas" id="canvas">
-      <div class="tree" aria-hidden="true">
-        <div class="tri t1"></div>
-        <div class="tri t2"></div>
-        <div class="tri t3"></div>
-        <div class="trunk"></div>
-      </div>
+      <!-- Sapin en SVG -->
+      <svg class="tree" viewBox="0 0 420 520" preserveAspectRatio="xMidYMax meet">
+        <polygon points="210,30 330,170 90,170" fill="#0f5a3a" stroke="#0b4a30" stroke-width="4"/>
+        <polygon points="210,110 370,280 50,280" fill="#0f5a3a" stroke="#0b4a30" stroke-width="4"/>
+        <polygon points="210,210 420,420 0,420" fill="#0f5a3a" stroke="#0b4a30" stroke-width="4"/>
+        <rect x="170" y="420" width="80" height="100" rx="12" fill="#6b3d22" stroke="#5b331c" stroke-width="4"/>
+      </svg>
 
       <div class="workarea" id="workarea"></div>
       <div class="snow"></div>
     </div>
   </main>
-
   <script src="script.js"></script>
 </body>
 </html>

@@ -334,3 +334,15 @@ function parseTransform(tr){
   return { r: r ? parseFloat(r[1]) : 0, s: s ? parseFloat(s[1]) : 1 };
 }
 function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
+
+// bouton exporter
+const exportBtn = document.getElementById('export');
+exportBtn.addEventListener('click', () => {
+  const canvasEl = document.querySelector('.canvas');
+  html2canvas(canvasEl, {backgroundColor: null}).then(canvas => {
+    const link = document.createElement('a');
+    link.download = 'sapin.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+});
