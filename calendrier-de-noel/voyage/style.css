@@ -27,7 +27,6 @@ body {
   pointer-events: none;
   background: url('palmier.png') no-repeat center center fixed;
   background-size: cover;
-  filter: brightness(0.8) saturate(1.1);
 }
 
 /* Carte / contenu */

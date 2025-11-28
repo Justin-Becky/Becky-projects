@@ -1,10 +1,9 @@
-// script.js - puzzle 3x3 responsive, mobile-friendly (pointer + touch fallback)
-// démarre déjà mélangé au chargement, supporte gap et coins arrondis
+// script.js - puzzle 3x3 responsive, mobile-friendly
+// DÉTAILS: conserve pointer/touch/clavier/resize, + change d'image entre fleure.png et slush.jpg
 
 const puzzle = document.getElementById('puzzle');
 const shuffleBtn = document.getElementById('shuffle');
 
-// Paramètres de grille (si tu veux changer, adapte aussi --cols/--rows dans style.css)
 const ROWS = 3;
 const COLS = 3;
 
@@ -12,13 +11,22 @@ let pieces = [];
 let activePiece = null;
 let pointerId = null;
 
-// Récupère la valeur CSS --gap en pixels (ex: "8px" -> 8)
+// Images disponibles
+const images = ['fleure.png', 'slush.jpg'];
+
+// Choisir une image aléatoire et l’appliquer
+function changePuzzleImage() {
+  const chosen = images[Math.floor(Math.random() * images.length)];
+  document.documentElement.style.setProperty('--img-src', `url('${chosen}')`);
+}
+
+// Récupère la valeur CSS --gap en pixels
 function getGapPx() {
   const raw = getComputedStyle(document.documentElement).getPropertyValue('--gap') || '0px';
   return parseInt(raw.trim(), 10) || 0;
 }
 
-// Construit les positions background-position en tenant compte du gap
+// Construit les positions background-position
 const positions = [];
 function buildPositions() {
   positions.length = 0;
@@ -34,7 +42,7 @@ function buildPositions() {
   }
 }
 
-// Crée les pièces et attache les gestionnaires
+// Crée les pièces
 function createPieces() {
   puzzle.innerHTML = '';
   pieces = [];
@@ -51,13 +59,13 @@ function createPieces() {
       piece.setAttribute('data-correct', pos);
       piece.setAttribute('data-index', index);
 
-      // Desktop drag fallback (prévenir ghost image)
+      // Drag fallback (évite l’image fantôme)
       piece.draggable = true;
       piece.addEventListener('dragstart', (e) => {
         e.dataTransfer.setData('text/plain', '');
       });
 
-      // Pointer events (mouse, pen, touch)
+      // Pointer events
       piece.addEventListener('pointerdown', onPointerDown);
       piece.addEventListener('pointermove', onPointerMove);
       piece.addEventListener('pointerup', onPointerUp);
@@ -65,7 +73,7 @@ function createPieces() {
       piece.addEventListener('pointerenter', onPointerEnter);
       piece.addEventListener('pointerleave', onPointerLeave);
 
-      // Touch fallback pour anciens navigateurs iOS
+      // Touch fallback (anciens iOS)
       piece.addEventListener('touchstart', onTouchStart, { passive: false });
       piece.addEventListener('touchmove', onTouchMove, { passive: false });
       piece.addEventListener('touchend', onTouchEnd);
@@ -97,38 +105,24 @@ function createPieces() {
   }
 }
 
-// Mélange util
-function shuffleArray(arr) {
-  const a = arr.slice();
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-// Mélange robuste : permute les backgroundPosition existants entre pièces
+// Mélange les pièces (et évite un état déjà résolu)
 function shufflePieces() {
   if (!pieces || pieces.length === 0) return;
 
-  // Récupère les positions actuelles (valeurs CSS) dans un tableau
   const vals = pieces.map(p => p.style.backgroundPosition);
 
-  // Fisher-Yates shuffle sur vals
   for (let i = vals.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [vals[i], vals[j]] = [vals[j], vals[i]];
   }
 
-  // Applique les valeurs mélangées aux pièces
   pieces.forEach((piece, i) => {
     piece.style.backgroundPosition = vals[i];
   });
 
-  // Si par malchance le puzzle est encore dans l'ordre correct, on réessaie (limite 20 tentatives)
+  // Réessaye si par hasard le puzzle est parfait
   let attempts = 0;
   while (pieces.every(p => p.style.backgroundPosition === p.getAttribute('data-correct')) && attempts < 20) {
-    // remélange vals et réapplique
     for (let i = vals.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [vals[i], vals[j]] = [vals[j], vals[i]];
@@ -138,12 +132,12 @@ function shufflePieces() {
   }
 }
 
-
-// Vérifier victoire (ne déclenche pas d'alerte)
+// Vérifie la victoire
 function checkVictory() {
   return pieces.every(p => p.style.backgroundPosition === p.getAttribute('data-correct'));
 }
 
+// Swap deux pièces
 function swapBackgrounds(a, b) {
   const tmp = b.style.backgroundPosition;
   b.style.backgroundPosition = a.style.backgroundPosition;
@@ -181,25 +175,6 @@ function onPointerMove(e) {
   const dy = e.clientY - activePiece._startClientY;
 
   activePiece.style.transform = `translate3d(${dx}px, ${dy}px, 0) scale(1.04)`;
-
-  // highlight potential targets
-  pieces.forEach(p => {
-    if (p === activePiece) return;
-    const r = p.getBoundingClientRect();
-    if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) {
-      p.classList.add('drop-target');
-    } else {
-      p.classList.remove('drop-target');
-    }
-  });
-}
-
-function onPointerEnter(e) {
-  if (activePiece && this !== activePiece) this.classList.add('drop-target');
-}
-
-function onPointerLeave(e) {
-  if (this !== activePiece) this.classList.remove('drop-target');
 }
 
 function onPointerUp(e) {
@@ -207,22 +182,18 @@ function onPointerUp(e) {
 
   try { this.releasePointerCapture(pointerId); } catch (err) {}
 
-  // find element under pointer (temporarily hide activePiece)
   const wasHidden = activePiece.style.visibility;
   activePiece.style.visibility = 'hidden';
   const target = document.elementFromPoint(e.clientX, e.clientY);
   activePiece.style.visibility = wasHidden;
 
-  // cleanup visual state
   activePiece.classList.remove('dragging');
   activePiece.style.transform = '';
   activePiece.style.zIndex = '';
   pointerId = null;
 
-  // remove drop-target classes
   pieces.forEach(p => p.classList.remove('drop-target'));
 
-  // if target is a piece and different from activePiece, swap backgrounds
   if (target && target.classList && target.classList.contains('piece') && target !== activePiece) {
     swapBackgrounds(activePiece, target);
     checkVictory();
@@ -244,7 +215,14 @@ function onPointerCancel(e) {
   activePiece = null;
 }
 
-/* ---------------- Touch fallback (for older iOS) ---------------- */
+function onPointerEnter(e) {
+  if (activePiece && this !== activePiece) this.classList.add('drop-target');
+}
+function onPointerLeave(e) {
+  if (this !== activePiece) this.classList.remove('drop-target');
+}
+
+/* ---------------- Touch fallback (anciens iOS) ---------------- */
 
 function onTouchStart(e) {
   if (e.touches.length > 1) return;
@@ -334,25 +312,7 @@ function onTouchCancel(e) {
   activePiece = null;
 }
 
-/* ---------------- Initialization ---------------- */
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Ensure CSS variables match JS grid size
-  document.documentElement.style.setProperty('--cols', COLS);
-  document.documentElement.style.setProperty('--rows', ROWS);
-
-  createPieces();
-  shufflePieces();
-
-  if (shuffleBtn) {
-    shuffleBtn.addEventListener('click', shufflePieces);
-    shuffleBtn.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        shufflePieces();
-      }
-    });
-  }
+/* ---------------- Resize (mise à jour des cibles) ---------------- */
 
 let resizeTimer;
 function onResize() {
@@ -362,23 +322,41 @@ function onResize() {
 
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
-    // Reconstruire les positions "correctes" (data-correct) en tenant compte du gap
     buildPositions();
-
-    // Mettre à jour uniquement l'attribut data-correct de chaque pièce
-    // NE PAS réappliquer piece.style.backgroundPosition ici (sinon on remet l'ordre)
     pieces.forEach((piece, i) => {
       if (positions[i]) {
         piece.setAttribute('data-correct', positions[i]);
       }
     });
-
-    // Si tu veux forcer la réapplication (par ex. si la grille a changé),
-    // décommente la ligne suivante. Attention : cela réinitialise l'ordre actuel.
-    // pieces.forEach((piece, i) => piece.style.backgroundPosition = positions[i]);
-
   }, 80);
 }
+
+/* ---------------- Initialisation ---------------- */
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Alimente les variables CSS
+  document.documentElement.style.setProperty('--cols', COLS);
+  document.documentElement.style.setProperty('--rows', ROWS);
+
+  // Choisir une image au hasard au chargement
+  changePuzzleImage();
+
+  createPieces();
+  shufflePieces();
+
+  if (shuffleBtn) {
+    shuffleBtn.addEventListener('click', () => {
+      shufflePieces();
+      changePuzzleImage(); // change aussi l’image
+    });
+    shuffleBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        shufflePieces();
+        changePuzzleImage();
+      }
+    });
+  }
 
   window.addEventListener('resize', onResize);
   onResize();
