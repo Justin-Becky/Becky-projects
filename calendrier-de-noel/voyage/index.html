@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Compte à rebours — Voyage dans le sud</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="bg-south" aria-hidden="true"></div>
+
+  <main class="app">
+    <header class="card header-card">
+      <h1>Départ pour le sud</h1>
+      <p class="since" id="departText">13 janvier — 08:10</p>
+    </header>
+
+    <section class="card stats-card" aria-live="polite">
+      <div class="counter">
+        <div class="big" id="daysCount">—</div>
+        <div class="meta" id="metaText">Calcul en cours…</div>
+      </div>
+
+      <div class="grid">
+        <div class="item">
+          <div class="label">Jours</div>
+          <div class="value" id="days">—</div>
+        </div>
+        <div class="item">
+          <div class="label">Heures</div>
+          <div class="value" id="hours">—</div>
+        </div>
+        <div class="item">
+          <div class="label">Minutes</div>
+          <div class="value" id="minutes">—</div>
+        </div>
+        <div class="item">
+          <div class="label">Secondes</div>
+          <div class="value" id="seconds">—</div>
+        </div>
+        <div class="item wide">
+          <div class="value message">Le soleil et la plage nous attendent 🌴☀️</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
