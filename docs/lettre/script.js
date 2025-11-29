@@ -4,8 +4,10 @@ function togglePaper() {
   paper.classList.toggle('open');
 }
 
-// Clic desktop
-document.body.addEventListener('click', togglePaper);
-
-// Tap mobile
-document.body.addEventListener('touchstart', togglePaper);
+// Un seul événement, universel
+paper.addEventListener('pointerdown', () => {
+  // toggle uniquement si on n’est pas déjà en train de scroller
+  if (!paper.classList.contains('open')) {
+    togglePaper();
+  }
+});

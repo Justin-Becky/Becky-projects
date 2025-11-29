@@ -76,6 +76,10 @@ h1{margin:0 0 6px;font-size:clamp(16px,2vw,20px)}
 
 /* zone de placement */
 .workarea{position:absolute;inset:0;pointer-events:auto}
+.workarea, .item {
+  touch-action: none;   /* empêche le scroll/pinch par défaut sur mobile */
+}
+
 
 /* éléments décoratifs */
 .item{position:absolute;left:0;top:0;display:block;transform-origin:50% 50%;user-select:none; --thick:1}

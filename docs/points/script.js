@@ -59,7 +59,7 @@ function init() {
 
   animate();
 
-  window.addEventListener("click", toggleMorph);
+  window.addEventListener("pointerdown", toggleMorph);
   window.addEventListener("resize", onResize);
 }
 
