@@ -139,7 +139,7 @@ body {
     width: 95vw;        /* encore plus large sur petits écrans */
     height: 10vh;
     margin: 0 auto;
-    margin-left: -5vw;  /* décale légèrement à gauche si besoin */
+    margin-left: -20vw;  /* décale légèrement à gauche si besoin */
   }
   #paper.open {
     height: 30vh;       /* plus long verticalement sur mobile */
