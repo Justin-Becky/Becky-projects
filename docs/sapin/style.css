@@ -56,9 +56,14 @@ h1{margin:0 0 6px;font-size:clamp(16px,2vw,20px)}
 }
 
 /* sapin */
-.tree{
-  position:absolute;left:50%;transform:translateX(-50%);
-  bottom:12%;width:60%;height:75%;pointer-events:none;
+.tree {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 12%;
+  width: clamp(70%, 80vw, 90%);   /* plus large sur mobile */
+  height: clamp(80%, 90vh, 90%);  /* plus haut sur mobile */
+  pointer-events: none;
 }
 .tree .tri{
   position:absolute;left:50%;transform:translateX(-50%);
