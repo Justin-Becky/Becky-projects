@@ -134,7 +134,7 @@ body {
   }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 500px) {
   .bg-amour {
     background-size: contain; /* sur mobile, garder l’image entière */
   }
