@@ -61,8 +61,8 @@ h1{margin:0 0 6px;font-size:clamp(16px,2vw,20px)}
   left: 50%;
   transform: translateX(-50%);
   bottom: 12%;
-  width: 50vw;   /* plus large sur mobile */
-  height: 45vh;  /* plus haut sur mobile */
+  width: 75vw;   /* plus large sur mobile */
+  height: 65vh;  /* plus haut sur mobile */
   pointer-events: none;
 }
 .tree .tri{
