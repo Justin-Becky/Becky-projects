@@ -137,8 +137,8 @@ body {
   }
   #paper {
     width: 60vw;        /* encore plus large sur petits écrans */
-    height: 10vh;
-    margin-left: -5vw;  /* décale légèrement à gauche si besoin */
+    height: 3vh;
+    transform: translate(-2vw, -2vh);  /* décale légèrement à gauche si besoin */
   }
   #paper.open {
     height: 30vh;       /* plus long verticalement sur mobile */
