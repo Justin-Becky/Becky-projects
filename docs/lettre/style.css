@@ -136,11 +136,10 @@ body {
     background-size: contain; /* sur mobile, garder l’image entière */
   }
   #paper {
-    width: 100vw;        /* occupe plus de largeur relative mais reste proportionné */   /* limite absolue */
-    height: 3vh;        /* rouleau plus mince */
-    transform: translate(-50vw, -6vh);
-    border: 0.3vh solid #d4af37;
-    border-radius: 30px;
+    width: 95vw;        /* encore plus large sur petits écrans */
+    height: 10vh;
+    margin: 0 auto;
+    margin-left: -5vw;  /* décale légèrement à gauche si besoin */
   }
   #paper.open {
     height: 30vh;       /* plus long verticalement sur mobile */
