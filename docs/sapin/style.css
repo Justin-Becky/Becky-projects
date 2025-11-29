@@ -38,7 +38,7 @@ h1{margin:0 0 6px;font-size:clamp(16px,2vw,20px)}
 .canvas{
   position:relative;
   width:min(95vw,900px);
-  height: calc(var(--vh, 1vh) * 85);
+  height: 85svh;
   background:linear-gradient(180deg,#0b1425 0%,#07101e 60%,#060d19 100%);
   border-radius:18px;margin:22px;isolation:isolate;
   box-shadow:0 30px 70px rgba(0,0,0,.45);
