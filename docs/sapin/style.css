@@ -41,7 +41,7 @@ h1{margin:0 0 6px;font-size:clamp(16px,2vw,20px)}
 .stage{position:relative;display:grid;place-items:center;overflow:hidden}
 .canvas {
   position: relative;
-  width: min(95vw, 900px);
+  width: min(95vw);
   height: calc(var(--vh) * 100); /* pleine hauteur calculée en JS */
   padding-bottom: calc(env(safe-area-inset-bottom) + 30%); /* marge pour barre + tronc */
   box-sizing: border-box;
