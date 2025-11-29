@@ -138,7 +138,7 @@ body {
   #paper {
     width: 100vw;        /* occupe plus de largeur relative mais reste proportionné */   /* limite absolue */
     height: 3vh;        /* rouleau plus mince */
-    transform: translate(-6vw, -8vh);
+    transform: translate(-10vw, -6vh);
     border: 0.3vh solid #d4af37;
     border-radius: 30px;
   }
