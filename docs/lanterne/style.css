@@ -1,6 +1,113 @@
-html,body{height:100%;margin:0;overflow:hidden;font-family:system-ui,Segoe UI;}
-.scene{position:relative;height:100vh;background:linear-gradient(#ffdbe6,#fff6f9);}
-canvas{display:block;width:100%;height:100%}
-.ui{position:absolute;left:12px;top:12px;display:flex;flex-direction:column;gap:8px;max-width:300px}
-textarea{width:300px;height:80px;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);resize:none}
-button{padding:10px;border-radius:8px;border:0;background:#b33a55;color:#fff;cursor:pointer}
+/* Reset et base */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Georgia', serif;
+  overflow: hidden;
+}
+
+/* Fond magique */
+.background {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(to top, #0d0d0d, #420121);
+  background-image: url('bg-lanterne2.png');
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+}
+
+/* Container responsive */
+.container {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  width: 90%;
+  max-width: 600px;
+  transform: translateX(-50%);
+  text-align: center;
+  color: #ffffff;
+  padding: 1rem;
+}
+
+/* Zone de texte responsive */
+textarea {
+  width: 75%;
+  height: 25%;
+  border-radius: 10px;
+  background-color: #f2c0ff;
+  border: none;
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+  resize: none;
+}
+
+/* Bouton responsive */
+button {
+  display: block;
+  margin: 18px auto 36px;
+  padding: 12px 28px;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #ff6fb5 0%, #7a00ff 100%);
+  border: 0;
+  border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(122,0,255,0.18);
+  cursor: pointer;
+}
+
+button:active { transform: translateY(-1px) scale(0.995); }
+button:focus {
+  outline: none;
+  box-shadow: 0 18px 44px rgba(122,0,255,0.22), 0 0 0 6px rgba(122,0,255,0.10);
+}
+
+/* Zone des lanternes */
+#lanternZone {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Animations */
+@keyframes floatY {
+  0%   { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-100vh); opacity: 0; }
+}
+
+@keyframes swayX {
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(var(--amp, 20px)); }
+  100% { transform: translateX(0); }
+}
+
+/* Lanternes */
+.lantern-wrapper {
+  position: absolute;
+  bottom: 0;
+  animation: floatY var(--dur, 8s) linear forwards;
+  will-change: transform, opacity;
+}
+
+.lantern-motion {
+  display: inline-block;
+  animation: swayX var(--sway-dur, 4s) ease-in-out infinite;
+  will-change: transform;
+  transform: scale(var(--scale, 1));
+}
+
+.lantern {
+  width: clamp(40px, 8vw, 80px); /* responsive */
+  display: block;
+  margin: 0 auto;
+}
+
+.lantern-text {
+  font-size: clamp(0.6rem, 2vw, 1rem);
+  color: #fff;
+  text-align: center;
+  margin-top: 4px;
+  opacity: 0.85;
+  font-style: italic;
+}

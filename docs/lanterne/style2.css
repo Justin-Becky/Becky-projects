@@ -1,6 +1,0 @@
-html,body{height:100%;margin:0;overflow:hidden;font-family:system-ui;}
-.container{position:relative;height:100vh;background:linear-gradient(#fff0f4,#2b1a3b);}
-canvas{display:block;width:100%;height:100%}
-.panel{position:absolute;right:12px;top:12px;background:rgba(255,255,255,0.9);padding:12px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.12)}
-.panel input[type="text"], .panel input{padding:8px;border-radius:6px;border:1px solid rgba(0,0,0,0.08);width:200px}
-.panel button{margin-top:8px;padding:8px 12px;background:#b33a55;color:#fff;border:0;border-radius:8px;cursor:pointer}
