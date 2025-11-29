@@ -133,3 +133,27 @@ body {
     font-size: 2vh;
   }
 }
+
+@media (max-width: 390px) {
+  .bg-amour {
+    background-size: contain; /* sur mobile, garder l’image entière */
+  }
+  #paper {
+    width: 60vw;        /* occupe plus de largeur relative mais reste proportionné */   /* limite absolue */
+    height: 3vh;        /* rouleau plus mince */
+    border: 0.3vh solid #d4af37;
+    margin-top: -9vh;
+    margin-left: -13vw;
+    border-radius: 30px;
+  }
+  #paper.open {
+    height: 30vh;       /* plus long verticalement sur mobile */
+  }
+  #content h1 {
+  font-size: 3vh;
+  }
+
+  #content p {
+    font-size: 2vh;
+  }
+}

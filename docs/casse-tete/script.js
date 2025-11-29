@@ -11,6 +11,7 @@ let pieces = [];
 let activePiece = null;
 let pointerId = null;
 
+
 // Images disponibles
 const images = ['fleure.png', 'slush.jpg'];
 
