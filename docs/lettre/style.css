@@ -113,7 +113,7 @@ body {
     background-size: contain; /* sur mobile, garder l’image entière */
   }
   #paper {
-    width: 30vw;        /* occupe plus de largeur relative mais reste proportionné */ /* limite absolue */
+    width: 65vw;        /* occupe plus de largeur relative mais reste proportionné */ /* limite absolue */
     height: 3vh;        /* rouleau plus mince */
     border: 0.3vh solid #d4af37;
     transform: translate(-4vw, -10vh);
@@ -136,8 +136,9 @@ body {
     background-size: contain; /* sur mobile, garder l’image entière */
   }
   #paper {
-    width: 85vw;        /* occupe plus de largeur relative mais reste proportionné */   /* limite absolue */
+    width: 100vw;        /* occupe plus de largeur relative mais reste proportionné */   /* limite absolue */
     height: 3vh;        /* rouleau plus mince */
+    transform: translate(-6vw, -8vh);
     border: 0.3vh solid #d4af37;
     border-radius: 30px;
   }
