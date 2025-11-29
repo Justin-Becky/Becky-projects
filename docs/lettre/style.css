@@ -1,10 +1,133 @@
-:root{ --bg:#fdeef4; --paper:#fff7f9; --ink:#6b2230; font-family: "Segoe UI", Roboto, Arial; }
-*{box-sizing:border-box}
-html,body{height:100%; margin:0; background:linear-gradient(180deg,#ffd6e6,#ffeef4); display:flex; align-items:center; justify-content:center;}
-.wrap{width:92vw; max-width:760px; text-align:center; padding:24px;}
-button{padding:10px 14px;border-radius:8px;border:0;background:#b93a58;color:white;font-weight:700;cursor:pointer;margin-bottom:14px;}
-.scroll-holder{height:320px; overflow:hidden; position:relative; border-radius:12px; box-shadow:0 8px 30px rgba(107,34,48,0.12);}
-.letter{width:100%; height:100%; display:flex; align-items:flex-start; justify-content:center; padding-top:12px; transition:transform 1.2s cubic-bezier(.2,.9,.2,1);}
-.paper{width:86%; background:var(--paper); padding:28px; border-radius:8px; box-shadow:0 6px 20px rgba(107,34,48,0.08); text-align:left;}
-.text{white-space:pre-wrap; color:var(--ink); font-size:18px; line-height:1.6; font-weight:600; opacity:0;}
-#source{width:100%; margin-top:12px; height:100px; padding:8px; border-radius:8px; border:1px solid rgba(107,34,48,0.08); resize:vertical;}
+/* Fond amoureux */
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #420121, #5a013c);
+  background-size: cover;
+  font-family: 'Georgia', serif;
+  position: relative;
+}
+.bg-amour {
+  position: absolute;
+  inset: 0;
+  background-image: url('amour.png'); 
+  background-size: cover;  
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+@media (max-width: 768px) {
+  .bg-amour {
+    background-size: contain; /* sur mobile, garder l’image entière */
+  }
+  .paper {
+    width: 75vw;        /* occupe plus de largeur relative mais reste proportionné */
+    max-width: 250px;   /* limite absolue */
+    height: 3vh;        /* rouleau plus mince */
+    border: 0.3vh solid #d4af37;
+    margin-top: -10vh;
+    margin-left: -10vw;
+    border-radius: 30px;
+  }
+  #content h1 {
+  font-size: 3vh;
+}
+
+#content p {
+  font-size: 2vh;
+}
+}
+
+
+#paper {
+  position: relative;
+  z-index: 1;
+  width: 30vw;          /* plus long : prend 60% de la largeur de la fenêtre */
+  max-width: 400px;     /* limite sur grands écrans */
+  height: 4vh;          /* plus mince : hauteur réduite au départ */
+  margin-top: -18vh;
+  margin-left: -7.5vw;
+  background: #fdf5e6;
+  border: 0.6vh solid #d4af37;
+  border-radius: 50px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: height 1.5s ease, border-radius 1s ease;
+
+  /* Effet cylindrique */
+  background-image: 
+    radial-gradient(circle at left center, rgba(0,0,0,0.15), transparent 70%),
+    radial-gradient(circle at right center, rgba(0,0,0,0.15), transparent 70%),
+    linear-gradient(to bottom, #fff8dc, #f5deb3);
+  background-blend-mode: multiply;
+  box-shadow:
+    inset 0 8px 15px rgba(0,0,0,0.2),
+    inset 0 -8px 15px rgba(0,0,0,0.2),
+    0 12px 25px rgba(0,0,0,0.3);
+}
+
+/* Quand déroulé */
+#paper.open {
+  height: 50vh;         /* plus long verticalement */
+  border-radius: 20px;
+  overflow-y: auto;    
+  scroll-behavior: smooth;
+  scrollbar-width: none;    /* cache la scrollbar sur Firefox */
+  -ms-overflow-style: none;
+  box-shadow:
+    inset 0 12px 20px rgba(0,0,0,0.15),
+    inset 0 -12px 20px rgba(0,0,0,0.15),
+    0 15px 30px rgba(0,0,0,0.3);
+    scroll-behavior: smooth;
+}
+
+#paper.open::-webkit-scrollbar {
+  display: none;            /* cache la scrollbar sur Chrome/Safari */
+}
+
+
+/* Contenu caché au départ */
+#content {
+  opacity: 0;
+  padding: 10px;
+  text-align: Left;
+  transition: opacity 1s ease;
+}
+
+#content h1 {
+  font-family: 'Papyrus', cursive;
+  font-size: 3vm;
+  color: #b22222;
+  margin-bottom: 15px;
+}
+
+#content .p1 {
+  font-family: 'Papyrus', cursive;
+  font-size: 2vm;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+#content .p2 {
+  font-family: 'Papyrus', cursive;
+  text-align: left;
+  font-size: 2vm;
+  color: #333;
+  margin-bottom: 50px;
+}
+
+#content .p3 {
+  font-family: 'Papyrus', cursive;
+  text-align: left;
+  font-size: 2vm;
+  color: #333;
+  margin-bottom: 0px;
+}
+
+#paper.open #content {
+  opacity: 1;
+}
