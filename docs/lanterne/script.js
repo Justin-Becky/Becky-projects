@@ -1,58 +1,44 @@
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-const wish = document.getElementById('wish');
-const btn = document.getElementById('launch');
-let W, H;
-function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
-addEventListener('resize', resize); resize();
+document.getElementById('sendBtn').addEventListener('click', () => {
+  const message = document.getElementById('message').value.trim();
 
-const lanterns = [];
-function Lantern(x,y, text){
-  this.x = x; this.y = y; this.vx = (Math.random()-0.5)*0.4; this.vy = -1.2 - Math.random()*0.6;
-  this.alpha = 1; this.text = text; this.size = 40 + Math.random()*12;
-}
-Lantern.prototype.update = function(dt){
-  this.x += this.vx * dt;
-  this.y += this.vy * dt;
-  this.vx += (Math.random()-0.5)*0.001*dt;
-  this.vy -= 0.0002*dt; // slight lift
-  this.alpha = Math.max(0, this.alpha - 0.00006*dt);
-}
-Lantern.prototype.draw = function(ctx){
-  ctx.save();
-  ctx.globalAlpha = this.alpha;
-  ctx.fillStyle = 'rgba(255,200,180,0.95)';
-  ctx.beginPath();
-  ctx.ellipse(this.x, this.y, this.size*0.8, this.size, 0,0,Math.PI*2);
-  ctx.fill();
-  ctx.fillStyle = '#7a2a3a';
-  ctx.font = `${Math.max(10, this.size/3)}px serif`;
-  ctx.textAlign = 'center';
-  ctx.fillText(this.text, this.x, this.y+4);
-  ctx.restore();
-}
+  // Paramètres aléatoires
+  const dur = (Math.random() * 4 + 6).toFixed(2) + 's';       // 6–10s
+  const swayDur = (Math.random() * 2 + 3).toFixed(2) + 's';   // 3–5s
+  const amp = Math.round(Math.random() * 15 + 10) + 'px';     // 10–25px
+  const scale = (Math.random() * 0.6 + 0.7).toFixed(2);       // 0.7–1.3
+  const startLeft = (Math.random() * 80 + 10).toFixed(2) + '%';
 
-let last = performance.now();
-function loop(t){
-  const dt = t - last; last = t;
-  ctx.clearRect(0,0,W,H);
-  // sky gradient
-  const g = ctx.createLinearGradient(0,0,0,H);
-  g.addColorStop(0,'#ffdbe6'); g.addColorStop(1,'#4b2b4a');
-  ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
-  for (let i=0;i<lanterns.length;i++){
-    const L = lanterns[i];
-    L.update(dt);
-    L.draw(ctx);
-    if (L.alpha <= 0 || L.y + L.size < -50) lanterns.splice(i--,1);
+  // Conteneur extérieur (monte)
+  const lanternWrapper = document.createElement('div');
+  lanternWrapper.className = 'lantern-wrapper';
+  lanternWrapper.style.left = startLeft;
+  lanternWrapper.style.setProperty('--dur', dur);
+
+  // Conteneur intérieur (oscille + taille variable)
+  const motion = document.createElement('div');
+  motion.className = 'lantern-motion';
+  motion.style.setProperty('--amp', amp);
+  motion.style.setProperty('--sway-dur', swayDur);
+  motion.style.setProperty('--scale', scale);
+
+  // Image
+  const lanternImg = document.createElement('img');
+  lanternImg.src = 'lanterne.png';
+  lanternImg.className = 'lantern';
+
+  // Ajoute le texte seulement si un message est écrit
+  if (message) {
+    const lanternText = document.createElement('div');
+    lanternText.textContent = message;
+    lanternText.className = 'lantern-text';
+    motion.appendChild(lanternText);
   }
-  requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
 
-btn.addEventListener('click', () => {
-  const text = (wish.value || '♥').slice(0,20);
-  // spawn at bottom center
-  const l = new Lantern(W/2 + (Math.random()-0.5)*120, H + 60, text);
-  lanterns.push(l);
+  // Assemblage
+  motion.insertBefore(lanternImg, motion.firstChild);
+  lanternWrapper.appendChild(motion);
+  document.getElementById('lanternZone').appendChild(lanternWrapper);
+
+  // Nettoyer le champ
+  document.getElementById('message').value = '';
 });

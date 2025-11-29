@@ -1,19 +1,19 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Lanterne volante</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Festival des lanternes</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="scene">
-    <canvas id="canvas"></canvas>
-    <div class="ui">
-      <textarea id="wish" placeholder="Écris ton souhait..."></textarea>
-      <button id="launch">Lancer la lanterne</button>
-    </div>
+  <div class="background"></div>
+
+  <div class="container">
+    <textarea id="message" placeholder="Écris ton souhait ici..."></textarea>
+    <button id="sendBtn">Lâcher la lanterne</button>
+    <div id="lanternZone"></div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
