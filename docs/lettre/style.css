@@ -133,12 +133,12 @@ body {
 
 @media (max-width: 500px) {
   .bg-amour {
-    background-size: contain; /* sur mobile, garder l’image entière */
+    background-size: cover; /* sur mobile, garder l’image entière */
   }
   #paper {
-    width: 95vw;        /* encore plus large sur petits écrans */
+    width: 60vw;        /* encore plus large sur petits écrans */
     height: 10vh;
-    margin-left: -20vw;  /* décale légèrement à gauche si besoin */
+    margin-left: -5vw;  /* décale légèrement à gauche si besoin */
   }
   #paper.open {
     height: 30vh;       /* plus long verticalement sur mobile */
