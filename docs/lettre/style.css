@@ -136,8 +136,9 @@ body {
     background-size: cover; /* sur mobile, garder l’image entière */
   }
   #paper {
-    width: 60vw;        /* encore plus large sur petits écrans */
-    height: 3vh;  /* décale légèrement à gauche si besoin */
+    width: 50vw;        /* encore plus large sur petits écrans */
+    height: 3vh;
+    transform: translate(-7.5vw, -6vh);  /* décale légèrement à gauche si besoin */
   }
   #paper.open {
     height: 30vh;       /* plus long verticalement sur mobile */
