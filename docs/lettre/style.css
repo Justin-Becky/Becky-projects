@@ -23,11 +23,11 @@ body {
 #paper {
   position: relative;
   z-index: 1;
-  width: 30vw;          /* plus long : prend 60% de la largeur de la fenêtre */
+  width: clamp(280px, 85vw, 500px); /* minimum 280px, max 500px, sinon 85% de l’écran */
+  margin: 0 auto;          /* plus long : prend 60% de la largeur de la fenêtre */
+  transform: translate(-4vw, -10vh); /* centré horizontalement et légèrement vers le haut */
   max-width: 425px;     /* limite sur grands écrans */
   height: 4vh;          /* plus mince : hauteur réduite au départ */
-  margin-top: -18vh;
-  margin-left: -7.5vw;
   background: #fdf5e6;
   border: 0.6vh solid #d4af37;
   border-radius: 50px;
@@ -118,8 +118,7 @@ body {
     max-width: 250px;   /* limite absolue */
     height: 3vh;        /* rouleau plus mince */
     border: 0.3vh solid #d4af37;
-    margin-top: -9vh;
-    margin-left: -13vw;
+    transform: translate(-4vw, -10vh);
     border-radius: 30px;
   }
   #paper.open {
@@ -139,11 +138,10 @@ body {
     background-size: contain; /* sur mobile, garder l’image entière */
   }
   #paper {
-    width: 85vw;        /* occupe plus de largeur relative mais reste proportionné */   /* limite absolue */
+    width: 65vw;        /* occupe plus de largeur relative mais reste proportionné */   /* limite absolue */
     height: 3vh;        /* rouleau plus mince */
     border: 0.3vh solid #d4af37;
-    margin-top: -9vh;
-    margin-left: -13vw;
+    transform: translate(-5vw, -10vh);
     border-radius: 30px;
   }
   #paper.open {
