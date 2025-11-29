@@ -179,8 +179,8 @@ h1{margin:0 0 6px;font-size:clamp(16px,2vw,20px)}
     grid-template-rows: auto 1fr;
   }
   .tree {
-    width: 50vw;
-    height: 50vh;
+    width: 70vw;
+    height: 95vh;
   }
   aside {
     grid-column: 1 / -1;
