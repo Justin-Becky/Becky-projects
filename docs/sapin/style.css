@@ -2,6 +2,10 @@
   --bg:#0e1320;
   --red:#d44b5e; --green:#36a36a; --blue:#4b7bd4; --gold:#e4c66a; --white:#f5f7fa;
 }
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
 
 *{box-sizing:border-box}
 body{
