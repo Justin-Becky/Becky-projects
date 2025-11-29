@@ -20,34 +20,11 @@ body {
   z-index: -1;
 }
 
-@media (max-width: 768px) {
-  .bg-amour {
-    background-size: contain; /* sur mobile, garder l’image entière */
-  }
-  .paper {
-    width: 75vw;        /* occupe plus de largeur relative mais reste proportionné */
-    max-width: 250px;   /* limite absolue */
-    height: 3vh;        /* rouleau plus mince */
-    border: 0.3vh solid #d4af37;
-    margin-top: -10vh;
-    margin-left: -10vw;
-    border-radius: 30px;
-  }
-  #content h1 {
-  font-size: 3vh;
-}
-
-#content p {
-  font-size: 2vh;
-}
-}
-
-
 #paper {
   position: relative;
   z-index: 1;
   width: 30vw;          /* plus long : prend 60% de la largeur de la fenêtre */
-  max-width: 400px;     /* limite sur grands écrans */
+  max-width: 425px;     /* limite sur grands écrans */
   height: 4vh;          /* plus mince : hauteur réduite au départ */
   margin-top: -18vh;
   margin-left: -7.5vw;
@@ -100,14 +77,14 @@ body {
 
 #content h1 {
   font-family: 'Papyrus', cursive;
-  font-size: 3vm;
+  font-size: 3vh;
   color: #b22222;
   margin-bottom: 15px;
 }
 
 #content .p1 {
   font-family: 'Papyrus', cursive;
-  font-size: 2vm;
+  font-size: 2vh;
   color: #333;
   margin-bottom: 20px;
 }
@@ -115,7 +92,7 @@ body {
 #content .p2 {
   font-family: 'Papyrus', cursive;
   text-align: left;
-  font-size: 2vm;
+  font-size: 2vh;
   color: #333;
   margin-bottom: 50px;
 }
@@ -123,11 +100,36 @@ body {
 #content .p3 {
   font-family: 'Papyrus', cursive;
   text-align: left;
-  font-size: 2vm;
+  font-size: 2vh;
   color: #333;
   margin-bottom: 0px;
 }
 
 #paper.open #content {
   opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .bg-amour {
+    background-size: contain; /* sur mobile, garder l’image entière */
+  }
+  #paper {
+    width: 30vw;        /* occupe plus de largeur relative mais reste proportionné */
+    max-width: 250px;   /* limite absolue */
+    height: 3vh;        /* rouleau plus mince */
+    border: 0.3vh solid #d4af37;
+    margin-top: -9vh;
+    margin-left: -13vw;
+    border-radius: 30px;
+  }
+  #paper.open {
+    height: 30vh;       /* plus long verticalement sur mobile */
+  }
+  #content h1 {
+  font-size: 3vh;
+  }
+
+  #content p {
+    font-size: 2vh;
+  }
 }
