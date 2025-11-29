@@ -347,10 +347,9 @@ exportBtn.addEventListener('click', () => {
   });
 });
 function setVH() {
-  const vh = window.innerHeight * 0.01;
+  const vh = (window.visualViewport?.height || window.innerHeight) * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
 }
-window.addEventListener('resize', setVH);
-window.addEventListener('orientationchange', setVH);
-document.addEventListener('DOMContentLoaded', setVH);
 
+document.addEventListener('DOMContentLoaded', setVH);
+window.addEventListener('orientationchange', setVH);

@@ -39,14 +39,16 @@ h1{margin:0 0 6px;font-size:clamp(16px,2vw,20px)}
 .color.blue{background:var(--blue)} .color.gold{background:var(--gold)} .color.white{background:var(--white)}
 
 .stage{position:relative;display:grid;place-items:center;overflow:hidden}
-.canvas{
-  position:relative;
-  width:min(95vw,900px);
-  height: 85svh;
-  padding-bottom: calc(env(safe-area-inset-bottom) + 30%);
-  background:linear-gradient(180deg,#0b1425 0%,#07101e 60%,#060d19 100%);
-  border-radius:18px;margin:22px;isolation:isolate;
-  box-shadow:0 30px 70px rgba(0,0,0,.45);
+.canvas {
+  position: relative;
+  width: min(95vw, 900px);
+  height: calc(var(--vh) * 100); /* pleine hauteur calculée en JS */
+  padding-bottom: calc(env(safe-area-inset-bottom) + 30%); /* marge pour barre + tronc */
+  box-sizing: border-box;
+  background: linear-gradient(180deg,#0b1425 0%,#07101e 60%,#060d19 100%);
+  border-radius: 18px;
+  isolation: isolate;
+  box-shadow: 0 30px 70px rgba(0,0,0,.45);
 }
 .snow{position:absolute;bottom:0;left:0;right:0;height:12%;
   background: radial-gradient(200px circle at 20% -60px, rgba(255,255,255,.1) 0, transparent 60%),
