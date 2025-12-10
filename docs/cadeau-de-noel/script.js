@@ -1,166 +1,196 @@
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("gardenCanvas");
-  if (!canvas) {
-    console.error("Canvas 'gardenCanvas' introuvable. Vérifie l'ID dans index.html.");
-    return;
-  }
-
   const ctx = canvas.getContext("2d");
+
+    const stars = [];
+  function createStars(count) {
+    stars.length = 0;
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2 + 1,
+        opacity: Math.random() * 0.5 + 0.5,
+        twinkle: Math.random() * 0.02 + 0.01 // vitesse scintillement
+      });
+    }
+  }
 
   function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    createStars(200); // recréer les étoiles quand on resize
   }
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
 
-  // Utilitaires dessin
-  function drawStem(x, baseY, height, color = "#00ff99") {
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(x, baseY);
-    ctx.lineTo(x, baseY - height);
-    ctx.stroke();
-  }
 
-  function drawLeaf(x, y, size, angle, color = "#00cc66") {
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(angle);
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.quadraticCurveTo(size, -size * 0.6, size * 2, 0);
-    ctx.quadraticCurveTo(size, size * 0.6, 0, 0);
-    ctx.fillStyle = color;
-    ctx.fill();
-    ctx.restore();
-  }
+  function drawStars() {
+    for (const star of stars) {
+      star.opacity += star.twinkle * (Math.random() > 0.5 ? 1 : -1);
+      if (star.opacity < 0.3) star.opacity = 0.3;
+      if (star.opacity > 1) star.opacity = 1;
 
-  function drawGrassTuft(x, baseY, width, height, color = "#00aa66") {
-    ctx.fillStyle = color;
-    for (let i = 0; i < 6; i++) {
-      const gx = x - width / 2 + (i / 5) * width;
+      ctx.fillStyle = `rgba(255,255,255,${star.opacity})`;
       ctx.beginPath();
-      ctx.moveTo(gx, baseY);
-      ctx.quadraticCurveTo(gx + 4, baseY - height * 0.6, gx + 1, baseY - height);
-      ctx.quadraticCurveTo(gx - 2, baseY - height * 0.6, gx, baseY);
+      ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
       ctx.fill();
     }
   }
 
-  function drawFlowerHead(x, y, size) {
-    const petals = 8;
-    for (let i = 0; i < petals; i++) {
-      const angle = (i / petals) * Math.PI * 2;
-      const px = x + Math.cos(angle) * size * 0.7;
-      const py = y + Math.sin(angle) * size * 0.7;
-      ctx.fillStyle = ["#ff69b4", "#ffb6c1", "#e0bbff", "#b2f7ef"][i % 4];
-      ctx.beginPath();
-      ctx.arc(px, py, size * 0.35, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.fillStyle = "#ffd700";
-    ctx.beginPath();
-    ctx.arc(x, y, size * 0.3, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  const plants = [];
-  let lastTime = 0;
-
+  // --- Plantes ---
   class Plant {
     constructor(x) {
-      this.x = x;
-      this.baseY = canvas.height;
-      this.targetHeight = Math.random() * canvas.height * 0.45 + canvas.height * 0.2;
-      this.height = 0;
-      this.growthSpeed = Math.random() * 0.18 + 0.12; // pixels/ms
-      this.leaves = [];
-      this.hasFlower = Math.random() < 0.7;
-      this.flowerSize = Math.random() * 18 + 14;
+  this.x = x;
+  this.baseY = canvas.height;
+  this.height = 0;
+  this.targetHeight = Math.random() * (canvas.height * 0.7) + 100; // plus haut
+  this.growthSpeed = Math.random() * 3 + 4; // rapide
+  this.flowerSize = Math.random() * 40 + 30;
+  this.petalCount = 12;
+  this.curve = Math.random() * 0.4 - 0.2;
+  this.hasBloomed = false;
 
-      const leafCount = Math.floor(Math.random() * 4) + 3;
-      for (let i = 0; i < leafCount; i++) {
-        const pos = Math.random() * 0.8 + 0.15;
-        const side = Math.random() < 0.5 ? -1 : 1;
-        this.leaves.push({
-          offset: pos,
-          side,
-          size: Math.random() * 10 + 8,
-        });
+  const palettes = [
+    ["#ff69b4", "#ffb6c1", "#ffe4e1"], // rose
+    ["#9370db", "#dda0dd", "#e6e6fa"], // violet
+    ["#1e90ff", "#87ceeb", "#add8e6"], // bleu
+    ["#ff7f50", "#ffa07a", "#ffe4b5"], // orange
+    ["#32cd32", "#98fb98", "#f0fff0"]  // vert pastel
+  ];
+  this.colors = palettes[Math.floor(Math.random() * palettes.length)];
+}
+
+    update(deltaTime) {
+      if (this.height < this.targetHeight) {
+        this.height += this.growthSpeed * deltaTime;
+      } else {
+        this.hasBloomed = true;
       }
-
-      this.grass = {
-        width: Math.random() * 30 + 24,
-        height: Math.random() * 20 + 14,
-      };
     }
 
-    update(dt) {
-      if (this.height < this.targetHeight) {
-        this.height += this.growthSpeed * dt;
-        if (this.height > this.targetHeight) this.height = this.targetHeight;
+    drawStem() {
+      const gradient = ctx.createLinearGradient(this.x, this.baseY, this.x, this.baseY - this.height);
+      gradient.addColorStop(0, "#004d00");
+      gradient.addColorStop(0.5, "#008000");
+      gradient.addColorStop(1, "#00ff99");
+
+      ctx.strokeStyle = gradient;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(this.x, this.baseY);
+      ctx.quadraticCurveTo(this.x + this.curve * 100, this.baseY - this.height / 2, this.x, this.baseY - this.height);
+      ctx.stroke();
+
+      // nervures latérales
+      ctx.strokeStyle = "#006400";
+      ctx.lineWidth = 1;
+      for (let i = 40; i < this.height; i += 40) {
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.baseY - i);
+        ctx.lineTo(this.x + (this.curve > 0 ? 12 : -12), this.baseY - i - 8);
+        ctx.stroke();
       }
+    }
+
+    drawFlower() {
+      if (!this.hasBloomed) return;
+      const topY = this.baseY - this.height;
+      ctx.save();
+      ctx.translate(this.x, topY);
+
+      for (let i = 0; i < this.petalCount; i++) {
+        const angle = (i / this.petalCount) * Math.PI * 2;
+        ctx.rotate(angle);
+
+        const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, this.flowerSize);
+        gradient.addColorStop(0, this.colors[0]);
+        gradient.addColorStop(0.5, this.colors[1]);
+        gradient.addColorStop(1, this.colors[2]);
+
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.quadraticCurveTo(this.flowerSize * 0.7, -this.flowerSize, this.flowerSize, 0);
+        ctx.quadraticCurveTo(this.flowerSize * 0.7, this.flowerSize, 0, 0);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        ctx.strokeStyle = this.colors[0];
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      const core = ctx.createRadialGradient(0, 0, 0, 0, 0, this.flowerSize * 0.35);
+      core.addColorStop(0, "#ffffcc");
+      core.addColorStop(1, "#ffcc00");
+      ctx.beginPath();
+      ctx.arc(0, 0, this.flowerSize * 0.35, 0, Math.PI * 2);
+      ctx.fillStyle = core;
+      ctx.fill();
+
+      ctx.restore();
     }
 
     draw() {
-      drawGrassTuft(this.x, this.baseY, this.grass.width, this.grass.height);
-      drawStem(this.x, this.baseY, this.height);
+      this.drawStem();
+      this.drawFlower();
+    }
+  }
 
-      for (const leaf of this.leaves) {
-        const ly = this.baseY - this.height * leaf.offset;
-        if (ly < this.baseY && ly > this.baseY - this.height + 4) {
-          const angle = leaf.side * (Math.PI / 3) * 0.7;
-          drawLeaf(this.x + leaf.side * 2, ly, leaf.size, angle);
+  const plants = [];
+
+function spawnPlants() {
+  const count = Math.floor(Math.random() * 5) + 5;
+
+  for (let i = 0; i < count; i++) {
+    let x;
+    let valid = false;
+
+    // essayer plusieurs fois pour trouver une position correcte
+    for (let tries = 0; tries < 20 && !valid; tries++) {
+      x = Math.random() * canvas.width;
+      valid = true;
+
+      // vérifier la distance avec les autres plantes
+      for (const plant of plants) {
+        if (Math.abs(x - plant.x) < 80) { // minimum 60px d’écart
+          valid = false;
+          break;
         }
       }
-
-      if (this.hasFlower && this.height >= this.targetHeight * 0.8) {
-        const topY = this.baseY - this.height;
-        drawFlowerHead(this.x, topY - 6, this.flowerSize);
-      }
-    }
-  }
-
-  function spawnWave() {
-    const count = Math.floor(Math.random() * 6) + 5;
-    for (let i = 0; i < count; i++) {
-      const x = Math.random() * canvas.width;
-      plants.push(new Plant(x));
-    }
-  }
-
-  function render(time) {
-    const dt = lastTime ? time - lastTime : 16;
-    lastTime = time;
-
-    ctx.fillStyle = "rgba(0,0,0,0.35)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    const gradient = ctx.createRadialGradient(
-      canvas.width / 2, canvas.height, canvas.width * 0.05,
-      canvas.width / 2, canvas.height, canvas.width * 0.9
-    );
-    gradient.addColorStop(0, "rgba(0, 255, 150, 0.08)");
-    gradient.addColorStop(1, "rgba(0, 0, 0, 0.0)");
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    for (const plant of plants) {
-      plant.update(dt);
-      plant.draw();
     }
 
-    requestAnimationFrame(render);
+    plants.push(new Plant(x));
+  }
+}
+
+
+  let lastTime = 0;
+  function animate(time) {
+  const deltaTime = lastTime ? (time - lastTime) / 16 : 1;
+  lastTime = time;
+
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  drawStars();
+
+  // Étape 1 : dessiner toutes les tiges
+  for (const plant of plants) {
+    plant.update(deltaTime);
+    plant.drawStem();
   }
 
-  requestAnimationFrame(render);
-
-  const magicButton = document.getElementById("magicButton");
-  if (!magicButton) {
-    console.error("Bouton 'magicButton' introuvable. Vérifie l'ID dans index.html.");
-    return;
+  // Étape 2 : dessiner toutes les fleurs au-dessus
+  for (const plant of plants) {
+    plant.drawFlower();
   }
-  magicButton.addEventListener("click", spawnWave);
+
+  requestAnimationFrame(animate);
+}
+
+
+  animate();
+
+  document.getElementById("magicButton").addEventListener("click", spawnPlants);
 });
