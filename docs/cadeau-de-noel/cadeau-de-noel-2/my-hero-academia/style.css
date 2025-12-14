@@ -1,0 +1,45 @@
+body {
+  background-color:black;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('affiche-my-hero-academia.png'); /* ✅ ton image */
+  background-size: contain; /* garde l’image entière visible */
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: -1;
+}
+
+.overlay {
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.242);
+  padding: 40px;
+  border-radius: 12px;
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: 300;
+}
