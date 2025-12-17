@@ -15,18 +15,34 @@ header {
 }
 
 .gallery {
-  column-count: 5;       /* nombre de colonnes (ajuste selon ton écran) */
-  column-gap: 25px;      /* espace horizontal entre colonnes */
-  padding: 30px;         /* padding autour de la galerie */
+  column-count: 5;       
+  column-gap: clamp(10px, 2vw, 25px);   /* espace horizontal scalable */
+  padding: clamp(15px, 4vw, 30px);      /* padding scalable */
 }
 
 .gallery img {
-  width: 100%;           /* occupe toute la largeur de la colonne */
-  margin-bottom: 25px;   /* espace vertical entre images */
-  border-radius: 15px;   /* coins arrondis */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* petit effet d’ombre */
-  display: block;        /* évite les espaces fantômes */
+  width: 100%;           
+  margin-bottom: clamp(10px, 3vw, 25px); /* espace vertical scalable */
+  border-radius: clamp(8px, 2vw, 15px);  /* coins arrondis adaptatifs */
+  box-shadow: 0 0.5vw 1vw rgba(0,0,0,0.2);
+  display: block;        
 }
+
+/* Tablettes */
+@media (max-width: 1024px) {
+  .gallery {
+    column-count: 4;
+  }
+}
+
+/* Mobiles (ex: iPhone) */
+@media (max-width: 768px) {
+  .gallery {
+    column-count: 3;
+  }
+}
+
+
 
 
 .gallery img:hover {
