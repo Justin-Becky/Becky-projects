@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<link rel="apple-touch-icon" sizes="180x180" href="gift.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio pour ma copine</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffdee9, #b5fffc);
+      color: #333;
+    }
+
+    header {
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: #ff4081;
+    }
+
+    .portfolio {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 1rem;
+    }
+
+    .card-content h3 {
+      margin: 0 0 0.5rem;
+      color: #333;
+    }
+
+    .like-btn {
+      display: inline-flex;
+      align-items: center;
+      background: #ff4081;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+
+    .like-btn:hover {
+      background: #e91e63;
+    }
+
+    .like-btn span {
+      margin-left: 6px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mes mini-projets 💕</h1>
+    <p>Un petit portfolio pour toi</p>
+  </header>
+
+  <section class="portfolio">
+    <div class="card">
+  <a href="calendrier-de-noel/index.html" style="text-decoration:none; color:inherit;" target="_blank">
+    <img src="calendrier-de-noel/calendrier.png" alt="Projet 1">
+    <div class="card-content">
+      <h3>Projet 1 : Calendrier de l'avent Noel</h3>
+      <p>Un petit site avec 24 cases qui montrent des belles petites phrases ou des mini-projets</p>
+    </div>
+  </a>
+  <button class="like-btn" onclick="likeProject(this)">
+    ❤️ Like <span>0</span>
+  </button>
+</div>
+
+
+    <div class="card">
+  <a href="cadeau-de-noel/index.html" style="text-decoration:none; color:inherit;" target="_blank">
+      <img src="cadeau-de-noel/cadeau-de-noel-1/fleures/fleures.png" alt="Projet 2">
+      <div class="card-content">
+        <h3>Projet 2 : Ton cdeau de Noel 2025</h3>
+        <p>C'est une surprise, essaye même pas de clicker dessus, ça ne va pas fonctionner</p>
+      </div>
+  </a>
+        <button class="like-btn" onclick="likeProject(this)">
+          ❤️ Like <span>0</span>
+        </button>
+    </div>
+
+    <div class="card">
+      <img src="projet-3/image.png" alt="Projet 3">
+      <div class="card-content">
+        <h3>Projet 3 : ???</h3>
+        <p>???</p>
+        <button class="like-btn" onclick="likeProject(this)">
+          ❤️ Like <span>0</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function likeProject(button) {
+      const counter = button.querySelector("span");
+      let count = parseInt(counter.textContent);
+      count++;
+      counter.textContent = count;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+/* Fond amoureux */
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #420121, #5a013c);
+  background-size: cover;
+  font-family: 'Georgia', serif;
+  position: relative;
+}
+.bg-amour {
+  position: absolute;
+  inset: 0;
+  background-image: url('amour.png'); 
+  background-size: cover;  
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+#paper {
+  position: relative;
+  z-index: 1;
+  width: clamp(280px, 85vw, 500px); /* minimum 280px, max 500px, sinon 85% de l’écran */
+  margin: 0 auto;          /* plus long : prend 60% de la largeur de la fenêtre */
+  transform: translate(-4vw, -10vh); /* centré horizontalement et légèrement vers le haut */
+  height: 4vh;          /* plus mince : hauteur réduite au départ */
+  background: #fdf5e6;
+  border: 0.6vh solid #d4af37;
+  border-radius: 50px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: height 1.5s ease, border-radius 1s ease;
+
+  /* Effet cylindrique */
+  background-image: 
+    radial-gradient(circle at left center, rgba(0,0,0,0.15), transparent 70%),
+    radial-gradient(circle at right center, rgba(0,0,0,0.15), transparent 70%),
+    linear-gradient(to bottom, #fff8dc, #f5deb3);
+  background-blend-mode: multiply;
+  box-shadow:
+    inset 0 8px 15px rgba(0,0,0,0.2),
+    inset 0 -8px 15px rgba(0,0,0,0.2),
+    0 12px 25px rgba(0,0,0,0.3);
+}
+
+/* Quand déroulé */
+#paper.open {
+  height: 50vh;         /* plus long verticalement */
+  border-radius: 20px;
+  overflow-y: auto;    
+  scroll-behavior: smooth;
+  scrollbar-width: none;    /* cache la scrollbar sur Firefox */
+  -ms-overflow-style: none;
+  box-shadow:
+    inset 0 12px 20px rgba(0,0,0,0.15),
+    inset 0 -12px 20px rgba(0,0,0,0.15),
+    0 15px 30px rgba(0,0,0,0.3);
+    scroll-behavior: smooth;
+}
+
+#paper.open::-webkit-scrollbar {
+  display: none;            /* cache la scrollbar sur Chrome/Safari */
+}
+
+
+/* Contenu caché au départ */
+#content {
+  opacity: 0;
+  padding: 10px;
+  text-align: Left;
+  transition: opacity 1s ease;
+}
+
+#content h1 {
+  font-family: 'Papyrus', cursive;
+  font-size: 3vh;
+  color: #b22222;
+  margin-bottom: 15px;
+}
+
+#content .p1 {
+  font-family: 'Papyrus', cursive;
+  font-size: 2vh;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+#content .p2 {
+  font-family: 'Papyrus', cursive;
+  text-align: left;
+  font-size: 2vh;
+  color: #333;
+  margin-bottom: 50px;
+}
+
+#content .p3 {
+  font-family: 'Papyrus', cursive;
+  text-align: left;
+  font-size: 2vh;
+  color: #333;
+  margin-bottom: 0px;
+}
+
+#paper.open #content {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .bg-amour {
+    background-size: contain; /* sur mobile, garder l’image entière */
+  }
+  #paper {
+    width: 30vw;        /* occupe plus de largeur relative mais reste proportionné */ /* limite absolue */
+    height: 3vh;        /* rouleau plus mince */
+    border: 0.3vh solid #d4af37;
+    transform: translate(-4vw, -6vh);
+    border-radius: 30px;
+  }
+  #paper.open {
+    height: 30vh;       /* plus long verticalement sur mobile */
+  }
+  #content h1 {
+  font-size: 3vh;
+  }
+
+  #content p {
+    font-size: 2vh;
+  }
+}
+
+@media (max-width: 500px) {
+  .bg-amour {
+    background-size: cover; /* sur mobile, garder l’image entière */
+  }
+  #paper {
+    width: 50vw;        /* encore plus large sur petits écrans */
+    height: 3vh;
+    margin: 0 auto;
+    transform: translate(-10vw, -6vh);  /* décale légèrement à gauche si besoin */
+  }
+  #paper.open {
+    height: 30vh;       /* plus long verticalement sur mobile */
+  }
+  #content h1 {
+  font-size: 3vh;
+  }
+
+  #content p {
+    font-size: 2vh;
+  }
+}

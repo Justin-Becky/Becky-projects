@@ -1,0 +1,46 @@
+/* Page plein écran, sans scroll */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  background: #ffd6e6; /* couleur de base au cas où le bg ne charge pas */
+}
+
+/* Calque du fond de cœurs : couvre tout l'écran, peut être tronqué (cover) */
+.bg-hearts {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url('big-hearts.png'); /* mets ici l'image de cœurs */
+  background-size: cover;     /* remplit l’écran, recadre si nécessaire */
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Optionnel: légère texture complémentaire */
+  /* background-blend-mode: normal; */
+}
+
+/* Coupon centré au-dessus du fond */
+.coupon-wrap {
+  position: relative;
+  z-index: 1;
+  height: auto;
+  width: clamp(320px, 96vw, 1200px); 
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Image de coupon responsive */
+.coupon-img {
+  width: 100%;
+  height: auto;
+  max-height: clamp(280px, 96vh, 1000px);
+  object-fit: contain;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}

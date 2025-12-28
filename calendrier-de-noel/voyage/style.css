@@ -1,0 +1,120 @@
+:root {
+  --muted: rgba(255,255,255,0.95);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
+  color: var(--muted);
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+  min-height: 100vh;
+}
+
+/* Image de fond : placez background-sud.jpg dans le même dossier */
+.bg-south {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: url('palmier.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* Carte / contenu */
+.app {
+  margin: auto;
+  max-width: 900px;
+  width: 96vw;
+  display: grid;
+  gap: 18px;
+  align-items: start;
+  z-index: 2;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.25));
+  border-radius: 14px;
+  padding: clamp(12px, 3vw, 22px);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.15);
+  position: relative;
+}
+
+.header-card { text-align: center; }
+.header-card h1 {
+  margin: 2px 0 6px;
+  font-size: clamp(1.4rem, 5vw, 2rem);
+  color: #fff;
+}
+.header-card .since {
+  margin: 0;
+  color: rgba(255,255,255,0.9);
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
+}
+
+.stats-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+.counter { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+.big {
+  font-size: clamp(2rem, 8vw, 4rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.6px;
+}
+
+.meta { font-size: clamp(0.9rem, 2.5vw, 1.2rem); color: rgba(255,255,255,0.9); }
+
+/* Grille */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: clamp(8px, 2vw, 16px);
+  width: 100%;
+  margin-top: 6px;
+  justify-items: center;
+}
+
+.item {
+  background: linear-gradient(180deg, rgba(0,0,0,0.3), rgba(0,0,0,0.2));
+  border-radius: 12px;
+  padding: clamp(8px, 2vw, 16px);
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.15);
+  width: 100%;
+}
+
+.item .label {
+  font-size: clamp(0.7rem, 2vw, 1rem);
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 6px;
+}
+
+.item .value {
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  font-weight: 700;
+  color: #fff;
+}
+
+.item.wide { grid-column: 1 / -1; }
+
+.item .message {
+  font-weight: 600;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  color: rgba(255,255,255,0.95);
+}

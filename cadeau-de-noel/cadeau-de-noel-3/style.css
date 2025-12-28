@@ -1,0 +1,305 @@
+* {
+  border: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --red1: rgb(220, 20, 60);
+  --red2: rgb(160, 8, 8);
+  --white1: rgb(34, 139, 34);
+  --white2: rgb(2, 132, 2);
+  --blue: hsl(215,100%,20%);
+  font-size: calc(16px + (20 - 16) * (100vw - 320px) / (1280 - 320));
+}
+
+body {
+  background-color: var(--blue);
+  color: var(--white1);
+  font: 1em/1.5 sans-serif;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.gift {
+  --dur: 1.5s;
+  position: relative;
+  width: 18em;
+  height: 18em;
+}
+
+/* Elements positionnés */
+.gift_bow,
+.gift_bow-center,
+.gift_bow-left,
+.gift_bow-right,
+.gift_box,
+.gift_lid,
+.gift_lid-shadow,
+.gift_star {
+  position: absolute;
+}
+
+/* Boîte */
+.gift_box {
+  animation: boxBounce var(--dur) ease-in-out infinite;
+  background:
+    linear-gradient(var(--red1), var(--red2)) 50% 50% / 3.3em 100% no-repeat,
+    var(--white2);
+  border-radius: 1.5em;
+  bottom: 0.5em;
+  left: 3.3em;
+  overflow: hidden;
+  width: 11.4em;
+  height: 9em;
+  transform-origin: 50% 100%;
+}
+
+/* Couvercle */
+.gift_lid,
+.gift_lid-shadow {
+  border-radius: 1em;
+  width: 13em;
+  height: 3.5em;
+}
+
+.gift_lid {
+  animation: lidBounce var(--dur) ease-in-out infinite;
+  background:
+    linear-gradient(var(--red1), var(--red1)) 50% 50% / 3.3em 100% no-repeat,
+    var(--white1);
+  bottom: 8.7em;
+  left: 2.5em;
+}
+
+.gift_lid-shadow {
+  animation: lidShadowBounce var(--dur) ease-in-out infinite;
+  background-color: hsla(0,0%,0%,0.1);
+  top: 7em;
+  left: 2.5em;
+}
+
+/* Bow */
+.gift_bow-center,
+.gift_bow-left,
+.gift_bow-right {
+  background-color: var(--red2);
+}
+
+.gift_bow {
+  animation: bowBounce var(--dur) ease-in-out infinite;
+  bottom: 3em;
+  left: calc(50% - 1.5em);
+  width: 3em;
+  height: 2em;
+  transform-origin: 50% 230%;
+}
+
+.gift_bow-center {
+  border-radius: 1em;
+  width: 100%;
+  height: 100%;
+}
+
+.gift_bow-left,
+.gift_bow-right {
+  box-shadow: 0 0 0 0.7em var(--red1) inset;
+  top: 0.3em;
+  width: 4em;
+  height: 5em;
+  z-index: -1;
+}
+
+.gift_bow-left:before,
+.gift_bow-right:before {
+  background-color: var(--red1);
+  border-radius: inherit;
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+
+.gift_bow-left {
+  animation: bowLeftPivot var(--dur) ease-in-out infinite;
+  border-radius: 1.5em 0 3em 1em / 1.5em 0 3em 3.5em;
+  right: calc(100% - 0.75em);
+  transform: rotate(35deg);
+  transform-origin: 100% 15%;
+}
+
+.gift_bow-left:before {
+  clip-path: polygon(0 42%, 100% 12%, 100% 100%, 0 100%);
+}
+
+.gift_bow-right {
+  animation: bowRightPivot var(--dur) ease-in-out infinite;
+  border-radius: 0 1.5em 1em 3em / 0 1.5em 3.5em 3em;
+  left: calc(100% - 0.75em);
+  transform: rotate(-35deg);
+  transform-origin: 0% 15%;
+}
+
+.gift_bow-right:before {
+  clip-path: polygon(0 12%, 100% 42%, 100% 100%, 0 100%);
+}
+
+/* Étoiles */
+.gift_star {
+  animation: starRotateCW var(--dur) ease-in infinite;
+  background-color: var(--white1);
+  clip-path: polygon(50% 0,65% 35%,100% 35%,65% 65%,50% 100%,35% 65%,0 35%,35% 35%);
+  transform: scale(0);
+}
+
+.gift_star--2,
+.gift_star--4,
+.gift_star--6,
+.gift_star--8,
+.gift_star--10,
+.gift_star--12,
+.gift_star--14,
+.gift_star--16 {
+  animation-name: starRotateCCW;
+}
+
+.gift_star--1  { animation-delay: calc(var(--dur) * 0.1);  top: -2em;  left: 5em;   width: 1.2em; height: 1.2em; }
+.gift_star--2  { animation-delay: calc(var(--dur) * 0.2);  top: -3em;  left: 12em;  width: 1.8em; height: 1.8em; }
+.gift_star--3  { animation-delay: calc(var(--dur) * 0.3);  top: 1em;   left: -2em;  width: 1em;  height: 1em; }
+.gift_star--4  { animation-delay: calc(var(--dur) * 0.4);  top: 3em;   right: -3em; width: 1.5em; height: 1.5em; }
+.gift_star--5  { animation-delay: calc(var(--dur) * 0.5);  top: 6em;   left: 1em;   width: 2em;  height: 2em; }
+.gift_star--6  { animation-delay: calc(var(--dur) * 0.6);  top: 8em;   left: 14em;  width: 1.3em; height: 1.3em; }
+.gift_star--7  { animation-delay: calc(var(--dur) * 0.7);  top: 10em;  right: 2em;  width: 1.7em; height: 1.7em; }
+.gift_star--8  { animation-delay: calc(var(--dur) * 0.8);  top: 12em;  left: 4em;   width: 1.1em; height: 1.1em; }
+.gift_star--9  { animation-delay: calc(var(--dur) * 0.9);  top: 14em;  right: 6em;  width: 2.2em; height: 2.2em; }
+.gift_star--10 { animation-delay: calc(var(--dur) * 1.0);  top: -4em;  left: 8em;   width: 1.4em; height: 1.4em; }
+.gift_star--11 { animation-delay: calc(var(--dur) * 1.1);  top: 2em;   right: 12em; width: 1em;  height: 1em; }
+.gift_star--12 { animation-delay: calc(var(--dur) * 1.2);  top: 5em;   left: 10em;  width: 1.6em; height: 1.6em; }
+.gift_star--13 { animation-delay: calc(var(--dur) * 1.3);  top: 7em;   right: -1em; width: 1.9em; height: 1.9em; }
+.gift_star--14 { animation-delay: calc(var(--dur) * 1.4);  top: 9em;   left: -3em;  width: 1.2em; height: 1.2em; }
+.gift_star--15 { animation-delay: calc(var(--dur) * 1.5);  top: 11em;  right: 8em;  width: 1.5em; height: 1.5em; }
+.gift_star--16 { animation-delay: calc(var(--dur) * 1.6);  top: 13em;  left: 7em;   width: 2em;  height: 2em; }
+
+/* Animations */
+@keyframes boxBounce {
+  from, 50% { transform: translateY(0) scale(1,1); }
+  62.5% { transform: translateY(4%) scale(1.12,0.89); }
+  75% { transform: translateY(-11%) scale(0.92,1.1); }
+  87.5% { transform: translateY(0) scale(1.05,0.9); }
+  to { transform: translateY(0) scale(1,1); }
+}
+
+@keyframes lidBounce {
+  from, 50% { transform: translateY(0) scale(1,1) rotate(0); }
+  62.5% { animation-timing-function: ease-in; transform: translateY(45%) scale(1.14,0.95) rotate(0); }
+  68.75% { animation-timing-function: ease-out; transform: translateY(-22.5%) scale(1.05,1.03) rotate(15deg); }
+  75% { animation-timing-function: ease-in-out; transform: translateY(-90%) scale(0.96,1.1) rotate(5deg); }
+  87.5% { transform: translateY(30%) scale(1.12,0.93) rotate(-3deg); }
+  to { transform: translateY(0) scale(1,1) rotate(0); }
+}
+
+@keyframes lidShadowBounce {
+  from, 50% { transform: translateY(0) scale(1,1) rotate(0); }
+  62.5% { animation-timing-function: ease-in; transform: translateY(10%) scale(1.14,0.95) rotate(0); }
+  68.75% { animation-timing-function: ease-out; transform: translateY(-10%) scale(1.05,1.03) rotate(15deg); }
+  75% { animation-timing-function: ease-in-out; transform: translateY(-30%) scale(0.96,1.1) rotate(5deg); }
+  87.5% { transform: translateY(10%) scale(1.12,0.93) rotate(-3deg); }
+  to { transform: translateY(0) scale(1,1) rotate(0); }
+}
+/* Animation du bow (rebond général) */
+@keyframes bowBounce {
+  from,
+  50% {
+    transform: translateY(0) rotate(0);
+  }
+  62.5% {
+    animation-timing-function: ease-in;
+    transform: translateY(75%) rotate(0);
+  }
+  68.75% {
+    animation-timing-function: ease-out;
+    transform: translateY(-37.5%) rotate(15deg);
+  }
+  75% {
+    animation-timing-function: ease-in-out;
+    transform: translateY(-150%) rotate(5deg);
+  }
+  87.5% {
+    transform: translateY(65%) rotate(-3deg);
+  }
+  to {
+    transform: translateY(0) rotate(0);
+  }
+}
+
+/* Animation pivot de la boucle gauche */
+@keyframes bowLeftPivot {
+  from,
+  50% {
+    transform: rotate(35deg);
+  }
+  62.5% {
+    transform: rotate(45deg);
+  }
+  75% {
+    transform: rotate(30deg);
+  }
+  87.5% {
+    transform: rotate(45deg);
+  }
+  to {
+    transform: rotate(35deg);
+  }
+}
+
+/* Animation pivot de la boucle droite */
+@keyframes bowRightPivot {
+  from,
+  50% {
+    transform: rotate(-35deg);
+  }
+  62.5% {
+    transform: rotate(-45deg);
+  }
+  75% {
+    transform: rotate(-34deg);
+  }
+  87.5% {
+    transform: rotate(-45deg);
+  }
+  to {
+    transform: rotate(-35deg);
+  }
+}
+
+/* Animation des étoiles (rotation horaire) */
+@keyframes starRotateCW {
+  from {
+    transform: scale(0) rotate(0);
+  }
+  25% {
+    animation-timing-function: ease-out;
+    transform: scale(1) rotate(0.25turn);
+  }
+  50%,
+  to {
+    transform: scale(0) rotate(0.5turn);
+  }
+}
+
+/* Animation des étoiles (rotation antihoraire) */
+@keyframes starRotateCCW {
+  from {
+    transform: scale(0) rotate(0);
+  }
+  25% {
+    animation-timing-function: ease-out;
+    transform: scale(1) rotate(-0.25turn);
+  }
+  50%,
+  to {
+    transform: scale(0) rotate(-0.5turn);
+  }
+}

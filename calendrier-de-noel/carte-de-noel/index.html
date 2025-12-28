@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Christmas Card</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="snowflakes" aria-hidden="true"></div>
+
+    <div class="envlope-wrapper">
+        <div id="envelope" class="close" tabindex="0" aria-expanded="false" role="button">
+            <div class="front flap"></div>
+            <div class="front pocket"></div>
+            <div class="letter">
+                <div class="words line1">🎄 Joyeux Noël Becky 🎄</div>
+                <div class="words line2">Tu rends ma vie magique</div>
+                <div class="words line3">I Love you ❤️</div>
+                <div class="words line4">Ju💜 </div>
+            </div>
+            <div class="front name">Becky 💜</div>
+            <div class="hearts">
+                <div class="heart a1"></div>
+                <div class="heart a2"></div>
+                <div class="heart a3"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        // Snowflakes
+        const snowContainer = document.querySelector('.snowflakes');
+        const SNOW_COUNT = 40;
+        if (snowContainer) {
+            for (let i = 0; i < SNOW_COUNT; i++) {
+                const flake = document.createElement('span');
+                flake.className = 'snowflake';
+                flake.textContent = '❄';
+                flake.style.left = Math.random() * 100 + 'vw';
+                flake.style.fontSize = (Math.random() * 16 + 12) + 'px';
+                const duration = Math.random() * 8 + 6; // 6s - 14s
+                const delay = Math.random() * -14;     // start in-progress
+                flake.style.animationDuration = duration + 's, 1s';
+                flake.style.animationDelay = delay + 's, 0s';
+                snowContainer.appendChild(flake);
+            }
+        }
+
+        // Envelope open/close
+        const envelope = document.getElementById('envelope');
+        if (!envelope) return;
+
+        function setOpen(isOpen) {
+            envelope.classList.toggle('open', isOpen);
+            envelope.classList.toggle('close', !isOpen);
+            envelope.setAttribute('aria-expanded', String(!!isOpen));
+        }
+
+        function toggleEnvelope() {
+            setOpen(!envelope.classList.contains('open'));
+        }
+
+        envelope.addEventListener('click', toggleEnvelope);
+        envelope.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleEnvelope();
+            }
+        });
+
+        envelope.style.cursor = 'pointer';
+    })();
+    </script>
+</body>
+</html>

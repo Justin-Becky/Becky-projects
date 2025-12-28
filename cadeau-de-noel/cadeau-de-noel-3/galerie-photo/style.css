@@ -1,0 +1,76 @@
+/* Style global */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #fdfdfd;
+  color: #333;
+  text-align: center;
+}
+
+/* En-tête */
+header {
+  background: #ff4d6d;
+  color: white;
+  padding: 20px;
+}
+
+.gallery {
+  column-count: 5;       
+  column-gap: clamp(10px, 2vw, 25px);   /* espace horizontal scalable */
+  padding: clamp(15px, 4vw, 30px);      /* padding scalable */
+}
+
+.gallery img {
+  width: 100%;           
+  margin-bottom: clamp(10px, 3vw, 25px); /* espace vertical scalable */
+  border-radius: clamp(8px, 2vw, 15px);  /* coins arrondis adaptatifs */
+  box-shadow: 0 0.5vw 1vw rgba(0,0,0,0.2);
+  display: block;        
+}
+
+/* Tablettes */
+@media (max-width: 1024px) {
+  .gallery {
+    column-count: 4;
+  }
+}
+
+/* Mobiles (ex: iPhone) */
+@media (max-width: 768px) {
+  .gallery {
+    column-count: 3;
+  }
+}
+
+
+
+
+.gallery img:hover {
+  transform: scale(1.05);
+}
+
+.overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.overlay img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+}
+
+
+/* Pied de page */
+footer {
+  background: #ff4d6d;
+  color: white;
+  padding: 10px;
+  margin-top: 20px;
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover" />
+  <title>Décorateur de sapin</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <aside>
+    <h1>Décorateur de sapin</h1>
+
+    <div class="row">
+      <button class="btn" data-add="boule">+ Boule</button>
+      <button class="btn" data-add="garland">+ Guirlande</button>
+      <button class="btn" data-add="star">+ Étoile</button>
+    </div>
+
+    <div class="row">
+      <span class="label">Couleur:</span>
+      <div class="tools">
+        <div class="color red"   data-color="var(--red)"></div>
+        <div class="color green" data-color="var(--green)"></div>
+        <div class="color blue"  data-color="var(--blue)"></div>
+        <div class="color gold"  data-color="var(--gold)"></div>
+        <div class="color white" data-color="var(--white)"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <button class="btn full" id="clear">Tout supprimer</button>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <div class="canvas" id="canvas">
+      <!-- Sapin en SVG -->
+      <svg class="tree" viewBox="0 0 420 520" preserveAspectRatio="xMidYMax meet">
+        <polygon points="210,30 330,170 90,170" fill="#0f5a3a" stroke="#0b4a30" stroke-width="4"/>
+        <polygon points="210,110 370,280 50,280" fill="#0f5a3a" stroke="#0b4a30" stroke-width="4"/>
+        <polygon points="210,210 420,420 0,420" fill="#0f5a3a" stroke="#0b4a30" stroke-width="4"/>
+        <rect x="170" y="420" width="80" height="100" rx="12" fill="#6b3d22" stroke="#5b331c" stroke-width="4"/>
+      </svg>
+
+      <div class="workarea" id="workarea"></div>
+      <div class="snow"></div>
+    </div>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

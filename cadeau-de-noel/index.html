@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mes cadeaux</title>
+  <style>
+    body {
+      background: hsl(215,100%,20%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: sans-serif;
+    }
+
+    .carousel {
+      position: relative;
+      width: 40em;
+      height: 40em;
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    iframe {
+      border: none;
+      width: 40em;
+      height: 40em;
+      flex-shrink: 0; /* chaque iframe garde sa taille */
+    }
+
+    /* Boutons de navigation */
+    button.prev, button.next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      border: none;
+      font-size: 2em;
+      cursor: pointer;
+      padding: 0.5em 0.8em;
+      border-radius: 50%; /* boutons ronds */
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease, background 0.3s ease;
+      z-index: 10;
+    }
+
+    button.prev:hover, button.next:hover {
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    button.prev { left: 0.5em; }
+    button.next { right: 0.5em; }
+  </style>
+</head>
+<body>
+  <div class="carousel">
+    <button class="prev">◀</button>
+    
+    <div class="carousel-track">
+      <iframe src="cadeau-de-noel-1/index.html" scrolling="no"></iframe>
+      <iframe src="cadeau-de-noel-2/index.html" scrolling="no"></iframe>
+      <iframe src="cadeau-de-noel-3/index.html" scrolling="no"></iframe>
+      <iframe src="cadeau-de-noel-4/index.html" scrolling="no"></iframe>
+    </div>
+    
+    <button class="next">▶</button>
+  </div>
+
+  <script>
+    const track = document.querySelector('.carousel-track');
+const slides = Array.from(track.children);
+const nextButton = document.querySelector('.next');
+const prevButton = document.querySelector('.prev');
+
+let currentIndex = 0;
+const slideWidth = slides[0].getBoundingClientRect().width;
+
+// 🎨 Palette de couleurs (une par cadeau)
+const buttonColors = [
+      "linear-gradient(135deg, hsl(345,100%,48%), hsl(0,0%,100%))", // cadeau 1 : rouge
+      "linear-gradient(135deg, hsl(268, 100%, 50%), hsl(50, 100%, 62%))", // cadeau 2 : mauve/rose
+      "linear-gradient(135deg, rgb(220, 20, 60), rgb(34, 139, 34))", // cadeau 3 : bleu/argent
+      "linear-gradient(135deg, rgb(189, 86, 215), rgb(252, 133, 224))"  // cadeau 4 : or
+    ];
+
+// 🔁 Dupliquer les slides 3 fois pour l’effet infini
+for (let i = 0; i < 2; i++) { // déjà 1 original + 2 copies = 3
+  slides.forEach(slide => {
+    const clone = slide.cloneNode(true);
+    track.appendChild(clone);
+  });
+}
+
+// Mettre à jour la position
+function updateSlide() {
+  track.style.transition = "transform 0.5s ease";
+  track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+}
+
+// Mettre à jour la couleur des boutons
+function updateButtonColor() {
+  const color = buttonColors[currentIndex % buttonColors.length];
+  nextButton.style.background = color;
+  prevButton.style.background = color;
+}
+
+// Initialisation
+updateSlide();
+updateButtonColor();
+
+// ▶ Bouton "suivant"
+nextButton.addEventListener('click', () => {
+  currentIndex++;
+  updateSlide();
+  updateButtonColor();
+
+  // Reset discret si trop loin
+  if (currentIndex >= slides.length * 2) {
+    setTimeout(() => {
+      track.style.transition = "none";
+      currentIndex = currentIndex % slides.length;
+      track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+    }, 500);
+  }
+});
+
+// ◀ Bouton "précédent"
+prevButton.addEventListener('click', () => {
+  currentIndex--;
+  updateSlide();
+  updateButtonColor();
+
+  // Reset discret si trop loin en arrière
+  if (currentIndex < 0) {
+    setTimeout(() => {
+      track.style.transition = "none";
+      currentIndex = slides.length - 1;
+      track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+    }, 500);
+  }
+});
+
+  </script>
+</body>
+</html>
