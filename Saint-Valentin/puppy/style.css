@@ -265,12 +265,6 @@
     display: block;
 }
 
-.title h6 {
-    font-size: 25px;    /* plus petit */
-    margin: 0.25em 0 0;
-    line-height: 1.2;
-    display: block;
-}
 .buttons {
     margin: 0.25em 0 0;
     line-height: 1.2;
