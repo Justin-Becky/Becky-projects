@@ -1,0 +1,92 @@
+/* Fond */
+body {
+  background: linear-gradient(to bottom, #ffcccc, #ffe6e6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  overflow: hidden;
+}
+
+/* ❤️ Coeurs flottants */
+#floating-hearts {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.floating-heart {
+  position: absolute;
+  bottom: -20px;
+  animation: rise linear forwards;
+  opacity: 0.9;
+}
+
+@keyframes rise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120vh) scale(1.5);
+    opacity: 0;
+  }
+}
+
+#envelope {
+  align-items: center;
+  position:relative;
+  width: 280px;
+  height: 180px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  margin-left: auto;
+  margin-right: auto;
+  margin: auto;
+  background-color: #b30000;
+  box-shadow: 0 4px 20px rgba(90, 0, 0, 0.2);
+}
+
+.name {
+  position: absolute;
+  top: 100px;
+  left: 35%;
+  transform: translateX(-50%);
+  font-size: 22px;
+  font-weight: bold;
+  color: #ffffff; 
+  z-index: 4;
+  white-space: nowrap; 
+    font-family: 'Great Vibes', cursive;
+}
+
+.front {
+  position: absolute;
+  width: 0;
+  height: 0;
+  z-index: 3;
+}
+.flap {
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-bottom: 82px solid transparent;
+  /* a little smaller */
+  border-top: 98px solid #720000;
+  /* a little larger */
+  transform-origin: top;
+  pointer-events: none;
+}
+
+.pocket {
+  border-left: 140px solid #ff0000;
+  border-right: 140px solid #ff0000;
+  border-bottom: 90px solid #d80000;
+  border-top: 90px solid transparent;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Secret Card</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Conteneur des coeurs -->
+    <div id="floating-hearts"></div>
+
+    <div class="envlope-wrapper">
+        <div id="envelope" class="close">
+            <div class="front flap"></div>
+            <div class="front pocket"></div>
+            <div class="front name">Becky 💜</div>
+        </div>
+    </div>
+
+    <script>
+        // 🔥 Redirection simple au clic
+        document.getElementById("envelope").addEventListener("click", () => {
+            window.location.href = "Can we go on a date/index.html";
+        });
+
+        // ❤️ Génération des coeurs flottants
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("floating-heart");
+            heart.textContent = "❤️";
+
+            // Position horizontale aléatoire
+            heart.style.left = Math.random() * 100 + "vw";
+
+            // Taille aléatoire
+            const size = Math.random() * 30 + 30;
+            heart.style.fontSize = size + "px";
+
+            // Durée aléatoire
+            const duration = Math.random() * 3 + 3;
+            heart.style.animationDuration = duration + "s";
+
+            document.getElementById("floating-hearts").appendChild(heart);
+
+            // Suppression après animation
+            setTimeout(() => heart.remove(), duration * 1000);
+        }
+
+        // Un cœur toutes les 300ms
+        setInterval(createHeart, 300);
+    </script>
+
+</body>
+</html>
