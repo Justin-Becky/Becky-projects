@@ -81,6 +81,64 @@
     }
   </style>
 </head>
+
+<style>
+  /* style pour l'overlay cadenas et la modale */
+  .card-lock-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));
+    pointer-events: none;
+    border-radius: 12px;
+  }
+  .card-lock-icon {
+    pointer-events: auto;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 8px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 14px;
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
+  .card.locked { position: relative; }
+  /* modale simple */
+  .date-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  .date-modal {
+    background: #fff;
+    color: #111;
+    padding: 18px;
+    border-radius: 12px;
+    max-width: 420px;
+    width: calc(100% - 40px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    text-align: center;
+  }
+  .date-modal button {
+    margin-top: 12px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: none;
+    background: #ff4081;
+    color: #fff;
+    cursor: pointer;
+  }
+</style>
+
 <body>
   <header>
     <h1>Mes mini-projets 💕</h1>
@@ -106,7 +164,7 @@
   <a href="cadeau-de-noel/index.html" style="text-decoration:none; color:inherit;" target="_blank">
       <img src="cadeau-de-noel/cadeau-de-noel-1/fleures/fleures.png" alt="Projet 2">
       <div class="card-content">
-        <h3>Projet 2 : Ton cdeau de Noel 2025</h3>
+        <h3>Projet 2 : Ton cadeau de Noel 2025</h3>
         <p>C'est une surprise, essaye même pas de clicker dessus, ça ne va pas fonctionner</p>
       </div>
   </a>
@@ -128,6 +186,28 @@
         </button>
       </div>
     </div>
+
+        <div class="card">
+      <a data-lock="valentine" data-href="cadeau-Saint-Valentin/index.html" style="text-decoration:none; color:inherit;">
+      <img src="cadeau-Saint-Valentin/cadeau-etoile.png" alt="Projet 4">
+      <div class="card-content">
+        <h3>Projet 4 : Ton cadeau de Saint-Valentin</h3>
+        <p>C'est une surprise pour le 14, essaye même pas de clicker dessus, ça ne va pas fonctionner</p>
+      </div>
+  </a>
+        <button class="like-btn" onclick="likeProject(this)">
+          ❤️ Like <span>0</span>
+        </button>
+    </div>
+
+      <!-- Modale -->
+  <div id="dateModalBackdrop" class="date-modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="date-modal" role="document">
+      <div id="dateModalMessage">Patience… ce cadeau sera disponible le 14 février 2026.</div>
+      <button id="dateModalClose">D'accord</button>
+    </div>
+  </div>
+
   </section>
 
   <script>
@@ -137,6 +217,111 @@
       count++;
       counter.textContent = count;
     }
+
+    // Lock logic (Québec timezone)
+    (function() {
+      // Sélecteur du lien verrouillé
+      const link = document.querySelector('a[data-lock="valentine"]');
+      if (!link) return;
+
+      const card = link.closest('.card');
+      if (!card) return;
+
+      // Date de déverrouillage (début du 14 février 2026, heure locale Québec)
+      const unlockDateString = '2026-02-14T00:00:00';
+
+      function nowInQuebec() {
+        return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Toronto' }));
+      }
+
+      function unlockDateInQuebec() {
+        return new Date(new Date(unlockDateString).toLocaleString('en-US', { timeZone: 'America/Toronto' }));
+      }
+
+      // Overlay
+      function addLockOverlay() {
+        card.classList.add('locked');
+        if (card.querySelector('.card-lock-overlay')) return;
+        const overlay = document.createElement('div');
+        overlay.className = 'card-lock-overlay';
+        overlay.innerHTML = '<div class="card-lock-icon" aria-hidden="true">🔒 Verrouillé</div>';
+        card.appendChild(overlay);
+        link.setAttribute('aria-disabled', 'true');
+        // remove href if present
+        if (link.getAttribute('href')) {
+          link.dataset.href = link.getAttribute('href');
+          link.removeAttribute('href');
+        }
+        link.style.pointerEvents = 'none';
+      }
+
+function removeLockOverlay() {
+    console.log('removeLockOverlay called');
+  card.classList.remove('locked');
+  const overlay = card.querySelector('.card-lock-overlay');
+  if (overlay) overlay.remove();
+  if (link.dataset.href) {
+    link.setAttribute('href', link.dataset.href);
+    link.removeAttribute('aria-disabled');
+    link.style.pointerEvents = '';
+  }
+}
+
+      // Modal
+      const backdrop = document.getElementById('dateModalBackdrop');
+      const closeBtn = document.getElementById('dateModalClose');
+      function showModal(message) {
+        document.getElementById('dateModalMessage').textContent = message;
+        backdrop.style.display = 'flex';
+        backdrop.setAttribute('aria-hidden', 'false');
+        closeBtn.focus();
+      }
+      function hideModal() {
+        backdrop.style.display = 'none';
+        backdrop.setAttribute('aria-hidden', 'true');
+      }
+      closeBtn.addEventListener('click', hideModal);
+      backdrop.addEventListener('click', (e) => { if (e.target === backdrop) hideModal(); });
+
+      // Initial state
+      if (link.getAttribute('data-href') && !link.getAttribute('href')) {
+        // keep original href in data-href
+      } else if (link.getAttribute('href')) {
+        link.dataset.href = link.getAttribute('href');
+        link.removeAttribute('href');
+      }
+
+      function checkAndApplyLock() {
+        const now = nowInQuebec();
+        const unlock = unlockDateInQuebec();
+        if (now >= unlock) {
+          removeLockOverlay();
+        } else {
+          addLockOverlay();
+        }
+      }
+
+      // Intercept click to show modal if locked
+      link.addEventListener('click', function(e) {
+        const now = nowInQuebec();
+        const unlock = unlockDateInQuebec();
+        if (now < unlock) {
+          e.preventDefault();
+          const options = {
+            date: unlock.toLocaleString('fr-CA', { timeZone: 'America/Toronto', year: 'numeric', month: 'long', day: 'numeric' })
+          };
+ showModal(`Patience… ce cadeau sera disponible le ${options.date} (heure du Québec).`);
+        }
+      });
+
+      // Run initial check and poll every 30s
+      checkAndApplyLock();
+      const timer = setInterval(() => {
+        checkAndApplyLock();
+        if (nowInQuebec() >= unlockDateInQuebec()) clearInterval(timer);
+      }, 30_00);
+    })();
+
   </script>
 </body>
 </html>
