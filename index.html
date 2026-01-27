@@ -252,7 +252,6 @@
           link.dataset.href = link.getAttribute('href');
           link.removeAttribute('href');
         }
-        link.style.pointerEvents = 'none';
       }
 
 function removeLockOverlay() {
@@ -310,7 +309,7 @@ function removeLockOverlay() {
           const options = {
             date: unlock.toLocaleString('fr-CA', { timeZone: 'America/Toronto', year: 'numeric', month: 'long', day: 'numeric' })
           };
- showModal(`Patience… ce cadeau sera disponible le ${options.date} (heure du Québec).`);
+ showModal(`Patience… ce cadeau sera disponible le ${options.date}.`);
         }
       });
 
