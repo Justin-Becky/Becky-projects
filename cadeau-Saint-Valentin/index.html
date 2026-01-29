@@ -134,7 +134,10 @@
         <button id="pulseBtn" class="theme-btn" type="button" title="Click for pulse. Hold to charge.">Pulse</button>
     </div>
     <div id="action-buttons">
-        <button id="secretBtn" class="theme-btn" type="button" title="Click to discover a secret.">Secret</button>
+        <button id="secretBtn1" class="theme-btn" type="button" title="Click to discover a secret.">Secret 1</button>
+    </div>
+        <div id="action-buttons">
+        <button id="secretBtn2" class="theme-btn" type="button" title="Click to discover a secret.">Secret 2</button>
     </div>
     <div class="toggle-option">
         <label for="animateToggle">Animate</label>
@@ -518,9 +521,14 @@
         composer.render();
     }
 
-  const secretBtn = document.getElementById('secretBtn');
-  secretBtn.addEventListener('click', () => {
-    window.location.href = "coeur-animated/index.html";
+  const secretBtn1 = document.getElementById('secretBtn1');
+  secretBtn1.addEventListener('click', () => {
+      window.open("coeur-animated/index.html", "_blank");
+  });
+
+    const secretBtn2 = document.getElementById('secretBtn2');
+  secretBtn2.addEventListener('click', () => {
+      window.open("coeur-animated/index.html", "_blank");
   });
 
 </script>
