@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1b5e20">
+  <title>Hydro-Plante</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Hydro-Plante</h1>
+    </header>
+    <main class="main">
+      <div class="plant-area" id="plantArea" aria-live="polite" role="status">
+        <span class="plant-emoji" id="plantEmoji" aria-hidden="true"></span>
+        <p class="plant-status" id="plantStatus"></p>
+      </div>
+      <button type="button" class="water-btn" id="waterBtn">Arroser la plante</button>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
