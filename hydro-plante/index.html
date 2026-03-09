@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1b5e20">
+  <title>Hydro-Plante</title>
+  <link rel="apple-touch-icon" href="images/icon.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="images/icon.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Hydro-Plante</h1>
+      <p class="user-indicator" id="userIndicator"></p>
+    </header>
+    <main class="main">
+      <!-- Nouveau compteur de temps -->
+      <div class="timer-container">
+        <div class="timer-label">Dernière hydratation</div>
+        <div class="timer-display" id="timerDisplay">
+          <span class="timer-hours" id="timerHours">0</span>h
+          <span class="timer-minutes" id="timerMinutes">00</span>min
+        </div>
+      </div>
+
+      <div class="plant-area" id="plantArea" aria-live="polite" role="status">
+        <img class="plant-emoji" id="plantEmoji" alt="État de la plante" />
+        <p class="plant-status" id="plantStatus"></p>
+        <div class="streak-counter" id="streakCounter">
+          <div class="streak-label">Série</div>
+          <div class="streak-value" id="streakValue">0</div>
+          <div class="streak-flame">🔥</div>
+          <div class="streak-sub">jours</div>
+        </div>
+        <div class="drink-counter" id="drinkCounter">
+          <div class="drink-counter-label">Verres</div>
+          <div class="drink-counter-value" id="drinkCount">0</div>
+          <div class="drink-counter-sub">aujourd'hui</div>
+          <div class="drink-dots" id="drinkDots"></div>
+        </div>
+      </div>
+      <!-- Menu d'évolution (icône toujours visible, menu s'ouvre au clic) -->
+      <div class="evo-container" id="evoContainer">
+        <button class="evo-trigger" id="evoTrigger" type="button"
+                aria-label="Styles de plante" aria-expanded="false">
+          <span class="evo-icon">🌿</span>
+          <span class="evo-trigger-label" id="evoTriggerLabel">Aucune évolution</span>
+        </button>
+        <div class="evo-menu" id="evoMenu"></div>
+      </div>
+      <div class="action-buttons">
+        <button type="button" class="water-btn" id="waterBtn">Arroser la plante</button>
+        <div class="pause-container">
+          <button type="button" class="pause-btn" id="pauseBtn">Pause</button>
+          <button type="button" class="pause-btn cancel" id="cancelPauseBtn" style="display:none">Annuler pause</button>
+          <div class="pause-menu" id="pauseMenu">
+            <button type="button" class="pause-option" data-ms="1800000">30 min</button>
+            <button type="button" class="pause-option" data-ms="3600000">1h</button>
+            <button type="button" class="pause-option" data-ms="7200000">2h</button>
+          </div>
+        </div>
+      </div>
+      <div class="sync-status" id="syncStatus" aria-live="polite"></div>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
