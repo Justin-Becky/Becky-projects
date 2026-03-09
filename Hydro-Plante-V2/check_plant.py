@@ -10,6 +10,8 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime, timedelta, timezone
 
+EMAILS = Flase
+
 # Configuration
 PLANT_STATE_FILE = "plant_state.json"
 THRESHOLD_WILTED_H = 2  # heures sans eau → fanée
@@ -162,15 +164,18 @@ def main():
     print(f"État actuel : {plant_status}")
     if elapsed_hours is not None:
         print(f"Dernière eau il y a {elapsed_hours:.2f} heures")
-    
-    # Vérifier si on doit envoyer une notification
-    if should_send_notification(state, elapsed_hours):
-        recipient = os.environ.get("RECIPIENT_EMAIL")
-        if recipient and send_email(recipient, plant_status, elapsed_hours):
-            state["last_notification"] = datetime.now().isoformat()
-            save_plant_state(state)
+
+    if EMAILS: 
+        # Vérifier si on doit envoyer une notification
+        if should_send_notification(state, elapsed_hours):
+            recipient = os.environ.get("RECIPIENT_EMAIL")
+            if recipient and send_email(recipient, plant_status, elapsed_hours):
+                state["last_notification"] = datetime.now().isoformat()
+                save_plant_state(state)
+        else:
+            print("Pas de notification à envoyer pour le moment")
     else:
-        print("Pas de notification à envoyer pour le moment")
+        continue
 
 if __name__ == "__main__":
     main()
