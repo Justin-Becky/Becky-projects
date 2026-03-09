@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <!-- Favicon navigateur -->
+<link rel="icon" type="image/png" href="icon.png">
+
+<!-- Icône écran d'accueil iOS -->
+<link rel="apple-touch-icon" href="icon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Genou — Style THP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #0d0d0d;
+    --surface: #161616;
+    --card: #1c1c1c;
+    --accent: #e8c547;
+    --accent2: #4ecdc4;
+    --text: #f0ede8;
+    --muted: #888;
+    --border: #2a2a2a;
+    --danger: #ff6b6b;
+    --green: #6bcb77;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .hero {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 56px 40px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,197,71,0.08) 0%, transparent 70%);
+  }
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 8vw, 88px);
+    line-height: 0.9;
+    color: var(--text);
+    letter-spacing: 2px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    margin-top: 20px;
+    color: var(--muted);
+    font-size: 14px;
+    max-width: 540px;
+  }
+
+  .tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 24px;
+  }
+  .tag {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .tag.accent { border-color: var(--accent); color: var(--accent); }
+
+  /* NAV PHASES */
+  .phase-nav {
+    display: flex;
+    gap: 0;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+  }
+  .phase-btn {
+    padding: 16px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    border: none;
+    border-bottom: 3px solid transparent;
+    background: none;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .phase-btn:hover { color: var(--text); }
+  .phase-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* MAIN */
+  .container { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+
+  .phase-section { display: none; }
+  .phase-section.active { display: block; }
+
+  /* PHASE HEADER */
+  .phase-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .phase-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--border);
+    flex-shrink: 0;
+  }
+  .phase-info h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 1px;
+    color: var(--text);
+  }
+  .phase-info p { color: var(--muted); font-size: 14px; margin-top: 4px; }
+  .phase-duration {
+    display: inline-block;
+    background: var(--accent);
+    color: #000;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 3px;
+    margin-top: 8px;
+  }
+
+  /* PRINCIPLE BOX */
+  .principle-box {
+    background: var(--card);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin-bottom: 32px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .principle-box strong { color: var(--text); }
+
+  /* SESSION CARD */
+  .session-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 8px;
+    margin-top: 32px;
+  }
+  .session-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 1px;
+    color: var(--text);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* WARMUP */
+  .section-title {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    margin-top: 24px;
+  }
+
+  /* EXERCISE TABLE */
+  .ex-table { width: 100%; border-collapse: collapse; }
+  .ex-table thead th {
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 500;
+  }
+  .ex-table tbody tr { border-bottom: 1px solid var(--border); }
+  .ex-table tbody tr:last-child { border-bottom: none; }
+  .ex-table tbody td {
+    padding: 14px 12px;
+    vertical-align: top;
+    font-size: 14px;
+  }
+  .ex-name { font-weight: 500; color: var(--text); }
+  .ex-note { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .ex-sets { color: var(--accent); font-weight: 600; white-space: nowrap; }
+  .ex-tempo { color: var(--accent2); font-size: 13px; white-space: nowrap; }
+  .ex-rest { color: var(--muted); font-size: 13px; white-space: nowrap; }
+
+  /* ISO BADGE */
+  .iso-badge {
+    display: inline-block;
+    background: rgba(232,197,71,0.12);
+    border: 1px solid rgba(232,197,71,0.3);
+    color: var(--accent);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  /* ALERT */
+  .alert {
+    background: rgba(255,107,107,0.06);
+    border: 1px solid rgba(255,107,107,0.2);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 24px;
+  }
+  .alert strong { color: var(--danger); }
+
+  .tip-box {
+    background: rgba(107,203,119,0.06);
+    border: 1px solid rgba(107,203,119,0.2);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 16px;
+  }
+  .tip-box strong { color: var(--green); }
+
+  /* PROGRESSION */
+  .progress-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .progress-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+  }
+  .progress-card .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .progress-card .label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .hero { padding: 36px 20px 28px; }
+    .container { padding: 28px 16px; }
+    .phase-header { flex-direction: column; gap: 8px; }
+    .phase-num { font-size: 48px; }
+    .ex-table thead th:nth-child(3),
+    .ex-table tbody td:nth-child(3) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">Plan d'entraînement personnalisé — Style THP</div>
+  <h1>GENOU<br><span>EN SANTÉ</span></h1>
+  <p class="hero-sub">Programme progressif 12 semaines axé sur la récupération du genou gauche, la force isométrique, et la construction d'une base solide avant de progresser vers des mouvements explosifs.</p>
+  <div class="tags">
+    <div class="tag accent">3x / semaine</div>
+    <div class="tag accent">Genou gauche — pincement</div>
+    <div class="tag accent">12 semaines</div>
+  </div>
+</div>
+
+<div class="phase-nav">
+  <button class="phase-btn active" onclick="showPhase(0)">Phase 1 — Isométrique</button>
+  <button class="phase-btn" onclick="showPhase(1)">Phase 2 — Contrôle excentrique</button>
+  <button class="phase-btn" onclick="showPhase(2)">Phase 3 — Force lente</button>
+  <button class="phase-btn" onclick="showPhase(3)">Principes clés</button>
+</div>
+
+<div class="container">
+
+  <!-- ======================== PHASE 1 ======================== -->
+  <div class="phase-section active" id="phase-0">
+    <div class="phase-header">
+      <div class="phase-num">01</div>
+      <div class="phase-info">
+        <h2>FONDATION ISOMÉTRIQUE</h2>
+        <p>Réactiver les tissus du genou sans stress articulaire. Construire la connexion neuro-musculaire.</p>
+        <span class="phase-duration">Semaines 1 à 4</span>
+      </div>
+    </div>
+
+    <div class="principle-box">
+      <strong>Principe THP :</strong> L'isométrique est la porte d'entrée. Elle réduit la douleur, active le quad et prépare le tendon à recevoir de la charge. Chaque séance commence avec ça, sans exception. Tu devrais même en faire à la maison pour tes jours de repos et avant la danse.
+    </div>
+
+    <!-- SESSION A -->
+    <div class="session-label">Séance A — Lundi (ou Jour 1)</div>
+    <div class="session-title">BAS DU CORPS + TRONC</div>
+
+        <div class="section-title">💪 Isométrique</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Sets × Durée</th><th>Rest</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">Leg extension isométrique <span class="iso-badge">ISO</span></span></td>
+          <td class="ex-sets">4 × 45s</td>
+          <td class="ex-rest">Quand tu es prêt</td>
+        </tr>
+      </tbody>
+    </table>
+
+        <div class="section-title">🔥 Échauffement — 10 min</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Durée / Reps</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ex-name">Toe Touch</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Deep Squat</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Lunge</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Arm Cicles</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Side Lunge</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Leg Swings</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Kneeling Ankle Stretch</span></td><td>30s</td></tr>
+      </tbody>
+    </table>
+
+            <div class="section-title">🔥 Échauffement avec barre — 5 min</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Reps</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">Overhead Press</span></td>
+          <td class="ex-sets">5</td>
+          </tr>
+        <tr>
+          <td><span class="ex-name">Front squat</span></td>
+          <td class="ex-sets">5</td>
+          </tr>
+        <tr>
+          <td><span class="ex-name">Back Squat</span></td>
+          <td class="ex-sets">5</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="section-title">🦵 Bloc 1 — Exercices principaux</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Sets × Reps</th><th>Tempo</th><th>Rest</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">Goblet Squat — Box squat (jusqu'à la boîte)</span><div class="ex-note">Descendre seulement jusqu'à une hauteur sans douleur (boîte ou banc haut)</div></td>
+          <td class="ex-sets">3 × 10</td>
+          <td class="ex-tempo">3-0-1-0</td>
+          <td class="ex-rest">90s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Leg press — amplitude réduite</span><div class="ex-note">Pieds hauts sur la plateforme. Descendre à 90° max, sans douleur.</div></td>
+          <td class="ex-sets">3 × 12</td>
+          <td class="ex-tempo">3-1-2-0</td>
+          <td class="ex-rest">90s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Hip thrust avec barre (ou DB)</span><div class="ex-note">Extension de hanche pure. Protège le genou, renforce le fessier = moins de stress sur le genou.</div></td>
+          <td class="ex-sets">3 × 12</td>
+          <td class="ex-tempo">2-2-1-0</td>
+          <td class="ex-rest">75s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Leg curl couché (unilatéral)</span><div class="ex-note">Commencer par le côté gauche pour identifier le manque de force.</div></td>
+          <td class="ex-sets">3 × 10/côté</td>
+          <td class="ex-tempo">3-1-2-0</td>
+          <td class="ex-rest">75s</td>
+        </tr>
+                <tr>
+          <td><span class="ex-name">Seated Calf Raise (ou debout ou à la smith machine)</span><div class="ex-note">Fait celui qui fait le moins mal ou celui que tu préfaires</div></td>
+          <td class="ex-sets">3 × 10</td>
+          <td class="ex-tempo">3-0-2-0</td>
+          <td class="ex-rest">60s</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="section-title">🧱 Bloc 2 — Tronc</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Sets × Reps</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ex-name">Planche avant</span></td><td class="ex-sets">3 × 30s</td><td>Progression : +5s/semaine</td></tr>
+        <tr><td><span class="ex-name">Dead bug</span></td><td class="ex-sets">3 × 8/côté</td><td>Dos collé au sol, lent</td></tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+
+    <!-- SESSION B -->
+    <div class="session-label">Séance B — Mercredi (ou Jour 2)</div>
+    <div class="session-title">HAUT DU CORPS + GENOU LÉGER</div>
+
+        <div class="section-title">💪 Isométrique</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Sets × Durée</th><th>Rest</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">Leg extension isométrique <span class="iso-badge">ISO</span></span></td>
+          <td class="ex-sets">4 × 45s</td>
+          <td class="ex-rest">Quand tu es prêt</td>
+        </tr>
+      </tbody>
+    </table>
+
+        <div class="section-title">🔥 Échauffement — 10 min</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Durée / Reps</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ex-name">Toe Touch</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Deep Squat</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Lunge</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Arm Cicles</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Side Lunge</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Leg Swings</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Kneeling Ankle Stretch</span></td><td>30s</td></tr>
+      </tbody>
+    </table>
+
+        <div class="section-title">🔥 Échauffement avec barre — 5 min</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Reps</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">Overhead Press</span></td>
+          <td class="ex-sets">5</td>
+          </tr>
+        <tr>
+          <td><span class="ex-name">Front squat</span></td>
+          <td class="ex-sets">5</td>
+          </tr>
+        <tr>
+          <td><span class="ex-name">Back Squat</span></td>
+          <td class="ex-sets">5</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="section-title">🦾 Haut du corps</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Sets × Reps</th><th>Tempo</th><th>Rest</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ex-name">Tirage horizontal (câble ou machine)</span></td><td class="ex-sets">4 × 10</td><td class="ex-tempo">3-1-2-0</td><td class="ex-rest">75s</td></tr>
+        <tr><td><span class="ex-name">Développé avec haltères (incliné léger)</span></td><td class="ex-sets">3 × 12</td><td class="ex-tempo">3-0-2-0</td><td class="ex-rest">75s</td></tr>
+        <tr><td><span class="ex-name">Tirage verticale (lat pulldown)</span></td><td class="ex-sets">3 × 10</td><td class="ex-tempo">3-1-2-0</td><td class="ex-rest">75s</td></tr>
+        <tr><td><span class="ex-name">Élévations latérales haltères</span></td><td class="ex-sets">3 × 15</td><td class="ex-tempo">2-0-2-0</td><td class="ex-rest">60s</td></tr>
+        <tr><td><span class="ex-name">Face pull (câble)</span></td><td class="ex-sets">3 × 15</td><td class="ex-tempo">2-1-1-0</td><td class="ex-rest">60s</td></tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+
+    <!-- SESSION C -->
+    <div class="session-label">Séance C — Vendredi (ou Jour 3)</div>
+    <div class="session-title">BAS DU CORPS — VARIATION</div>
+
+    <div class="section-title">💪 Isométrique</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Sets × Durée</th><th>Rest</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">Leg extension isométrique <span class="iso-badge">ISO</span></span></td>
+          <td class="ex-sets">4 × 45s</td>
+          <td class="ex-rest">Quand tu es prêt</td>
+        </tr>
+      </tbody>
+    </table>
+
+        <div class="section-title">🔥 Échauffement — 10 min</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Durée / Reps</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ex-name">Toe Touch</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Deep Squat</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Lunge</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Arm Cicles</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Side Lunge</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Leg Swings</span></td><td>10</td></tr>
+        <tr><td><span class="ex-name">Kneeling Ankle Stretch</span></td><td>30s</td></tr>
+      </tbody>
+    </table>
+
+        <div class="section-title">🔥 Échauffement avec barre — 5 min</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Reps</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">Overhead Press</span></td>
+          <td class="ex-sets">5</td>
+          </tr>
+        <tr>
+          <td><span class="ex-name">Front squat</span></td>
+          <td class="ex-sets">5</td>
+          </tr>
+        <tr>
+          <td><span class="ex-name">Back Squat</span></td>
+          <td class="ex-sets">5</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="section-title">🦵 Bas du corps</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Sets × Reps</th><th>Tempo</th><th>Rest</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">Step-up sur boîte basse (20cm)</span><div class="ex-note">Monter avec le gauche, redescendre lentement. Contrôle total.</div></td>
+          <td class="ex-sets">3 × 10/côté</td>
+          <td class="ex-tempo">2-0-3-0</td>
+          <td class="ex-rest">90s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Romanian deadlift (RDL) haltères</span><div class="ex-note">Peu de stress sur le genou, beaucoup sur les ischio et fessier.</div></td>
+          <td class="ex-sets">3 × 10</td>
+          <td class="ex-tempo">3-1-1-0</td>
+          <td class="ex-rest">90s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Abduction de hanche (machine)</span></td>
+          <td class="ex-sets">3 × 15</td>
+          <td class="ex-tempo">2-1-2-0</td>
+          <td class="ex-rest">60s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Calf raise (machine ou debout)</span></td>
+          <td class="ex-sets">4 × 15</td>
+          <td class="ex-tempo">2-2-1-0</td>
+          <td class="ex-rest">60s</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="alert">
+      <strong>⚠️ Règle absolue :</strong> Si douleur >3/10 sur n'importe quel exercice → arrêtes cet exercice. Ne jamais pousser dans la douleur. Un léger inconfort (1-2/10) est acceptable, surtout sur l'isométrique.
+    </div>
+    <div class="tip-box">
+      <strong>✅ Signal de progression :</strong> À la fin de la semaine 4, si le genou répond bien (pas de douleur le soir, pas de gonflement), passes à la Phase 2.
+    </div>
+  </div>
+
+  <!-- ======================== PHASE 2 ======================== -->
+  <div class="phase-section" id="phase-1">
+    <div class="phase-header">
+      <div class="phase-num">02</div>
+      <div class="phase-info">
+        <h2>CONTRÔLE EXCENTRIQUE</h2>
+        <p>Charger le tendon et les structures du genou via des excentriques lents. Phase de remodelage tissulaire.</p>
+        <span class="phase-duration">Semaines 5 à 8</span>
+      </div>
+    </div>
+
+    <div class="principle-box">
+      <strong>Principe THP :</strong> L'excentrique lent est ce qui remodelise le tendon rotulien. On allonge le temps sous tension vers le bas. Le genou apprend à absorber la charge progressivement. On garde l'ISO mais on ajoute maintenant du mouvement contrôlé.
+    </div>
+
+    <div class="section-title">💪 Ancre isométrique — Évolution Phase 2</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Sets × Durée</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">Leg extension isométrique <span class="iso-badge">ISO</span></span><div class="ex-note">Augmenter légèrement le poids si toléré. Tenir 45s au lieu de 30s.</div></td>
+          <td class="ex-sets">4 × 45s</td>
+          <td>+5-10% charge si 30s était facile</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="section-title">🆕 Exercices ajoutés / modifiés en Phase 2</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Sets × Reps</th><th>Tempo clé</th><th>Rest</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">Leg extension excentrique</span><div class="ex-note">Monter avec les deux jambes (ou en aidant avec les mains), descendre avec une jambe en 4-5 secondes. Genou gauche = côté à travailler.</div></td>
+          <td class="ex-sets">4 × 8</td>
+          <td class="ex-tempo">1-0-5-0 (descente lente)</td>
+          <td class="ex-rest">2 min</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Squat bulgare (poids léger ou poids du corps)</span><div class="ex-note">Pied arrière sur banc. Descente lente. Amplitude réduite si douleur.</div></td>
+          <td class="ex-sets">3 × 8/côté</td>
+          <td class="ex-tempo">4-1-2-0</td>
+          <td class="ex-rest">90s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Step-down excentrique (boîte 25-30cm)</span><div class="ex-note">Debout sur la boîte, descendre sur UNE jambe (gauche) en 4 sec. Revenir en posant les deux pieds.</div></td>
+          <td class="ex-sets">3 × 10/côté</td>
+          <td class="ex-tempo">4s descente</td>
+          <td class="ex-rest">90s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Leg press unilatéral (jambe gauche)</span><div class="ex-note">Amplitude progressive. Comparer la force G vs D.</div></td>
+          <td class="ex-sets">3 × 10</td>
+          <td class="ex-tempo">3-1-2-0</td>
+          <td class="ex-rest">90s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Nordic curl (partiel ou avec aide)</span><div class="ex-note">Renforcement ischio. Protège le genou en le stabilisant . Commencer avec une amplitude très réduite.</div></td>
+          <td class="ex-sets">3 × 5</td>
+          <td class="ex-tempo">Lent — contrôler la descente</td>
+          <td class="ex-rest">2 min</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tip-box">
+      <strong>✅ Signal de progression :</strong> À la fin de la semaine 8, si le genou ne réagit plus après les séances, si le step-down est possible sans douleur, et si le leg ext excentrique est fluide → Phase 3.
+    </div>
+
+    <div class="alert">
+      <strong>⚠️ Lendemain de séance :</strong> Un léger inconfort le lendemain est normal et attendu (tendon en remodelage). Si douleur persiste >48h ou augmente de séance en séance → ralentir et rester en Phase 2 plus longtemps.
+    </div>
+  </div>
+
+  <!-- ======================== PHASE 3 ======================== -->
+  <div class="phase-section" id="phase-2">
+    <div class="phase-header">
+      <div class="phase-num">03</div>
+      <div class="phase-info">
+        <h2>FORCE LENTE → DYNAMIQUE</h2>
+        <p>Introduction de la charge plus lourde, puis début de mouvements avec légère composante réactive.</p>
+        <span class="phase-duration">Semaines 9 à 12</span>
+      </div>
+    </div>
+
+    <div class="principle-box">
+      <strong>Principe THP :</strong> Le genou est maintenant conditionné. On peut charger avec des squats, des fentes, et commencer à retirer le "frein" sur la vitesse d'exécution. L'isométrique reste comme outil de maintenance, pas de disparition.
+    </div>
+
+    <div class="section-title">💪 Ancre isométrique — Maintenance</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Sets × Durée</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">Leg extension isométrique <span class="iso-badge">ISO</span></span></td>
+          <td class="ex-sets">3 × 45s</td>
+          <td>Maintenu toute la Phase 3 (et à l'infini en prévention de blessure)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="section-title">🆕 Exercices Phase 3 — Plus de charge, début de vitesse</div>
+    <table class="ex-table">
+      <thead><tr><th>Exercice</th><th>Sets × Reps</th><th>Tempo</th><th>Rest</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">Back Squat ou Goblet Squat chargé</span><div class="ex-note">Amplitude complète si tolérée. Montée contrôlée mais plus rapide qu'avant.</div></td>
+          <td class="ex-sets">4 × 8</td>
+          <td class="ex-tempo">3-0-2-0 → 3-0-1-0</td>
+          <td class="ex-rest">2 min</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Fentes marchées (lunges)</span><div class="ex-note">Commencer sans poids, ajouter haltères progressivement.</div></td>
+          <td class="ex-sets">3 × 10/côté</td>
+          <td class="ex-tempo">2-0-2-0</td>
+          <td class="ex-rest">90s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Step-up avec haltères (boîte 35-40cm)</span><div class="ex-note">Hauteur augmentée vs Phase 1. Contrôle toujours présent.</div></td>
+          <td class="ex-sets">3 × 10/côté</td>
+          <td class="ex-tempo">2-0-2-0</td>
+          <td class="ex-rest">90s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Leg extension — pleine amplitude</span><div class="ex-note">Maintenant en mouvement complet, tempo normal. Ajouter du poids progressivement.</div></td>
+          <td class="ex-sets">4 × 10</td>
+          <td class="ex-tempo">2-1-2-0</td>
+          <td class="ex-rest">75s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">RDL à une jambe (unilatéral)</span></td>
+          <td class="ex-sets">3 × 8/côté</td>
+          <td class="ex-tempo">3-1-2-0</td>
+          <td class="ex-rest">90s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Leg press bilatéral chargé</span><div class="ex-note">Augmenter le poids chaque semaine si le genou répond bien.</div></td>
+          <td class="ex-sets">4 × 10</td>
+          <td class="ex-tempo">3-1-2-0</td>
+          <td class="ex-rest">2 min</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="section-title">📈 Progression suggérée Semaine 9 → 12</div>
+    <div class="progress-grid">
+      <div class="progress-card">
+        <div class="num">S9–10</div>
+        <div class="label">Tempo lent maintenu. Focus sur la forme. +5% charge max/semaine.</div>
+      </div>
+      <div class="progress-card">
+        <div class="num">S11</div>
+        <div class="label">Accélérer légèrement la montée (phase concentrique). Poids plus élevé.</div>
+      </div>
+      <div class="progress-card">
+        <div class="num">S12</div>
+        <div class="label">Évaluation complète. Genou prêt pour un programme hypertrophie/force classique si tout va bien.</div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>✅ Après 12 semaines :</strong> Si le genou ne réagit plus du tout — ni pendant ni après les séances — tu vas pouvoir intégrer un programme standard avec mouvements plus rapides. L'isométrique devient un outil de prévention plutôt que de réhabilitation.
+    </div>
+  </div>
+
+  <!-- ======================== PRINCIPES ======================== -->
+  <div class="phase-section" id="phase-3">
+    <div class="phase-header">
+      <div class="phase-num">📋</div>
+      <div class="phase-info">
+        <h2>PRINCIPES CLÉS</h2>
+        <p>Les règles qui guident tout le programme. À lire au moins une fois comme il le faut et y revenir quand tu y as besoin.</p>
+      </div>
+    </div>
+
+    <div class="section-title">LECTURE DU TEMPO</div>
+    <div class="principle-box">
+      Le tempo est affiché en 4 chiffres : <strong>Excentrique – Pause bas – Concentrique – Pause haut</strong><br><br>
+      Exemple : <strong>3-1-2-0</strong> = 3 secondes pour descendre, 1 sec de pause en bas, 2 sec pour monter, 0 pause en haut.<br><br>
+      C'est la clé du programme. Ralentir le mouvement = plus de signal pour le tendon, moins de charge articualaire brutale.
+    </div>
+
+    <div class="section-title">GESTION DE LA DOULEUR</div>
+    <table class="ex-table">
+      <thead><tr><th>Niveau de douleur</th><th>Quoi faire</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--green)">0-2 / 10</strong></td><td>Contunues, C'est dans la zone sécuritaire.</td></tr>
+        <tr><td><strong style="color:var(--accent)">3-4 / 10</strong></td><td>Rédui le poids ou l'amplitude. N'arrêter pas complètement.</td></tr>
+        <tr><td><strong style="color:var(--danger)">5+ / 10</strong></td><td>Arrêtes l'exercice. Passes à autre chose. On va réévaluer la semaine suivante.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-title">ISOMÉTRIQUE — POURQUOI C'EST EN PREMIER</div>
+    <div class="principle-box">
+      Les isométriques de leg extension à 60° de flexion activent le quad <strong>sans cisaillement rotulien</strong>. Elles ont un effet <strong>analgésique immédiat</strong> (réduction de la douleur pour les 30-45 min qui suivent) et renforcent le tendon sans le stresser en mouvement. C'est pour ça qu'on les fait avant chaque séance — pour "ouvrir" le genou avant de le charger.
+    </div>
+
+    <div class="section-title">PROGRESSION SEMAINE PAR SEMAINE</div>
+    <table class="ex-table">
+      <thead><tr><th>Règle</th><th>Application</th></tr></thead>
+      <tbody>
+        <tr><td>Augmentation de charge</td><td>Maximum +5% par semaine. Ne jamais sauter une charge.</td></tr>
+        <tr><td>Si une séance fait mal le soir</td><td>Réduire le volume (pas le poids) la séance suivante.</td></tr>
+        <tr><td>Priorité unilatérale</td><td>Toujours comparer G vs D. L'objectif = symétrie.</td></tr>
+        <tr><td>Repos entre séances</td><td>Minimum 1 jour. Le programme 3x/semaine est optimal pour la récupération tendineuse.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-title">CE QU'ON ÉVITE (pour l'instant)</div>
+    <div class="principle-box">
+      <strong>Pas de :</strong> sauts, sprints, exercices pliométriques, charges lourdes avec flexion profonde rapide, course à pied prolongée.<br><br>
+      <strong>Pas parce que c'est dangereux</strong>, mais parce que le tissu n'est pas encore prêt à absorber ce type de charge. C'est un <em>délai</em>, pas une interdiction permanente.
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 Note :</strong> Je ne suis pas un dieu, donc se plan n'est pas magique. Si jamais la douleur augmente, persiste au repos ou s'accompagne de gonflement, va consulter un physio ou un médecin.
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function showPhase(index) {
+    document.querySelectorAll('.phase-section').forEach((s, i) => {
+      s.classList.toggle('active', i === index);
+    });
+    document.querySelectorAll('.phase-btn').forEach((b, i) => {
+      b.classList.toggle('active', i === index);
+    });
+  }
+</script>
+</body>
+</html>
