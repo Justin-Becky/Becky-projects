@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Date Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Caveat:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FFF8F0;
+    --blush: #F2D4C9;
+    --rose: #D4878F;
+    --dusty-rose: #C4727A;
+    --sage: #A7B5A0;
+    --deep-sage: #7A8E72;
+    --warm-brown: #8B6F5E;
+    --soft-gold: #D4A96A;
+    --charcoal: #3A3235;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--charcoal);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .page {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 40px 30px 60px;
+    position: relative;
+  }
+
+  /* Decorative background elements */
+  .page::before {
+    content: '';
+    position: fixed;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(212,135,143,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .page::after {
+    content: '';
+    position: fixed;
+    bottom: -80px;
+    left: -80px;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(167,181,160,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 50px;
+    animation: fadeDown 1s ease;
+  }
+
+  .header-deco {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .header-deco .line {
+    width: 60px;
+    height: 1px;
+    background: var(--rose);
+    opacity: 0.5;
+  }
+
+  .header-deco .heart {
+    font-size: 14px;
+    color: var(--rose);
+  }
+
+  h1 {
+    font-family: 'Caveat', cursive;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--dusty-rose);
+    line-height: 1.1;
+    letter-spacing: 1px;
+  }
+
+  .subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--warm-brown);
+    margin-top: 8px;
+    opacity: 0.8;
+    letter-spacing: 0.5px;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 20px;
+    bottom: 20px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--blush), var(--sage), var(--soft-gold), var(--rose));
+    border-radius: 2px;
+  }
+
+  /* Date Card */
+  .date-card {
+    position: relative;
+    margin-bottom: 40px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .date-card:nth-child(1) { animation-delay: 0.2s; }
+  .date-card:nth-child(2) { animation-delay: 0.4s; }
+  .date-card:nth-child(3) { animation-delay: 0.6s; }
+  .date-card:nth-child(4) { animation-delay: 0.8s; }
+
+  .date-card::before {
+    content: '';
+    position: absolute;
+    left: -33px;
+    top: 28px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2.5px solid;
+    background: var(--cream);
+    z-index: 2;
+  }
+  .date-card:nth-child(1)::before { border-color: var(--rose); }
+  .date-card:nth-child(2)::before { border-color: var(--sage); }
+  .date-card:nth-child(3)::before { border-color: var(--soft-gold); }
+  .date-card:nth-child(4)::before { border-color: var(--dusty-rose); }
+
+  .card-inner {
+    background: white;
+    border-radius: 20px;
+    padding: 28px 30px;
+    box-shadow: 0 2px 20px rgba(58,50,53,0.04), 0 0 0 1px rgba(58,50,53,0.03);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-inner:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(58,50,53,0.08), 0 0 0 1px rgba(58,50,53,0.03);
+  }
+
+  .card-inner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+  }
+  .date-card:nth-child(1) .card-inner::after { background: linear-gradient(90deg, var(--rose), var(--blush)); }
+  .date-card:nth-child(2) .card-inner::after { background: linear-gradient(90deg, var(--sage), #c5d4bf); }
+  .date-card:nth-child(3) .card-inner::after { background: linear-gradient(90deg, var(--soft-gold), #e6c997); }
+  .date-card:nth-child(4) .card-inner::after { background: linear-gradient(90deg, var(--dusty-rose), var(--rose)); }
+
+  .card-number {
+    font-family: 'Caveat', cursive;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1;
+    opacity: 0.1;
+    position: absolute;
+    top: 12px;
+    right: 20px;
+  }
+  .date-card:nth-child(1) .card-number { color: var(--rose); }
+  .date-card:nth-child(2) .card-number { color: var(--deep-sage); }
+  .date-card:nth-child(3) .card-number { color: var(--soft-gold); }
+  .date-card:nth-child(4) .card-number { color: var(--dusty-rose); }
+
+  .card-emoji {
+    font-size: 32px;
+    margin-bottom: 10px;
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+  }
+  .date-card:nth-child(2) .card-emoji { animation-delay: 0.5s; }
+  .date-card:nth-child(3) .card-emoji { animation-delay: 1s; }
+  .date-card:nth-child(4) .card-emoji { animation-delay: 1.5s; }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--charcoal);
+  }
+
+  .card-desc {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: #6b5e63;
+    font-weight: 300;
+  }
+
+  .card-tag {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 5px 14px;
+    border-radius: 30px;
+    font-family: 'Caveat', cursive;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .date-card:nth-child(1) .card-tag { background: rgba(212,135,143,0.12); color: var(--dusty-rose); }
+  .date-card:nth-child(2) .card-tag { background: rgba(167,181,160,0.18); color: var(--deep-sage); }
+  .date-card:nth-child(3) .card-tag { background: rgba(212,169,106,0.15); color: #96783a; }
+  .date-card:nth-child(4) .card-tag { background: rgba(196,114,122,0.12); color: var(--dusty-rose); }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 20px;
+    animation: fadeUp 0.8s ease 1s both;
+  }
+
+  .footer-hearts {
+    font-size: 13px;
+    letter-spacing: 6px;
+    color: var(--rose);
+    opacity: 0.4;
+    margin-bottom: 10px;
+  }
+
+  .footer-text {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: var(--warm-brown);
+    opacity: 0.6;
+  }
+
+  /* Animations */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="header">
+      <div class="header-deco">
+        <span class="line"></span>
+        <span class="heart">♥</span>
+        <span class="line"></span>
+      </div>
+      <h1>Our Date Plan</h1>
+      <p class="subtitle">four little dates, one big lovely night</p>
+      <p class="subtitle">27/03/2026</p>
+    </div>
+
+    <div class="timeline">
+
+      <!-- Date 1 -->
+      <div class="date-card">
+        <div class="card-inner">
+          <span class="card-number">01</span>
+          <div class="card-emoji">💕</div>
+          <h2 class="card-title">5 Things We Admire</h2>
+          <p class="card-desc">
+            Each of us writes down five things we admire about the other. Then we read them out loud, one by one — no peeking beforehand, you little cheater!
+          </p>
+          <span class="card-tag">♡ heartfelt & sweet</span>
+        </div>
+      </div>
+
+      <!-- Date 2 -->
+      <div class="date-card">
+        <div class="card-inner">
+          <span class="card-number">02</span>
+          <div class="card-emoji">✈️</div>
+          <h2 class="card-title">Couple Bucket List</h2>
+          <p class="card-desc">
+            We dream big together! We each brainstorm adventures, goals and silly little things we want to do as a couple — then combine them into one ultimate list.
+          </p>
+          <span class="card-tag">✦ dreamy & exciting</span>
+        </div>
+      </div>
+
+      <!-- Date 3 -->
+      <div class="date-card">
+        <div class="card-inner">
+          <span class="card-number">03</span>
+          <div class="card-emoji">✉️</div>
+          <h2 class="card-title">Letters to Our Future Selves</h2>
+          <p class="card-desc">
+            We each write a letter to our future selves — about our hopes, our love, and where we dream of being. Seal them up and open them together in a year (so now you are bounded to me for at least one more year).
+          </p>
+          <span class="card-tag">❋ meaningful & timeless</span>
+        </div>
+      </div>
+
+      <!-- Date 4 -->
+      <div class="date-card">
+        <div class="card-inner">
+          <span class="card-number">04</span>
+          <div class="card-emoji">🎨</div>
+          <h2 class="card-title">Painting Date</h2>
+          <p class="card-desc">
+            We grab some paint and canvases — we paint each other's portraits or a nature scene side by side. Masterpiece (you) or mess (me), it's going on the wall!
+          </p>
+          <span class="card-tag">✿ creative & fun</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <div class="footer-hearts">♥ ♥ ♥</div>
+      <p class="footer-text">made with love</p>
+        <p class="footer-text">Ju</p>
+    </div>
+  </div>
+</body>
+</html>
