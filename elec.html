@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide d'étude — 203-SN2-RE Électricité et magnétisme</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,400;0,500;0,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0f14;
+  --surface: #151921;
+  --surface2: #1c2230;
+  --border: #2a3040;
+  --text: #e2e6ee;
+  --text-dim: #8892a6;
+  --accent: #4ecdc4;
+  --accent2: #ff6b6b;
+  --accent3: #ffe66d;
+  --accent4: #a78bfa;
+  --accent5: #f472b6;
+  --green: #34d399;
+  --blue: #60a5fa;
+  --orange: #fb923c;
+  --radius: 12px;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* ---- NAV ---- */
+.topnav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  background: rgba(12,15,20,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex; align-items: center; gap: 1.5rem;
+  height: 56px;
+  overflow-x: auto;
+}
+.topnav a {
+  color: var(--text-dim); text-decoration:none; font-size:0.85rem;
+  font-weight:500; white-space:nowrap; transition: color .2s;
+  padding: 0.3em 0;
+  border-bottom: 2px solid transparent;
+}
+.topnav a:hover, .topnav a.active { color: var(--accent); border-color: var(--accent); }
+.topnav .brand { color: var(--accent); font-family: var(--font-display); font-size:1.1rem; margin-right:1rem; border:none; }
+
+/* ---- HERO ---- */
+.hero {
+  margin-top: 56px;
+  padding: 5rem 2rem 4rem;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  background: linear-gradient(170deg, #0c0f14 0%, #14232e 50%, #0c0f14 100%);
+}
+.hero::before {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(78,205,196,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 40%, rgba(164,139,250,0.06) 0%, transparent 60%);
+}
+.hero h1 { font-family:var(--font-display); font-size:clamp(2.2rem,5vw,3.6rem); position:relative; }
+.hero h1 span { color: var(--accent); }
+.hero p { color: var(--text-dim); font-size:1.1rem; max-width:650px; margin:1rem auto 0; position:relative; }
+
+/* ---- LAYOUT ---- */
+.container { max-width: 960px; margin: 0 auto; padding: 0 1.5rem; }
+
+section {
+  padding: 4rem 0 2rem;
+}
+section:first-of-type { padding-top: 2rem; }
+
+.section-label {
+  display:inline-block;
+  font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em;
+  padding: 0.3em 0.8em; border-radius:999px;
+  margin-bottom:1rem;
+}
+.label-p1 { background: rgba(78,205,196,0.12); color: var(--accent); }
+.label-p2 { background: rgba(164,139,250,0.12); color: var(--accent4); }
+.label-p3 { background: rgba(255,107,107,0.12); color: var(--accent2); }
+.label-concept { background: rgba(255,230,109,0.12); color: var(--accent3); }
+.label-strat { background: rgba(244,114,182,0.12); color: var(--accent5); }
+
+h2 {
+  font-family: var(--font-display); font-size: 2rem; margin-bottom: 1.2rem;
+  line-height:1.2;
+}
+h3 {
+  font-family: var(--font-display); font-size: 1.35rem; margin: 2rem 0 0.8rem;
+  color: var(--accent);
+}
+h4 {
+  font-size: 1rem; font-weight:700; margin: 1.5rem 0 0.5rem;
+  color: var(--blue);
+}
+
+p { margin-bottom: 0.9rem; }
+
+/* ---- CARDS ---- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.2rem;
+  transition: border-color .25s;
+}
+.card:hover { border-color: var(--accent); }
+.card.warn { border-left: 3px solid var(--accent2); }
+.card.tip { border-left: 3px solid var(--green); }
+.card.concept { border-left: 3px solid var(--accent3); }
+.card.strat { border-left: 3px solid var(--accent5); }
+
+.card-title {
+  font-weight:700; font-size:0.95rem; margin-bottom:0.5rem;
+  display:flex; align-items:center; gap:0.5rem;
+}
+.card-title .icon { font-size:1.1rem; }
+
+/* ---- FORMULA ---- */
+.formula {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin: 0.8rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  color: var(--accent3);
+  overflow-x: auto;
+}
+
+/* ---- TABLE ---- */
+.guide-table {
+  width:100%; border-collapse:collapse; margin:1rem 0 1.5rem; font-size:0.9rem;
+}
+.guide-table th {
+  text-align:left; padding:0.7rem 1rem; background:var(--surface2);
+  border-bottom:2px solid var(--accent); color:var(--accent); font-weight:600;
+  font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em;
+}
+.guide-table td {
+  padding:0.6rem 1rem; border-bottom:1px solid var(--border); vertical-align:top;
+}
+.guide-table tr:hover td { background: rgba(78,205,196,0.04); }
+.guide-table code {
+  font-family:var(--font-mono); font-size:0.82rem; color:var(--accent3);
+  background:var(--surface2); padding:0.15em 0.4em; border-radius:4px;
+}
+
+/* ---- TABS ---- */
+.tabs {
+  display:flex; gap:0; border-bottom:2px solid var(--border); margin-bottom:1.5rem;
+}
+.tab-btn {
+  background:none; border:none; color:var(--text-dim); font-family:var(--font-body);
+  font-size:0.9rem; font-weight:600; padding:0.7rem 1.2rem; cursor:pointer;
+  border-bottom:2px solid transparent; margin-bottom:-2px; transition:all .2s;
+}
+.tab-btn:hover { color:var(--text); }
+.tab-btn.active { color:var(--accent); border-color:var(--accent); }
+.tab-content { display:none; }
+.tab-content.active { display:block; animation: fadeIn .3s ease; }
+
+/* ---- QUIZ ---- */
+.quiz-q {
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:1.5rem; margin:1rem 0;
+}
+.quiz-q p.q-text { font-weight:600; margin-bottom:0.8rem; }
+.quiz-options label {
+  display:block; padding:0.5rem 0.8rem; margin:0.3rem 0; border-radius:8px;
+  cursor:pointer; transition: background .2s; font-size:0.92rem;
+}
+.quiz-options label:hover { background:var(--surface2); }
+.quiz-options input { margin-right:0.6rem; accent-color: var(--accent); }
+.quiz-feedback {
+  margin-top:0.8rem; padding:0.8rem; border-radius:8px; font-size:0.9rem; display:none;
+}
+.quiz-feedback.correct { background:rgba(52,211,153,0.1); color:var(--green); display:block; }
+.quiz-feedback.wrong { background:rgba(255,107,107,0.1); color:var(--accent2); display:block; }
+.btn-check {
+  margin-top:0.6rem; background:var(--accent); color:var(--bg); border:none;
+  padding:0.5rem 1.2rem; border-radius:8px; font-weight:600; cursor:pointer;
+  font-family:var(--font-body); font-size:0.88rem; transition: opacity .2s;
+}
+.btn-check:hover { opacity:0.85; }
+
+/* ---- UTILS ---- */
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+@media(max-width:700px){ .grid-2{grid-template-columns:1fr;} }
+.highlight { color: var(--accent); font-weight:600; }
+.highlight2 { color: var(--accent4); font-weight:600; }
+.highlight3 { color: var(--accent2); font-weight:600; }
+.small { font-size:0.85rem; color:var(--text-dim); }
+
+.divider {
+  height:1px; background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 3rem 0;
+}
+
+/* ---- SCROLL ---- */
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+
+@keyframes fadeIn { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+/* ---- FOOTER ---- */
+footer {
+  text-align:center; padding:3rem 1rem; color:var(--text-dim); font-size:0.82rem;
+  border-top:1px solid var(--border); margin-top:3rem;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a href="#" class="brand">SN2</a>
+  <a href="#ohm">Loi d'Ohm</a>
+  <a href="#kirchhoff">Kirchhoff</a>
+  <a href="#condensateurs">Condensateurs</a>
+  <a href="#rc">Circuits RC</a>
+  <a href="#strategies">Stratégies</a>
+  <a href="#quiz">Quiz</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Guide d'étude<br><span>Électricité &amp; Magnétisme</span></h1>
+  <p>203-SN2-RE — Module 2 : Loi d'Ohm, Kirchhoff, Condensateurs et Circuits RC</p>
+</div>
+
+<div class="container">
+
+<!-- ============================================================ -->
+<!-- SECTION 1: LOI D'OHM -->
+<!-- ============================================================ -->
+<section id="ohm">
+  <span class="section-label label-p2">Chapitre 3</span>
+  <h2>Loi d'Ohm &amp; Notions de base</h2>
+
+  <h3>1. La tension (différence de potentiel)</h3>
+  <p>La <span class="highlight">tension</span> (ou d.d.p.) est ce qui donne l'énergie aux électrons pour qu'ils se déplacent. Une <strong>source de tension</strong> (pile, génératrice) crée cette différence de potentiel entre ses deux bornes.</p>
+
+  <div class="card concept">
+    <div class="card-title"><span class="icon">💡</span> Concept clé — Compréhension</div>
+    <p>La <strong>force électromotrice (ε)</strong> est la tension fournie par la source. C'est elle qui «pousse» les charges dans le circuit. Sans source de tension → pas de courant.</p>
+    <p class="small">En choix de réponse : la borne positive est celle au potentiel le plus élevé, les électrons vont de la borne (−) vers (+), mais le <em>courant conventionnel</em> va de (+) vers (−).</p>
+  </div>
+
+  <h3>2. Le courant électrique</h3>
+  <p>Le <span class="highlight">courant</span> est le débit de charges dans un circuit. Il mesure combien de charges traversent un point par seconde.</p>
+
+  <div class="formula">I = dQ/dt &nbsp;&nbsp;→&nbsp;&nbsp; I = ΔQ/Δt &nbsp;&nbsp; [A = C/s]</div>
+
+  <div class="card concept">
+    <div class="card-title"><span class="icon">💡</span> Sens du courant — Piège fréquent!</div>
+    <p>Les <strong>électrons</strong> se déplacent de (−) vers (+). Le <strong>courant conventionnel</strong> (celui qu'on utilise dans les calculs) va de (+) vers (−). Ce sont deux choses opposées!</p>
+    <p class="small">Si on te demande «dans quel sens les électrons se déplacent», c'est l'inverse du courant.</p>
+  </div>
+
+  <h3>3. Vitesse de dérive &amp; Densité de courant</h3>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Vitesse de dérive</div>
+      <div class="formula">I = n·A·e·v<sub>D</sub></div>
+      <p class="small"><strong>n</strong> = densité d'électrons libres (du tableau), <strong>A</strong> = aire de section du fil, <strong>e</strong> = charge élémentaire. Les vitesses sont très faibles (~µm/s).</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Densité de courant</div>
+      <div class="formula">J = I/A = n·e·v<sub>D</sub> &nbsp;[A/m²]</div>
+      <p class="small">Quantité indépendante de la géométrie du fil. Avec direction : <strong>J⃗ = −n·e·v⃗<sub>D</sub></strong> (signe négatif car convention).</p>
+    </div>
+  </div>
+
+  <div class="card tip">
+    <div class="card-title"><span class="icon">🎯</span> Quand utiliser quoi?</div>
+    <p>Si on te donne un <strong>courant + diamètre/rayon de fil + matériau</strong> → utilise <code>v<sub>D</sub> = I/(nAe)</code> pour trouver la vitesse de dérive.</p>
+    <p>Si on te demande la <strong>densité de courant</strong> → utilise <code>J = I/A</code>.</p>
+    <p>Si on te donne la <strong>charge et le temps</strong> → utilise <code>I = ΔQ/Δt</code>.</p>
+  </div>
+
+  <h3>4. Résistance &amp; Résistivité</h3>
+  <div class="formula">R = ρ·L/A &nbsp;&nbsp; [Ω]</div>
+  <p><strong>ρ</strong> (résistivité) dépend du matériau et de la température. <strong>L</strong> = longueur du fil, <strong>A</strong> = aire de section.</p>
+
+  <div class="formula">ρ = ρ₀(1 + α·ΔT)</div>
+
+  <div class="card concept">
+    <div class="card-title"><span class="icon">💡</span> Concepts de compréhension</div>
+    <p>➤ <strong>Plus le fil est long</strong> → plus R est grande (plus d'obstacles = plus de collisions).</p>
+    <p>➤ <strong>Plus le fil est gros (A grand)</strong> → moins R est grande (plus d'espace pour les électrons).</p>
+    <p>➤ <strong>Conducteurs</strong> : si T↑ alors ρ↑ (α positif). Les atomes bougent plus = plus de collisions.</p>
+    <p>➤ <strong>Semi-conducteurs</strong> : si T↑ alors ρ↓ (α négatif). Plus de chaleur = plus d'électrons libres.</p>
+    <p class="small">Attention : ρ₀ et α sont donnés à 20°C dans le tableau. Le ΔT est donc calculé par rapport à 20°C.</p>
+  </div>
+
+  <h3>5. Loi d'Ohm</h3>
+  <div class="formula">ΔV<sub>R</sub> = R·I</div>
+  <p>La tension aux bornes d'une résistance est proportionnelle au courant qui la traverse. La constante de proportionnalité = la résistance.</p>
+
+  <h3>6. Puissance</h3>
+  <div class="formula">P = ΔV·I = R·I² = ΔV²/R &nbsp;&nbsp; [W = J/s]</div>
+
+  <div class="card concept">
+    <div class="card-title"><span class="icon">💡</span> Énergie vs Puissance</div>
+    <p>La <strong>puissance</strong> = taux de consommation d'énergie (J/s). L'<strong>énergie</strong> = puissance × temps.</p>
+    <p><code>ΔE = P·Δt</code> &nbsp;→&nbsp; Attention aux unités : <strong>1 kWh = 3,6 MJ</strong> (pas des watts!)</p>
+    <p class="small">Dans un circuit simple : puissance fournie par la source = puissance dissipée par la résistance.</p>
+  </div>
+
+  <h3>7. Instruments de mesure</h3>
+  <table class="guide-table">
+    <tr><th>Instrument</th><th>Mesure</th><th>Branchement</th><th>Résistance interne</th></tr>
+    <tr><td><strong>Voltmètre</strong></td><td>Tension (V)</td><td>En <span class="highlight">parallèle</span></td><td>Très <strong>élevée</strong> (pour ne pas dévier le courant)</td></tr>
+    <tr><td><strong>Ampèremètre</strong></td><td>Courant (A)</td><td>En <span class="highlight">série</span></td><td>Très <strong>faible</strong> (pour ne pas prendre de tension)</td></tr>
+    <tr><td><strong>Ohmmètre</strong></td><td>Résistance (Ω)</td><td>Aux bornes, <span class="highlight3">hors circuit</span></td><td>—</td></tr>
+  </table>
+
+  <div class="card warn">
+    <div class="card-title"><span class="icon">⚠️</span> Piège examen</div>
+    <p>L'<strong>ohmmètre</strong> se branche <strong>hors tension et hors circuit</strong>. Si on te demande comment mesurer une résistance encore branchée dans un circuit alimenté → il faut d'abord débrancher la résistance.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: KIRCHHOFF -->
+<!-- ============================================================ -->
+<section id="kirchhoff">
+  <span class="section-label label-p2">Chapitre 4</span>
+  <h2>Lois de Kirchhoff &amp; Associations de résistances</h2>
+
+  <h3>1. Loi des nœuds (conservation de la charge)</h3>
+  <div class="formula">Σ I<sub>entrants</sub> = Σ I<sub>sortants</sub></div>
+  <p>À un nœud (point de jonction de 3+ fils), tout le courant qui entre doit en ressortir. Aucune charge ne disparaît.</p>
+
+  <h3>2. Loi des mailles (conservation de l'énergie)</h3>
+  <div class="formula">Σ ΔV = 0 &nbsp;&nbsp;(autour d'une boucle fermée)</div>
+
+  <div class="card concept">
+    <div class="card-title"><span class="icon">💡</span> Signes dans la loi des mailles</div>
+    <p>Quand tu parcours une maille :</p>
+    <p>➤ <strong>Source</strong> : tu entres par (−) et sors par (+) → <span class="highlight">+ε</span>. Tu entres par (+) et sors par (−) → <span class="highlight3">−ε</span>.</p>
+    <p>➤ <strong>Résistance</strong> : tu la traverses dans le <em>sens du courant</em> → <span class="highlight3">−RI</span>. Dans le sens inverse → <span class="highlight">+RI</span>.</p>
+    <p class="small">L'analogie de la montagne : source = montée, résistance (dans le sens du courant) = descente. On revient au même point → somme = 0.</p>
+  </div>
+
+  <h3>3. Pile réelle</h3>
+  <div class="formula">V<sub>terminale</sub> = ε − r·I</div>
+  <p>Une pile réelle a une résistance interne <strong>r</strong>. La tension effective aux bornes est plus petite que ε car une partie est «perdue» dans r.</p>
+
+  <h3>4. Résistances en série</h3>
+  <div class="formula">R<sub>éq</sub> = R₁ + R₂ + R₃ + ...</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Propriétés — Série</div>
+      <p>✅ Même <strong>courant</strong> dans chaque résistance</p>
+      <p>✅ Les <strong>tensions s'additionnent</strong></p>
+      <p>✅ R<sub>éq</sub> est toujours <strong>plus grande</strong> que la plus grande résistance</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Comment les reconnaître?</div>
+      <p>Un seul chemin possible entre les deux points. Pas de nœud entre les résistances. Les charges <em>doivent</em> passer par chacune.</p>
+    </div>
+  </div>
+
+  <h3>5. Résistances en parallèle</h3>
+  <div class="formula">1/R<sub>éq</sub> = 1/R₁ + 1/R₂ + 1/R₃ + ...</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Propriétés — Parallèle</div>
+      <p>✅ Même <strong>tension</strong> aux bornes de chaque résistance</p>
+      <p>✅ Les <strong>courants s'additionnent</strong></p>
+      <p>✅ R<sub>éq</sub> est toujours <strong>plus petite</strong> que la plus petite résistance</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Comment les reconnaître?</div>
+      <p>Plusieurs chemins possibles entre les deux mêmes nœuds. Chaque résistance est un chemin alternatif. Les charges <em>choisissent</em> un chemin.</p>
+    </div>
+  </div>
+
+  <div class="card strat">
+    <div class="card-title"><span class="icon">🧩</span> Stratégie de résolution — Circuits mixtes</div>
+    <p><strong>Étape 1 :</strong> Redessiner le circuit pour bien identifier les nœuds et les branches.</p>
+    <p><strong>Étape 2 :</strong> Identifier les résistances en série et en parallèle, en commençant par les plus «profondes».</p>
+    <p><strong>Étape 3 :</strong> Simplifier par étapes jusqu'à obtenir une seule résistance équivalente.</p>
+    <p><strong>Étape 4 :</strong> Trouver le courant total avec <code>I = ε/R<sub>éq</sub></code>.</p>
+    <p><strong>Étape 5 :</strong> Revenir en arrière (déplier) pour trouver chaque courant et tension.</p>
+  </div>
+
+  <div class="card warn">
+    <div class="card-title"><span class="icon">⚠️</span> Quand utiliser Kirchhoff vs Résistance équivalente?</div>
+    <p>➤ <strong>Une seule source + résistances seulement</strong> → méthode de la résistance équivalente (plus simple!).</p>
+    <p>➤ <strong>Plusieurs sources</strong> → obligé d'utiliser les lois de Kirchhoff (nœuds + mailles) avec un système d'équations.</p>
+    <p class="small">Si un courant sort négatif dans Kirchhoff → il va juste en sens inverse de celui que tu avais choisi. Ce n'est pas une erreur!</p>
+  </div>
+
+  <h3>6. Résolution par Kirchhoff (plusieurs sources)</h3>
+  <div class="card">
+    <div class="card-title">Recette</div>
+    <p><strong>1.</strong> Choisir un sens de courant pour chaque branche (peu importe, si c'est faux ça sortira négatif).</p>
+    <p><strong>2.</strong> Écrire la loi des nœuds pour chaque nœud (sauf un, qui sera redondant).</p>
+    <p><strong>3.</strong> Écrire la loi des mailles pour assez de mailles indépendantes.</p>
+    <p><strong>4.</strong> Résoudre le système d'équations (substitution ou matrices).</p>
+    <p class="small">Nombre d'équations nécessaires = nombre de courants inconnus = nombre de branches.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================ -->
+<!-- SECTION 3: CONDENSATEURS -->
+<!-- ============================================================ -->
+<section id="condensateurs">
+  <span class="section-label label-p2">Chapitre 5</span>
+  <h2>Condensateurs</h2>
+
+  <h3>1. C'est quoi un condensateur?</h3>
+  <p>Un condensateur <strong>accumule des charges</strong> sur deux armatures parallèles séparées par un isolant. Contrairement à une résistance qui dissipe l'énergie, un condensateur la <strong>stocke</strong>.</p>
+
+  <div class="card concept">
+    <div class="card-title"><span class="icon">💡</span> Comportement du condensateur</div>
+    <p>➤ <strong>Début (pas chargé)</strong> : agit comme un <strong>fil</strong> (court-circuit) → courant maximal, tension = 0.</p>
+    <p>➤ <strong>Fin (pleinement chargé)</strong> : agit comme un <strong>circuit ouvert</strong> → courant = 0, tension = ε.</p>
+    <p class="small">C'est un concept qu'on retrouve souvent en choix de réponse : «Que se passe-t-il juste après la fermeture?» vs «Après un long moment?»</p>
+  </div>
+
+  <h3>2. Capacité</h3>
+  <div class="formula">ΔV<sub>C</sub> = Q/C &nbsp;&nbsp;→&nbsp;&nbsp; Q = C·ΔV &nbsp;&nbsp; [F = C/V]</div>
+  <p>La capacité <strong>C</strong> dépend de la géométrie et du diélectrique. Plus C est grand → plus on accumule de charge pour une même tension.</p>
+
+  <h3>3. Types de condensateurs</h3>
+  <table class="guide-table">
+    <tr><th>Type</th><th>Formule de capacité</th><th>Variables</th></tr>
+    <tr>
+      <td><strong>Plan</strong></td>
+      <td><code>C = κε₀·A/d</code></td>
+      <td>A = aire des plaques, d = distance entre plaques</td>
+    </tr>
+    <tr>
+      <td><strong>Sphérique</strong></td>
+      <td><code>C = 4πκε₀·R<sub>int</sub>R<sub>ext</sub>/(R<sub>ext</sub>−R<sub>int</sub>)</code></td>
+      <td>Rayons des sphères concentriques</td>
+    </tr>
+    <tr>
+      <td><strong>Cylindrique</strong></td>
+      <td><code>C = 2πκε₀·L/ln(R<sub>ext</sub>/R<sub>int</sub>)</code></td>
+      <td>L = longueur, rayons des cylindres</td>
+    </tr>
+  </table>
+
+  <h3>4. Diélectrique</h3>
+  <div class="formula">C = κ · C<sub>vide</sub></div>
+  <p>Le <strong>diélectrique</strong> (isolant entre les plaques) augmente la capacité d'un facteur <strong>κ</strong> (constante diélectrique). Air : κ ≈ 1. Eau : κ ≈ 78,5.</p>
+
+  <div class="card concept">
+    <div class="card-title"><span class="icon">💡</span> Tension de claquage</div>
+    <p>Si on accumule trop de charges, le diélectrique ne tient plus → <strong>arc électrique</strong> entre les armatures. Le condensateur est détruit. C'est la <strong>tension de claquage</strong>.</p>
+  </div>
+
+  <h3>5. Énergie d'un condensateur</h3>
+  <div class="formula">U<sub>C</sub> = Q²/(2C) = ½·Q·ΔV = ½·C·ΔV²</div>
+  <p>Trois formes équivalentes — utilise celle qui correspond aux données du problème.</p>
+
+  <h3>6. Condensateurs en série &amp; parallèle</h3>
+  <div class="card warn">
+    <div class="card-title"><span class="icon">⚠️</span> Attention — C'est l'inverse des résistances!</div>
+    <p>Les formules série/parallèle des condensateurs sont <strong>inversées</strong> par rapport aux résistances.</p>
+  </div>
+
+  <table class="guide-table">
+    <tr><th></th><th>Série</th><th>Parallèle</th></tr>
+    <tr>
+      <td><strong>Résistances</strong></td>
+      <td><code>R<sub>éq</sub> = R₁ + R₂</code></td>
+      <td><code>1/R<sub>éq</sub> = 1/R₁ + 1/R₂</code></td>
+    </tr>
+    <tr>
+      <td><strong>Condensateurs</strong></td>
+      <td><code>1/C<sub>éq</sub> = 1/C₁ + 1/C₂</code></td>
+      <td><code>C<sub>éq</sub> = C₁ + C₂</code></td>
+    </tr>
+    <tr>
+      <td><strong>Même quantité</strong></td>
+      <td>Même <strong>courant</strong> / Même <strong>charge</strong></td>
+      <td>Même <strong>tension</strong> / Même <strong>tension</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Quantité qui s'additionne</strong></td>
+      <td><strong>Tensions</strong> / <strong>Tensions</strong></td>
+      <td><strong>Courants</strong> / <strong>Charges</strong></td>
+    </tr>
+  </table>
+
+  <div class="card strat">
+    <div class="card-title"><span class="icon">🧩</span> Stratégie — Circuits avec condensateurs</div>
+    <p>La méthode est la même que pour les résistances : simplifier par étapes, trouver C<sub>éq</sub>, trouver Q<sub>total</sub> = C<sub>éq</sub>·ε, puis «déplier» en remontant.</p>
+    <p>➤ En série : les condensateurs ont la <strong>même charge</strong> → on remonte via <code>ΔV = Q/C</code>.</p>
+    <p>➤ En parallèle : les condensateurs ont la <strong>même tension</strong> → on remonte via <code>Q = C·ΔV</code>.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================ -->
+<!-- SECTION 4: CIRCUITS RC -->
+<!-- ============================================================ -->
+<section id="rc">
+  <span class="section-label label-p2">Chapitre 5.4</span>
+  <h2>Circuits RC</h2>
+
+  <h3>1. Pourquoi un R avec un C?</h3>
+  <p>Sans résistance, toute la tension de la source tomberait dans les fils (très petite résistance) → surchauffe! La résistance contrôle le rythme de charge/décharge.</p>
+
+  <h3>2. Constante de temps</h3>
+  <div class="formula">τ = R·C &nbsp;&nbsp; [s = Ω·F]</div>
+  <p>La constante de temps détermine la <strong>vitesse</strong> de charge/décharge. Plus τ est petit → plus c'est rapide.</p>
+
+  <div class="card concept">
+    <div class="card-title"><span class="icon">💡</span> Signification de τ</div>
+    <p>Après <strong>1τ</strong> : charge à 63% / décharge à 37% de la valeur max.</p>
+    <p>Après <strong>5τ</strong> : on considère le condensateur comme «complètement» chargé/déchargé (~99%).</p>
+  </div>
+
+  <!-- TABS CHARGE / DÉCHARGE -->
+  <div class="tabs" id="rc-tabs">
+    <button class="tab-btn active" data-tab="charge">⚡ Charge</button>
+    <button class="tab-btn" data-tab="decharge">📉 Décharge</button>
+  </div>
+
+  <div class="tab-content active" id="tab-charge">
+    <h4>Charge du condensateur (source branchée)</h4>
+    <div class="formula">Q(t) = Q<sub>max</sub> · (1 − e<sup>−t/τ</sup>) &nbsp;&nbsp; où Q<sub>max</sub> = C·ε</div>
+    <div class="formula">I(t) = I<sub>max</sub> · e<sup>−t/τ</sup> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; où I<sub>max</sub> = ε/R</div>
+    <div class="formula">ΔV<sub>C</sub>(t) = ε · (1 − e<sup>−t/τ</sup>)</div>
+    <div class="formula">ΔV<sub>R</sub>(t) = ε · e<sup>−t/τ</sup></div>
+
+    <div class="card">
+      <div class="card-title">Comportement</div>
+      <p>➤ <strong>t = 0</strong> : Q = 0, I = I<sub>max</sub> = ε/R, ΔV<sub>C</sub> = 0, ΔV<sub>R</sub> = ε</p>
+      <p>➤ <strong>t → ∞</strong> : Q = Q<sub>max</sub>, I = 0, ΔV<sub>C</sub> = ε, ΔV<sub>R</sub> = 0</p>
+      <p class="small">La charge monte exponentiellement vers Q<sub>max</sub>. Le courant descend exponentiellement vers 0. À tout instant : ΔV<sub>C</sub> + ΔV<sub>R</sub> = ε (loi des mailles).</p>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tab-decharge">
+    <h4>Décharge du condensateur (source débranchée)</h4>
+    <div class="formula">Q(t) = Q<sub>max</sub> · e<sup>−t/τ</sup></div>
+    <div class="formula">I(t) = I<sub>max</sub> · e<sup>−t/τ</sup></div>
+    <div class="formula">ΔV<sub>C</sub>(t) = ΔV<sub>0</sub> · e<sup>−t/τ</sup></div>
+
+    <div class="card">
+      <div class="card-title">Comportement</div>
+      <p>➤ <strong>t = 0</strong> : Q = Q<sub>max</sub>, I = I<sub>max</sub>, ΔV<sub>C</sub> = ΔV<sub>0</sub></p>
+      <p>➤ <strong>t → ∞</strong> : Q = 0, I = 0, ΔV<sub>C</sub> = 0</p>
+      <p class="small">Tout décroît exponentiellement vers 0. À tout instant : ΔV<sub>C</sub> = ΔV<sub>R</sub> (maille sans source).</p>
+    </div>
+  </div>
+
+  <div class="card strat">
+    <div class="card-title"><span class="icon">🧩</span> Stratégie RC — Quel R utiliser pour τ?</div>
+    <p>Le <strong>R dans τ = RC</strong> est la résistance que le courant traverse <strong>en passant par le condensateur</strong>.</p>
+    <p>➤ <strong>Charge</strong> : R = résistance en série avec le condensateur dans la branche de la source.</p>
+    <p>➤ <strong>Décharge</strong> : R = résistance totale dans la boucle de décharge (qui peut être différente!).</p>
+    <p class="small">Exemple des notes : lors de la charge, τ = 2500 × 80×10⁻⁹. Lors de la décharge (interrupteur ouvert), les deux résistances sont en série → τ = 8500 × 80×10⁻⁹.</p>
+  </div>
+
+  <div class="card tip">
+    <div class="card-title"><span class="icon">🎯</span> Trouver le temps pour atteindre un % donné</div>
+    <p>Pour la <strong>charge</strong> : Q = Q<sub>max</sub>(1−e<sup>−t/τ</sup>) → isole t :</p>
+    <div class="formula">t = −τ · ln(1 − Q/Q<sub>max</sub>)</div>
+    <p>Pour la <strong>décharge</strong> : Q = Q<sub>max</sub>·e<sup>−t/τ</sup> → isole t :</p>
+    <div class="formula">t = −τ · ln(Q/Q<sub>max</sub>)</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================ -->
+<!-- SECTION 5: STRATÉGIES GLOBALES -->
+<!-- ============================================================ -->
+<section id="strategies">
+  <span class="section-label label-strat">Boîte à outils</span>
+  <h2>Guide de résolution — Quelle formule utiliser?</h2>
+
+  <table class="guide-table">
+    <tr><th>On te donne...</th><th>On te demande...</th><th>Formule à utiliser</th></tr>
+    <tr><td>Charge + temps</td><td>Courant</td><td><code>I = ΔQ/Δt</code></td></tr>
+    <tr><td>Courant + matériau + dimensions fil</td><td>Vitesse de dérive</td><td><code>v<sub>D</sub> = I/(nAe)</code></td></tr>
+    <tr><td>Courant + aire</td><td>Densité de courant</td><td><code>J = I/A</code></td></tr>
+    <tr><td>Matériau + dimensions + température</td><td>Résistance</td><td><code>R = ρL/A</code> avec <code>ρ = ρ₀(1+αΔT)</code></td></tr>
+    <tr><td>Tension + résistance</td><td>Courant</td><td><code>I = ΔV/R</code> (Ohm)</td></tr>
+    <tr><td>Tension + courant</td><td>Puissance</td><td><code>P = ΔV·I</code></td></tr>
+    <tr><td>Puissance + temps</td><td>Énergie</td><td><code>E = P·t</code></td></tr>
+    <tr><td>Circuit avec 1 source + résistances</td><td>Courants/tensions</td><td>Résistance équivalente → Ohm → déplier</td></tr>
+    <tr><td>Circuit avec plusieurs sources</td><td>Courants</td><td>Kirchhoff (nœuds + mailles)</td></tr>
+    <tr><td>Tension + capacité</td><td>Charge condensateur</td><td><code>Q = C·ΔV</code></td></tr>
+    <tr><td>Plaques + diélectrique + dimensions</td><td>Capacité</td><td><code>C = κε₀A/d</code> (plan)</td></tr>
+    <tr><td>Condensateur chargé</td><td>Énergie stockée</td><td><code>U = ½C·ΔV²</code></td></tr>
+    <tr><td>Circuit RC + temps</td><td>Charge/courant à t</td><td>Formules exponentielles de charge ou décharge</td></tr>
+    <tr><td>Circuit RC + % de charge</td><td>Temps</td><td>Isoler t dans l'exponentielle (ln)</td></tr>
+  </table>
+
+  <h3>Résumé des concepts de compréhension</h3>
+  <div class="card concept">
+    <div class="card-title"><span class="icon">📋</span> Questions conceptuelles fréquentes</div>
+    <p>➤ Les électrons vont en sens <strong>inverse</strong> du courant conventionnel.</p>
+    <p>➤ Dans un fil idéal, la tension est la même partout (<strong>équipotentielle</strong>).</p>
+    <p>➤ Le voltmètre se branche en <strong>parallèle</strong>, l'ampèremètre en <strong>série</strong>.</p>
+    <p>➤ En série : même courant, tensions s'additionnent. En parallèle : même tension, courants s'additionnent.</p>
+    <p>➤ R<sub>éq</sub> série > plus grande R. &nbsp; R<sub>éq</sub> parallèle < plus petite R.</p>
+    <p>➤ Condensateur pas chargé = fil. &nbsp; Condensateur chargé = circuit ouvert.</p>
+    <p>➤ Les formules série/parallèle des condensateurs sont <strong>inversées</strong> vs les résistances.</p>
+    <p>➤ τ = RC. Après 1τ → 63% chargé. Après 5τ → ~100% chargé.</p>
+    <p>➤ Conducteurs : T↑ → ρ↑. Semi-conducteurs : T↑ → ρ↓.</p>
+    <p>➤ L'énergie d'un condensateur vient de l'accumulation progressive de charges (intégrale).</p>
+    <p>➤ Dans un circuit RC, ΔV<sub>C</sub> + ΔV<sub>R</sub> = ε (charge) ou ΔV<sub>C</sub> = ΔV<sub>R</sub> (décharge).</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================ -->
+<!-- SECTION 6: QUIZ -->
+<!-- ============================================================ -->
+<section id="quiz">
+  <span class="section-label label-concept">Auto-évaluation</span>
+  <h2>Quiz de compréhension</h2>
+  <p>Teste ta compréhension des concepts clés. Ces questions sont du style «choix de réponse» d'examen.</p>
+
+  <!-- Q1 -->
+  <div class="quiz-q" data-correct="b">
+    <p class="q-text">1. Dans un circuit, les électrons se déplacent...</p>
+    <div class="quiz-options">
+      <label><input type="radio" name="q1" value="a"> a) De la borne (+) vers la borne (−)</label>
+      <label><input type="radio" name="q1" value="b"> b) De la borne (−) vers la borne (+)</label>
+      <label><input type="radio" name="q1" value="c"> c) Dans le même sens que le courant conventionnel</label>
+      <label><input type="radio" name="q1" value="d"> d) Du potentiel le plus élevé vers le plus bas</label>
+    </div>
+    <button class="btn-check" onclick="checkAnswer(this)">Vérifier</button>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="quiz-q" data-correct="c">
+    <p class="q-text">2. Si on double la longueur d'un fil et qu'on double aussi son diamètre, sa résistance...</p>
+    <div class="quiz-options">
+      <label><input type="radio" name="q2" value="a"> a) Double</label>
+      <label><input type="radio" name="q2" value="b"> b) Reste la même</label>
+      <label><input type="radio" name="q2" value="c"> c) Diminue de moitié</label>
+      <label><input type="radio" name="q2" value="d"> d) Quadruple</label>
+    </div>
+    <button class="btn-check" onclick="checkAnswer(this)">Vérifier</button>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="quiz-q" data-correct="b">
+    <p class="q-text">3. Comment branche-t-on un voltmètre pour mesurer la tension aux bornes d'une résistance?</p>
+    <div class="quiz-options">
+      <label><input type="radio" name="q3" value="a"> a) En série avec la résistance</label>
+      <label><input type="radio" name="q3" value="b"> b) En parallèle avec la résistance</label>
+      <label><input type="radio" name="q3" value="c"> c) Hors circuit</label>
+      <label><input type="radio" name="q3" value="d"> d) En série avec la source</label>
+    </div>
+    <button class="btn-check" onclick="checkAnswer(this)">Vérifier</button>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="quiz-q" data-correct="a">
+    <p class="q-text">4. Trois résistances de 300 Ω sont branchées en parallèle. La résistance équivalente est :</p>
+    <div class="quiz-options">
+      <label><input type="radio" name="q4" value="a"> a) 100 Ω</label>
+      <label><input type="radio" name="q4" value="b"> b) 900 Ω</label>
+      <label><input type="radio" name="q4" value="c"> c) 300 Ω</label>
+      <label><input type="radio" name="q4" value="d"> d) 150 Ω</label>
+    </div>
+    <button class="btn-check" onclick="checkAnswer(this)">Vérifier</button>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="quiz-q" data-correct="d">
+    <p class="q-text">5. Juste après la fermeture d'un interrupteur dans un circuit RC (condensateur initialement non chargé), le condensateur agit comme :</p>
+    <div class="quiz-options">
+      <label><input type="radio" name="q5" value="a"> a) Une résistance très grande</label>
+      <label><input type="radio" name="q5" value="b"> b) Un circuit ouvert</label>
+      <label><input type="radio" name="q5" value="c"> c) Une source de tension</label>
+      <label><input type="radio" name="q5" value="d"> d) Un fil (court-circuit)</label>
+    </div>
+    <button class="btn-check" onclick="checkAnswer(this)">Vérifier</button>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="quiz-q" data-correct="c">
+    <p class="q-text">6. Deux condensateurs de 10 µF et 15 µF sont en série. Leur capacité équivalente est :</p>
+    <div class="quiz-options">
+      <label><input type="radio" name="q6" value="a"> a) 25 µF</label>
+      <label><input type="radio" name="q6" value="b"> b) 5 µF</label>
+      <label><input type="radio" name="q6" value="c"> c) 6 µF</label>
+      <label><input type="radio" name="q6" value="d"> d) 12,5 µF</label>
+    </div>
+    <button class="btn-check" onclick="checkAnswer(this)">Vérifier</button>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="quiz-q" data-correct="b">
+    <p class="q-text">7. Dans un circuit RC en charge, après exactement 1 constante de temps (τ), le condensateur a accumulé environ :</p>
+    <div class="quiz-options">
+      <label><input type="radio" name="q7" value="a"> a) 50% de sa charge maximale</label>
+      <label><input type="radio" name="q7" value="b"> b) 63% de sa charge maximale</label>
+      <label><input type="radio" name="q7" value="c"> c) 37% de sa charge maximale</label>
+      <label><input type="radio" name="q7" value="d"> d) 100% de sa charge maximale</label>
+    </div>
+    <button class="btn-check" onclick="checkAnswer(this)">Vérifier</button>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="quiz-q" data-correct="a">
+    <p class="q-text">8. Pour un conducteur métallique, si la température augmente :</p>
+    <div class="quiz-options">
+      <label><input type="radio" name="q8" value="a"> a) La résistivité augmente</label>
+      <label><input type="radio" name="q8" value="b"> b) La résistivité diminue</label>
+      <label><input type="radio" name="q8" value="c"> c) La résistivité ne change pas</label>
+      <label><input type="radio" name="q8" value="d"> d) Ça dépend du courant</label>
+    </div>
+    <button class="btn-check" onclick="checkAnswer(this)">Vérifier</button>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="quiz-q" data-correct="d">
+    <p class="q-text">9. Dans un circuit avec plusieurs sources de tension, quelle méthode est obligatoire?</p>
+    <div class="quiz-options">
+      <label><input type="radio" name="q9" value="a"> a) La méthode de la résistance équivalente</label>
+      <label><input type="radio" name="q9" value="b"> b) La loi d'Ohm simple</label>
+      <label><input type="radio" name="q9" value="c"> c) La loi de Coulomb</label>
+      <label><input type="radio" name="q9" value="d"> d) Les lois de Kirchhoff (nœuds et mailles)</label>
+    </div>
+    <button class="btn-check" onclick="checkAnswer(this)">Vérifier</button>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="quiz-q" data-correct="c">
+    <p class="q-text">10. Lors de la décharge d'un condensateur dans un circuit RC, la tension aux bornes du condensateur et de la résistance :</p>
+    <div class="quiz-options">
+      <label><input type="radio" name="q10" value="a"> a) Sont de signes opposés</label>
+      <label><input type="radio" name="q10" value="b"> b) S'additionnent pour donner ε</label>
+      <label><input type="radio" name="q10" value="c"> c) Sont toujours égales en grandeur</label>
+      <label><input type="radio" name="q10" value="d"> d) Sont constantes dans le temps</label>
+    </div>
+    <button class="btn-check" onclick="checkAnswer(this)">Vérifier</button>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="quiz-q" data-correct="b">
+    <p class="q-text">11. Si on insère un diélectrique (κ = 3) dans un condensateur plan, sa capacité :</p>
+    <div class="quiz-options">
+      <label><input type="radio" name="q11" value="a"> a) Diminue d'un facteur 3</label>
+      <label><input type="radio" name="q11" value="b"> b) Triple</label>
+      <label><input type="radio" name="q11" value="c"> c) Ne change pas</label>
+      <label><input type="radio" name="q11" value="d"> d) Est divisée par κ²</label>
+    </div>
+    <button class="btn-check" onclick="checkAnswer(this)">Vérifier</button>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <!-- Q12 -->
+  <div class="quiz-q" data-correct="a">
+    <p class="q-text">12. Deux résistances en série sont parcourues par :</p>
+    <div class="quiz-options">
+      <label><input type="radio" name="q12" value="a"> a) Le même courant</label>
+      <label><input type="radio" name="q12" value="b"> b) La même tension</label>
+      <label><input type="radio" name="q12" value="c"> c) La même puissance</label>
+      <label><input type="radio" name="q12" value="d"> d) La même résistance</label>
+    </div>
+    <button class="btn-check" onclick="checkAnswer(this)">Vérifier</button>
+    <div class="quiz-feedback"></div>
+  </div>
+
+</section>
+
+</div><!-- container -->
+
+<footer>
+  Guide d'étude — 203-SN2-RE Module 2 &bull; Basé sur les notes de J. Desrochers &amp; D. Ledoux, Cégep de Saint-Hyacinthe, H2026
+</footer>
+
+<script>
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const parent = btn.closest('section') || btn.parentElement.parentElement;
+    parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    parent.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// Quiz
+const explanations = {
+  q1: {
+    correct: "Les électrons (négatifs) vont du potentiel bas (−) vers le potentiel haut (+). Le courant conventionnel va dans l'autre sens.",
+    wrong: "Les électrons vont de (−) vers (+), car leur énergie est plus élevée côté (−) (ΔU = QΔV avec Q négatif)."
+  },
+  q2: {
+    correct: "R = ρL/A. Si L×2 et d×2 → A = π(d/2)² → A×4. Donc R = ρ(2L)/(4A) = R₀/2.",
+    wrong: "R = ρL/A. Doubler le diamètre → l'aire quadruple (A = πr²). Donc R = ρ(2L)/(4A) = R₀/2. La résistance diminue de moitié."
+  },
+  q3: {
+    correct: "Le voltmètre mesure la différence de potentiel entre deux points → il se branche en parallèle.",
+    wrong: "Le voltmètre se branche toujours en parallèle avec l'élément mesuré. L'ampèremètre se branche en série."
+  },
+  q4: {
+    correct: "1/R_éq = 1/300 + 1/300 + 1/300 = 3/300 → R_éq = 100 Ω. En parallèle avec N résistances identiques : R_éq = R/N.",
+    wrong: "En parallèle : 1/R_éq = 3 × (1/300) = 1/100 → R_éq = 100 Ω."
+  },
+  q5: {
+    correct: "À t = 0, le condensateur n'a aucune charge → ΔV_C = 0 → il agit comme un fil (court-circuit). Le courant est maximal.",
+    wrong: "Un condensateur non chargé a une tension nulle à ses bornes, il se comporte donc comme un simple fil."
+  },
+  q6: {
+    correct: "En série : 1/C_éq = 1/10 + 1/15 = 3/30 + 2/30 = 5/30 → C_éq = 6 µF.",
+    wrong: "Condensateurs en série : 1/C_éq = 1/C₁ + 1/C₂ = 1/10 + 1/15 = 5/30 → C_éq = 6 µF."
+  },
+  q7: {
+    correct: "Q(τ) = Q_max(1 − e⁻¹) = Q_max(1 − 0,368) ≈ 0,632 Q_max → 63%.",
+    wrong: "Après 1τ : Q = Q_max(1 − e⁻¹) ≈ 63%. Après 1τ en décharge : il reste 37%."
+  },
+  q8: {
+    correct: "Pour les conducteurs, α > 0 donc ρ = ρ₀(1 + αΔT) augmente avec T. Plus de vibrations atomiques = plus de collisions.",
+    wrong: "Pour un conducteur métallique, la résistivité augmente avec la température (α positif)."
+  },
+  q9: {
+    correct: "Avec plusieurs sources, on ne peut pas simplifier en une seule résistance équivalente → lois de Kirchhoff obligatoires.",
+    wrong: "La méthode de la résistance équivalente ne fonctionne qu'avec une seule source. Plusieurs sources → Kirchhoff."
+  },
+  q10: {
+    correct: "En décharge : ΔV_C − ΔV_R = 0 (maille sans source) → ΔV_C = ΔV_R à tout instant.",
+    wrong: "Par la loi des mailles dans la décharge : ΔV_C = ΔV_R. Les deux diminuent ensemble vers 0."
+  },
+  q11: {
+    correct: "C = κ·C_vide. Si κ = 3, la capacité est multipliée par 3.",
+    wrong: "Le diélectrique multiplie la capacité par κ : C = κ·C_vide."
+  },
+  q12: {
+    correct: "En série, il n'y a qu'un seul chemin → toutes les charges passent par chaque résistance → même courant.",
+    wrong: "En série = un seul chemin = même courant partout. C'est en parallèle qu'on a la même tension."
+  }
+};
+
+function checkAnswer(btn) {
+  const qq = btn.closest('.quiz-q');
+  const correct = qq.dataset.correct;
+  const name = qq.querySelector('input[type=radio]').name;
+  const selected = qq.querySelector(`input[name="${name}"]:checked`);
+  const fb = qq.querySelector('.quiz-feedback');
+  
+  if (!selected) { fb.textContent = "Choisis une réponse!"; fb.className = "quiz-feedback wrong"; return; }
+  
+  const isCorrect = selected.value === correct;
+  const expl = explanations[name];
+  fb.className = "quiz-feedback " + (isCorrect ? "correct" : "wrong");
+  fb.textContent = (isCorrect ? "✅ Correct! " : "❌ Incorrect. ") + (isCorrect ? expl.correct : expl.wrong);
+}
+
+// Active nav on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.topnav a:not(.brand)');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if(window.scrollY >= s.offsetTop - 100) current = s.id; });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if(a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
