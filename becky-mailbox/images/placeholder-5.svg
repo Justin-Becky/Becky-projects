@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0b8"/><stop offset="1" stop-color="#cdeedf"/></linearGradient></defs>
+<rect width="400" height="500" fill="url(#g)"/>
+<circle cx="70" cy="80" r="40" fill="#fff" opacity=".35"/><circle cx="340" cy="420" r="60" fill="#fff" opacity=".3"/>
+<path d="M200 300 C 140 255, 112 222, 112 190 A 44 44 0 0 1 200 170 A 44 44 0 0 1 288 190 C 288 222, 260 255, 200 300 Z" fill="#d1a52c" opacity=".8"/>
+<text x="200" y="370" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#d1a52c">Photo 5</text>
+<text x="200" y="402" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#d1a52c" opacity=".8">replace me in letters.js</text>
+</svg>
