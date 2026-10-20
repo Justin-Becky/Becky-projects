@@ -162,7 +162,7 @@ window.MAILBOX_CONFIG = {
 
         Merci mon chou d'avoir été la personne qui m'a fait vivre ce voyage parfait.
       `,
-      signature: ",\nJu ♡",
+      signature: "Ton touriste préféré,\nJu ♡",
       photos: [
         { src: "images/Premier voyage/premier-voyage-1.jpg", caption: "" },
         { src: "images/Premier voyage/premier-voyage-2.jpg", caption: "" },
@@ -253,7 +253,7 @@ window.MAILBOX_CONFIG = {
 
         Ce premier été restera à jamais gravé dans ma mémoire comme l'été où tout a changé, l'été où tout est enfin arrivé, où ma vie a pris son sens. 
       `,
-      signature: ",\nJu ♡",
+      signature: "Depuis ces trois mois, rien ne peut me séparer de toi,\nJu ♡",
       photos: [
         { src: "images/Premier été/premier-ete-1.jpg", caption: "" },
         { src: "images/Premier été/premier-ete-2.jpg", caption: "" },
