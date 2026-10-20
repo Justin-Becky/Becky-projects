@@ -375,25 +375,7 @@
     el.letterSign.textContent = l.signature != null ? l.signature : (CFG.signature || "");
 
     currentPhotos = (l.photos || []).filter(function (p) { return p && p.src; });
-    el.photos.textContent = "";
-    el.photos.classList.toggle("is-single", currentPhotos.length === 1);
-    currentPhotos.forEach(function (photo, i) {
-      var b = document.createElement("button");
-      b.type = "button";
-      b.className = "polaroid";
-      b.setAttribute("aria-label", "Enlarge photo" + (photo.caption ? ": " + photo.caption : ""));
-      var img = document.createElement("img");
-      img.src = photo.src;
-      img.alt = photo.alt || photo.caption || "A memory";
-      img.loading = "lazy";
-      img.decoding = "async";
-      var cap = document.createElement("span");
-      cap.textContent = photo.caption || "";
-      b.appendChild(img);
-      b.appendChild(cap);
-      b.addEventListener("click", function () { openLightbox(i); });
-      el.photos.appendChild(b);
-    });
+    renderPhotoStack();
     el.photosPage.hidden = currentPhotos.length === 0;
     el.letter.classList.toggle("has-photos", currentPhotos.length > 0);
 
@@ -478,6 +460,98 @@
   function openArchive() {
     renderArchive();
     showOverlay(el.archive, el.archive.querySelector(".icon-btn"));
+  }
+
+  /* ---------- Photo stack ---------- */
+
+  // each photo gets its own tilt so the pile looks hand-placed
+  var TILTS = [-4, 3, -2, 5, -6, 2, -3, 6, -1, 4];
+
+  function renderPhotoStack() {
+    var n = currentPhotos.length;
+    el.photos.textContent = "";
+    if (!n) return;
+
+      var stack = document.createElement("div");
+    stack.className = "photo-stack";
+    var counter = document.createElement("p");
+    counter.className = "stack-counter";
+    var expand = document.createElement("button");
+    expand.type = "button";
+    expand.className = "stack-expand";
+    expand.textContent = "\u2922 Enlarge";
+
+    // order[0] is the photo on top of the pile
+    var order = currentPhotos.map(function (_, i) { return i; });
+    var busy = false;
+
+        var cards = currentPhotos.map(function (photo, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "polaroid";
+      b.style.setProperty("--r", TILTS[i % TILTS.length] + "deg");
+      var img = document.createElement("img");
+      img.src = photo.src;
+      img.alt = photo.alt || photo.caption || "A memory";
+      img.decoding = "async";
+      if (i > 2) img.loading = "lazy";
+      var cap = document.createElement("span");
+      cap.textContent = photo.caption || "";
+      b.appendChild(img);
+      b.appendChild(cap);
+      b.addEventListener("click", function () {
+        if (order[0] !== i || busy) return;
+        if (n === 1) { openLightbox(i); return; }
+        next();
+      });
+      stack.appendChild(b);
+      return b;
+    });
+
+        function layout() {
+      order.forEach(function (photoIndex, pos) {
+        var c = cards[photoIndex];
+        c.style.zIndex = n - pos;
+        c.style.setProperty("--depth", Math.min(pos, 4));
+        c.classList.toggle("is-top", pos === 0);
+        c.tabIndex = pos === 0 ? 0 : -1;
+        c.setAttribute("aria-hidden", pos === 0 ? "false" : "true");
+        c.setAttribute("aria-label", n > 1 ? "Photo " + (photoIndex + 1) + " of " + n + ". Show the next photo" : "Enlarge photo");
+      });
+      counter.textContent = n > 1 ? (order[0] + 1) + " / " + n + " \u00b7 tap the photo for the next one" : "";
+    }
+
+      // the top photo slides away, then tucks itself under the pile
+    function next() {
+      busy = true;
+      var top = cards[order[0]];
+      var hadFocus = document.activeElement === top;
+      top.classList.add("is-leaving");
+      setTimeout(function () {
+        order.push(order.shift());
+        top.classList.remove("is-leaving");
+        layout();
+        if (hadFocus) cards[order[0]].focus({ preventScroll: true });
+        busy = false;
+      }, reduceMotion ? 10 : 420);
+    }
+
+        expand.addEventListener("click", function () { openLightbox(order[0]); });
+
+    // swipe the pile on phones
+    var startX = null;
+    stack.addEventListener("touchstart", function (e) { startX = e.touches[0].clientX; }, { passive: true });
+    stack.addEventListener("touchend", function (e) {
+      if (startX === null) return;
+      var dx = e.changedTouches[0].clientX - startX;
+      startX = null;
+      if (Math.abs(dx) > 40 && n > 1 && !busy) { e.preventDefault(); next(); }
+    });
+
+    layout();
+    el.photos.appendChild(stack);
+    el.photos.appendChild(counter);
+    el.photos.appendChild(expand);
   }
 
   /* ---------- Lightbox ---------- */

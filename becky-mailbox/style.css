@@ -686,14 +686,22 @@ button.archive-card:focus-visible { outline: 3px solid var(--lav-deep); outline-
 }
 
 .photos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
-  gap: 30px 22px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding-top: 14px;
 }
-.photos.is-single { grid-template-columns: minmax(0, 380px); justify-content: center; }
+
+/* every polaroid sits in the same grid cell, so they pile up on the z axis */
+.photo-stack {
+  display: grid;
+  width: min(100%, 340px);
+  margin-bottom: 12px;
+}
 
 .polaroid {
+  grid-area: 1 / 1;
   position: relative;
   display: block;
   width: 100%;
@@ -703,12 +711,42 @@ button.archive-card:focus-visible { outline: 3px solid var(--lav-deep); outline-
   background: #fff;
   text-align: center;
   box-shadow: 0 12px 22px -12px rgba(90, 60, 90, .5);
-  transform: rotate(var(--r, -2deg));
-  transition: transform .25s ease;
+  /* cards lower in the pile drop a little and keep their own tilt */
+  transform: translateY(calc(var(--depth, 0) * 5px)) scale(calc(1 - var(--depth, 0) * .015)) rotate(var(--r, -2deg));
+  transition: transform .45s cubic-bezier(.2, .8, .2, 1), opacity .35s ease, box-shadow .3s ease;
 }
-.polaroid:nth-child(2n) { --r: 2.2deg; }
-.polaroid:nth-child(3n) { --r: -1deg; }
-.polaroid:hover { transform: rotate(0) scale(1.03); }
+
+.polaroid.is-top {
+  cursor: pointer;
+  box-shadow: 0 18px 30px -14px rgba(90, 60, 90, .55);
+}
+.polaroid:not(.is-top) { pointer-events: none; }
+.polaroid.is-top:hover { transform: rotate(calc(var(--r) * .4)) scale(1.02); }
+.polaroid.is-leaving {
+  opacity: 0;
+  transform: translate(70%, -6%) rotate(calc(var(--r) + 14deg));
+}
+
+.stack-counter {
+  margin: 0;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.stack-counter:empty { display: none; }
+
+.stack-expand {
+  padding: .45rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  font-weight: 700;
+  font-size: .85rem;
+  box-shadow: 0 6px 14px -8px rgba(90, 60, 90, .45);
+}
+.stack-expand:focus-visible { outline: 3px solid var(--lav-deep); outline-offset: 2px; }
+
 .polaroid:focus-visible { outline: 3px solid var(--lav-deep); outline-offset: 4px; }
 .polaroid::before {
   content: "";

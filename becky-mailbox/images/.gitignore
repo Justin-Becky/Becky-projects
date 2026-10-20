@@ -1,0 +1,7 @@
+# Original photos (CR2, HEIC...) stay on this computer only.
+# Only the converted .jpg files (like cute-1.jpg) go online.
+*/*
+!*/*-[0-9].jpg
+!*/*-[0-9][0-9].jpg
+_check.jpg
+planche-noms.jpg
